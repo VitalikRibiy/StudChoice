@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice\\StudChoice.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+        "projectName": "StudChoice.BLL",
+        "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+        "packagesPath": "C:\\Users\\Vitalii\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Vitalii\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+                "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "projectName": "StudChoice.DAL",
+        "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "packagesPath": "C:\\Users\\Vitalii\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Vitalii\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice\\StudChoice.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice\\StudChoice.csproj",
+        "projectName": "StudChoice",
+        "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice\\StudChoice.csproj",
+        "packagesPath": "C:\\Users\\Vitalii\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Vitalii\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {
+                "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
