@@ -6,3 +6,13 @@ C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.DAL\
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.csproj.CopyComplete
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+E:\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.csprojAssemblyReference.cache
+E:\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.AssemblyInfoInputs.cache
+E:\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.AssemblyInfo.cs
+E:\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.deps.json
+E:\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.dll
+E:\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.pdb
+E:\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.dll
+E:\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.pdb
+E:\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.runtimeconfig.json
+E:\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.runtimeconfig.dev.json

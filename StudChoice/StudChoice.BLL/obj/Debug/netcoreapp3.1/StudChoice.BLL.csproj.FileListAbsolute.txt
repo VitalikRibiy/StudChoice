@@ -6,3 +6,16 @@ C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.BLL\
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.csproj.CopyComplete
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\Vitalii\source\repos\VitalikRibiy\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.csprojAssemblyReference.cache
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.AssemblyInfoInputs.cache
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.AssemblyInfo.cs
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.deps.json
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.dll
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.pdb
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.DAL.dll
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.DAL.pdb
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.csproj.CopyComplete
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.dll
+E:\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.pdb
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.json
+E:\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.dev.json

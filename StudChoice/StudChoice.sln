@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudChoice", "StudChoice\StudChoice.csproj", "{7DF008E7-8B4A-4869-ABF7-FDA57D096C0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice", "StudChoice\StudChoice.csproj", "{7DF008E7-8B4A-4869-ABF7-FDA57D096C0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudChoice.DAL", "StudChoice.DAL\StudChoice.DAL.csproj", "{4663F3A3-8987-4DBB-8140-BBC5E4575ED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice.DAL", "StudChoice.DAL\StudChoice.DAL.csproj", "{4663F3A3-8987-4DBB-8140-BBC5E4575ED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudChoice.BLL", "StudChoice.BLL\StudChoice.BLL.csproj", "{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice.BLL", "StudChoice.BLL\StudChoice.BLL.csproj", "{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudChoice1", "StudChoice1\StudChoice1.csproj", "{D57211E6-1F46-4540-BA5B-4135D3B478D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D57211E6-1F46-4540-BA5B-4135D3B478D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57211E6-1F46-4540-BA5B-4135D3B478D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D57211E6-1F46-4540-BA5B-4135D3B478D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D57211E6-1F46-4540-BA5B-4135D3B478D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {}
+    "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+    "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "projectUniqueName": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
         "projectName": "StudChoice.DAL",
-        "projectPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
-        "packagesPath": "C:\\Users\\Vitalii\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Vitalii\\source\\repos\\VitalikRibiy\\StudChoice\\StudChoice\\StudChoice.DAL\\obj\\",
+        "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "packagesPath": "C:\\Users\\nazar\\.nuget\\packages\\",
+        "outputPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Vitalii\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +41,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "Microsoft.AspNet.Identity.EntityFramework": {
+              "target": "Package",
+              "version": "[2.2.3, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.2, )"
@@ -66,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
