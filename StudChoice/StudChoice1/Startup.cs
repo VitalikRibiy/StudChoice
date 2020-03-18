@@ -65,6 +65,8 @@ namespace StudChoice1
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+         
+
         }
     }
 }

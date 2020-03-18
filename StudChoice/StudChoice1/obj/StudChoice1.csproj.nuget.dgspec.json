@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj": {}
+    "C:\\Users\\Student\\Desktop\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj": {}
   },
   "projects": {
-    "E:\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj": {
+    "C:\\Users\\Student\\Desktop\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj",
+        "projectUniqueName": "C:\\Users\\Student\\Desktop\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj",
         "projectName": "StudChoice1",
-        "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj",
-        "packagesPath": "C:\\Users\\nazar\\.nuget\\packages\\",
-        "outputPath": "E:\\StudChoice\\StudChoice\\StudChoice1\\obj\\",
+        "projectPath": "C:\\Users\\Student\\Desktop\\StudChoice\\StudChoice\\StudChoice1\\StudChoice1.csproj",
+        "packagesPath": "C:\\Users\\Student\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Student\\Desktop\\StudChoice\\StudChoice\\StudChoice1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Student\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -88,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
