@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace StudChoice1.Areas.Identity.Pages.Account
+namespace StudChoice1.Models
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -21,7 +21,7 @@ namespace StudChoice1.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
@@ -78,10 +78,10 @@ namespace StudChoice1.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                
+
                 var user = new IdentityUser { UserName = Input.TransictionNumber };
                 var resultReg = await _userManager.CreateAsync(user, Input.Password);
-                if(resultReg.Succeeded)
+                if (resultReg.Succeeded)
                 {
                     var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
