@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StudChoice.DAL.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudChoice.DAL
 {
