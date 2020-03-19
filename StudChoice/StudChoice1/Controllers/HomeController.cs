@@ -20,9 +20,11 @@ namespace StudChoice1.Controllers
 
         
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -42,51 +44,24 @@ namespace StudChoice1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> LoginAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
             {
-
-
                 var user = new IdentityUser { UserName = Input.TransictionNumber };
-                var resultReg = _userManager.CreateAsync(user, Input.Password);
-                if (resultReg.IsCompletedSuccessfully)
+                var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
                 {
-                    var result = _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.IsCompletedSuccessfully)
-                    {
-                        //loginModel._logger.LogInformation("User logged in.");
-                        return View("Index");
-                    }
-
-                    else
-                    {
-                        //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return View();
-                    }
-
+                    //loginModel._logger.LogInformation("User logged in.");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
-                else
-                {
-                    var result = _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.IsCompletedSuccessfully)
-                    {
-                        //loginModel._logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
-                    }
 
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return View();
-                    }
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 
             }
-
-            // If we got this far, something failed, redisplay form
             return View();
         }
     

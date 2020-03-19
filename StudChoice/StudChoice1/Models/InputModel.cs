@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StudChoice1.Models
 {
-    public class InputModel : PageModel
+    public class InputModel 
     {
         [Required]
         public string TransictionNumber { get; set; }
