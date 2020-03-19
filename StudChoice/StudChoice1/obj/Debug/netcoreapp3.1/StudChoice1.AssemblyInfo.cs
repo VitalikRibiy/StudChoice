@@ -11,7 +11,6 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-StudChoice1-FDB78005-BDE0-4CBF-966F-0DB7000ABB2D")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("StudChoice1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
