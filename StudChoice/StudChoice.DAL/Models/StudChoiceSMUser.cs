@@ -1,4 +1,6 @@
-﻿namespace StudChoice.DAL.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace StudChoice.DAL.Models
 {
     class StudChoiceSMUser : IdentityUser
     {
