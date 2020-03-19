@@ -53,6 +53,10 @@ namespace StudChoice.Controllers
                 var name_surname = $"{Model.Name} {Model.Surname}";
                 var user = new IdentityUser { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
                 var randomGeneratedPassword = CreateRandomPassword();
+                if(_userManager.FindByEmailAsync(Model.Email)!=null)
+                {
+                    ModelState.AddModelError(string.Empty, "There is an user with this email address");
+                }
                 var result = await _userManager.CreateAsync(user, randomGeneratedPassword);
                 if (result.Succeeded)
                 {
