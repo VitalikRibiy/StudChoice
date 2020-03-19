@@ -9,7 +9,7 @@
     <div class="col-md-4">
    
         <section>
-            <form id="account" action="Account/Login" method="post">
+            <form id="account" action="Login" method="post">
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -34,14 +34,9 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Log in</button>
                 </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                </div>
+                
             </form>
         </section>
-        }
     </div>
 </div>
 
