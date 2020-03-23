@@ -23,4 +23,10 @@
     <Folder Include="Views\Account\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\StudChoice.BLL\StudChoice.BLL.csproj" />
+    <ProjectReference Include="..\StudChoice.DAL\StudChoice.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

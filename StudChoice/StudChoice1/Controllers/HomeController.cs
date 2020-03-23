@@ -1,7 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StudChoice.BLL.DTOs;
+using StudChoice.BLL.Services.Interfaces;
 using StudChoice1.Models;
 
 namespace StudChoice1.Controllers
@@ -14,11 +18,12 @@ namespace StudChoice1.Controllers
         [BindProperty]
         public InputModel Input { get; set; }
 
-        
+        ISubjectService subjectService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ISubjectService subj)
         {
             _logger = logger;
+            subjectService = subj;
         }
 
         public IActionResult Index()
@@ -91,6 +96,20 @@ namespace StudChoice1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public ActionResult Subjects()
+        {
+            IEnumerable<SubjectDTO> subjectDTO = subjectService.GetSubjects();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SubjectDTO, SubjectViewModel>()).CreateMapper();
+            var subjects = mapper.Map<IEnumerable<SubjectDTO>, List<SubjectViewModel>>(subjectDTO);
+            return View(subjects);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            subjectService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
