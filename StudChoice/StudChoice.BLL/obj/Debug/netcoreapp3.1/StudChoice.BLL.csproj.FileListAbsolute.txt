@@ -34,3 +34,16 @@ C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcorea
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.dll
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.pdb
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.genruntimeconfig.cache
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.deps.json
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.json
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.dev.json
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.dll
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.pdb
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.DAL.dll
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.DAL.pdb
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.csprojAssemblyReference.cache
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.AssemblyInfoInputs.cache
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.AssemblyInfo.cs
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.csproj.CopyComplete
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.dll
+D:\Projects\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.pdb

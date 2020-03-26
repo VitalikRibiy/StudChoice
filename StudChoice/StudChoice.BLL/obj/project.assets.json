@@ -649,7 +649,7 @@
   },
   "libraries": {
     "AutoMapper/9.0.0": {
-      "sha512": "xCqvoxT4HIrNY/xlXG9W+BA/awdrhWvMTKTK/igkGSRbhOhpl3Q8O8Gxlhzjc9JsYqE7sS6AxgyuUUvZ6R5/Bw==",
+      "sha512": "xT8V1cEHum51ZKXWeSlS2rT8fCHmLWpBPC+ZTJjQ9CO9j1pB7ZUz+MjNx9PIPQwXLFrkANXvWyg2eKR3x8qvSg==",
       "type": "package",
       "path": "automapper/9.0.0",
       "files": [
@@ -748,7 +748,7 @@
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
-      "sha512": "1Am6l4Vpn3/K32daEqZI+FFr96OlZkgwK2LcT3pZ2zWubR5zTPW3/FkO1Rat9kb7oQOa4rxgl9LJHc5tspCWfg==",
+      "sha512": "QnfOJlIz5evxU3Dn1Cz4V0wfznFaiS6tvroTYTbbw2uk14tAkOVSFyk/hCHy64S8/ck0PeQqLV4GuP9bANByPQ==",
       "type": "package",
       "path": "microsoft.bcl.asyncinterfaces/1.1.0",
       "files": [
@@ -772,7 +772,7 @@
       ]
     },
     "Microsoft.Bcl.HashCode/1.1.0": {
-      "sha512": "J2G1k+u5unBV+aYcwxo94ip16Rkp65pgWFb0R6zwJipzWNMgvqlWeuI7/+R+e8bob66LnSG+llLJ+z8wI94cHg==",
+      "sha512": "yHq4Qo2VU4UYO9phf/XdXTyuUXyKGiEl5FwY7ugN/iUG/xsZhd2azVxrtMhiNM9JACDpm+73CqtEQFnO9Dd2SQ==",
       "type": "package",
       "path": "microsoft.bcl.hashcode/1.1.0",
       "files": [
@@ -1277,7 +1277,7 @@
       ]
     },
     "System.Collections.Immutable/1.7.0": {
-      "sha512": "RVSM6wZUo6L2y6P3vN6gjUtyJ2IF2RVtrepF3J7nrDKfFQd5u/SnSUFclchYQis8/k5scHy9E+fVeKVQLnnkzw==",
+      "sha512": "2gKCL/2AHiNpWOm9KPYW6uDbH3+UiyP1CqILwLFju17I4oSu+RJogJUenDfWH+na6arlS+XzSgH+YjfBpcuB0w==",
       "type": "package",
       "path": "system.collections.immutable/1.7.0",
       "files": [
@@ -1300,7 +1300,7 @@
       ]
     },
     "System.ComponentModel.Annotations/4.7.0": {
-      "sha512": "0YFqjhp/mYkDGpU0Ye1GjE53HMp9UVfGN7seGpAMttAC0C40v5gw598jCgpbBLMmCo0E5YRLBv5Z2doypO49ZQ==",
+      "sha512": "oG58v7FkIMewZU1tNyqKbnilEobW6I4W0xy0Q/hztjVbTVr83oXNPHwrvS24JJKrDylLingIlI/zmCHCZ5vq1A==",
       "type": "package",
       "path": "system.componentmodel.annotations/4.7.0",
       "files": [
@@ -1497,7 +1497,7 @@
       ]
     },
     "System.Diagnostics.DiagnosticSource/4.7.0": {
-      "sha512": "oJjw3uFuVDJiJNbCD8HB4a2p3NYLdt1fiT5OGsPLw+WTOuG0KpP4OXelMmmVKpClueMsit6xOlzy4wNKQFiBLg==",
+      "sha512": "+zNgjRfuinnNr7o/JUqjmajXn1dd8AQvD1ZZYxUxHGsynKCbE55TKSUtYUNY3vjR9RL6DJuzH5LCxbEHAcqNyg==",
       "type": "package",
       "path": "system.diagnostics.diagnosticsource/4.7.0",
       "files": [
@@ -2297,23 +2297,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nazar\\.nuget\\packages\\": {},
+    "C:\\Users\\pbbbb\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+      "projectUniqueName": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
       "projectName": "StudChoice.BLL",
-      "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
-      "packagesPath": "C:\\Users\\nazar\\.nuget\\packages\\",
-      "outputPath": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\obj\\",
+      "projectPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+      "packagesPath": "C:\\Users\\pbbbb\\.nuget\\packages\\",
+      "outputPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pbbbb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2326,8 +2326,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
-              "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj"
+            "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+              "projectPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj"
             }
           }
         }

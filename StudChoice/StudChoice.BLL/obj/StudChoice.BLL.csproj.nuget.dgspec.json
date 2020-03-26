@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {}
+    "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {}
   },
   "projects": {
-    "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {
+    "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+        "projectUniqueName": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
         "projectName": "StudChoice.BLL",
-        "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
-        "packagesPath": "C:\\Users\\nazar\\.nuget\\packages\\",
-        "outputPath": "E:\\StudChoice\\StudChoice\\StudChoice.BLL\\obj\\",
+        "projectPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\StudChoice.BLL.csproj",
+        "packagesPath": "C:\\Users\\pbbbb\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pbbbb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -30,8 +30,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
-                "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj"
+              "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+                "projectPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj"
               }
             }
           }
@@ -81,20 +81,20 @@
         }
       }
     },
-    "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
+    "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "projectUniqueName": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
         "projectName": "StudChoice.DAL",
-        "projectPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
-        "packagesPath": "C:\\Users\\nazar\\.nuget\\packages\\",
-        "outputPath": "E:\\StudChoice\\StudChoice\\StudChoice.DAL\\obj\\",
+        "projectPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\StudChoice.DAL.csproj",
+        "packagesPath": "C:\\Users\\pbbbb\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\StudChoice\\StudChoice\\StudChoice.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\nazar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pbbbb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

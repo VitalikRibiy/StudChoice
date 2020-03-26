@@ -17,7 +17,7 @@ namespace StudChoice1.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<StudChoiceContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("StudChoiceContextConnection")));
+                        context.Configuration.GetConnectionString("DefaultConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<StudChoiceContext>();
