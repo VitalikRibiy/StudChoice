@@ -359,6 +359,9 @@ MigrationBackup/
 *.suo
 *.user
 _ReSharper.*
-bin/
-obj/
+**/bin/
+**/obj/
 packages
+.vs/
+StudChoice/StudChoice.BLL/bin/Debug/netcoreapp3.1/StudChoice.BLL.deps.json
+StudChoice/.vs/StudChoice/v16/.suo
