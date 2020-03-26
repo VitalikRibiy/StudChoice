@@ -35,8 +35,6 @@ C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcorea
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.pdb
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.BLL\obj\Debug\netcoreapp3.1\StudChoice.BLL.genruntimeconfig.cache
 D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.deps.json
-D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.json
-D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.runtimeconfig.dev.json
 D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.dll
 D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.BLL.pdb
 D:\Projects\StudChoice\StudChoice\StudChoice.BLL\bin\Debug\netcoreapp3.1\StudChoice.DAL.dll

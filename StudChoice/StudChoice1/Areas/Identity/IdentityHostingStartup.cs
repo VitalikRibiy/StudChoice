@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StudChoice1.Data;
+using StudChoice.Areas.Identity.Data;
 
 [assembly: HostingStartup(typeof(StudChoice1.Areas.Identity.IdentityHostingStartup))]
 namespace StudChoice1.Areas.Identity
@@ -19,8 +19,21 @@ namespace StudChoice1.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                    .AddRoleManager<RoleManager<IdentityRole>>()
+                    .AddUserManager<UserManager<IdentityUser>>()
                     .AddEntityFrameworkStores<StudChoiceContext>();
+
+                services
+                    .Configure<IdentityOptions>(options =>
+                    {
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequiredLength = 1;
+                        options.Password.RequiredUniqueChars = 0;
+                    });
             });
         }
     }

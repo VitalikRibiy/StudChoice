@@ -29,11 +29,8 @@ C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcorea
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.pdb
 C:\Users\Student\Desktop\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.genruntimeconfig.cache
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.deps.json
-D:\Projects\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.runtimeconfig.json
-D:\Projects\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.runtimeconfig.dev.json
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.dll
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\bin\Debug\netcoreapp3.1\StudChoice.DAL.pdb
-D:\Projects\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.csprojAssemblyReference.cache
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.AssemblyInfoInputs.cache
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.AssemblyInfo.cs
 D:\Projects\StudChoice\StudChoice\StudChoice.DAL\obj\Debug\netcoreapp3.1\StudChoice.DAL.dll
