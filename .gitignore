@@ -365,3 +365,6 @@ packages
 .vs/
 StudChoice/StudChoice.BLL/bin/Debug/netcoreapp3.1/StudChoice.BLL.deps.json
 StudChoice/.vs/StudChoice/v16/.suo
+StudChoice/StudChoice.BLL/obj/Debug/netcoreapp3.1/StudChoice.BLL.csprojAssemblyReference.cache
+StudChoice/.vs/StudChoice/v16/.suo
+StudChoice/StudChoice.DAL/obj/Debug/netcoreapp3.1/StudChoice.DAL.csprojAssemblyReference.cache
