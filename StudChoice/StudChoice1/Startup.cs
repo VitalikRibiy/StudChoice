@@ -7,6 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using StudChoice.DAL.EF;
+using Ninject.Modules;
+using StudChoice1.Util;
+using StudChoice.BLL.Infrastructure;
+using Ninject;
+using System.Web.Mvc;
+using Ninject.Web.WebApi;
+using StudChoice.BLL.Services.Interfaces;
+using StudChoice.BLL.Services;
 
 namespace StudChoice1
 {
@@ -22,13 +30,22 @@ namespace StudChoice1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            //var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
+            //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoice1"));
+
+            services.AddDbContext<EFDBContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            //var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            //services.AddDbContext<EFDBContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("StudChoice.DAL")));
+            services.AddScoped<ISubjectService, SubjectService>();
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

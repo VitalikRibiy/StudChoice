@@ -11,9 +11,9 @@ namespace StudChoice.DAL.Repositories
 {
     class SubjectRepository : IBaseRepository<Subject>
     {
-        private ApplicationContext db;
+        private EFDBContext db;
 
-        public SubjectRepository(ApplicationContext context)
+        public SubjectRepository(EFDBContext context)
         {
             this.db = context;
         }
@@ -47,7 +47,7 @@ namespace StudChoice.DAL.Repositories
 
         public void Update(Subject item)
         {
-            db.Entry(item).State = EntityState.Modified;
+            db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

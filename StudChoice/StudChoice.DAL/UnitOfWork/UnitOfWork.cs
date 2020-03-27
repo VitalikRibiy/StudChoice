@@ -1,4 +1,5 @@
-﻿using StudChoice.DAL.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using StudChoice.DAL.EF;
 using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories;
 using System;
@@ -7,12 +8,12 @@ namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationContext db;
+        private EFDBContext db;
         private SubjectRepository subjectRepository;
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(DbContextOptions<EFDBContext> options)
         {
-            db = new ApplicationContext(connectionString);
+            db = new EFDBContext(options);
         }
         public IBaseRepository<Subject> Subjects {
             get

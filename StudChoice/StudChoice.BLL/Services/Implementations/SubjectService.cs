@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using StudChoice.BLL.DTOs;
+using StudChoice.BLL.Infrastructure;
 using StudChoice.BLL.Services.Interfaces;
 using StudChoice.DAL.Models;
 using StudChoice.DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace StudChoice.BLL.Services
 {
@@ -17,7 +17,7 @@ namespace StudChoice.BLL.Services
             Subject subj = Database.Subjects.Get(subjectDTO.id);
 
             if (subj == null)
-                throw new ValidationException("Subject not found");
+                throw new ValidationException("Subject not found", "");
 
 
             Subject subject = new Subject
@@ -32,7 +32,7 @@ namespace StudChoice.BLL.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database?.Dispose();
         }
 
         public SubjectDTO GetSubject(int? id)

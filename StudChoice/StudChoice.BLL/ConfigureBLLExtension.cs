@@ -13,6 +13,7 @@ namespace StudChoice.BLL
             services.ConfigureServices();
 
             services.ConfigureDAL(configuration);
+
         }
 
         private static void ConfigureServices(this IServiceCollection services)

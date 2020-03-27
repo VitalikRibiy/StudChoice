@@ -5,9 +5,9 @@ using StudChoice1.Models;
 
 namespace StudChoice1.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationContext : IdentityDbContext<IdentityUser>
     {
-        public ApplicationDbContext(DbContextOptions options)
+        public ApplicationContext(DbContextOptions options)
             : base(options)
         {
         }
