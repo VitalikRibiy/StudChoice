@@ -1,0 +1,69 @@
+﻿@model List<StudChoice.BLL.ViewModels.UserVM>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="bg-primary text-white text-center"><h4>User Accounts</h4></div>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Users">Users</a>
+        </li>
+    </ul>
+</div>
+
+<table class="table table-sm table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr><td colspan="3" class="text-center">No User Accounts</td></tr>
+        }
+        else
+        {
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form asp-action="SetUserRole">
+                            <input type="hidden" name="userId" value="@user.Id.ToString()" />
+                            <select name="roleName" onchange="Submit(this)" class="form-control">
+                                @if (user.Role == "Admin")
+                                {
+                                    <option value="Admin" selected>Admin</option>
+                                    <option value="User">User</option>
+                                }
+                                else if (user.Role == "User")
+                                {
+                                    <option value="Admin">Admin</option>
+                                    <option value="User" selected>User</option>
+                                }
+                                else
+                                {
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteUser" asp-all-route-data="@(new Dictionary<string, string> { {"userId", user.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
