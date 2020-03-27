@@ -98,7 +98,7 @@ namespace StudChoice1.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public ActionResult Subjects()
+        public ActionResult Subject()
         {
             IEnumerable<SubjectDTO> subjectDTO = subjectService.GetSubjects();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SubjectDTO, SubjectViewModel>()).CreateMapper();

@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using Microsoft.EntityFrameworkCore;
+using Ninject.Modules;
 using StudChoice.BLL.Services;
 using StudChoice.BLL.Services.Interfaces;
 using System;
@@ -10,9 +11,14 @@ namespace StudChoice1.Util
 {
     public class SubjectModule : NinjectModule
     {
+        private DbContextOptions _options;
+        public SubjectModule(DbContextOptions connection)
+        {
+            _options = connection;
+        }
         public override void Load()
         {
-            Bind<ISubjectService>().To<SubjectService>();
+            Bind<ISubjectService>().To<SubjectService>().WithConstructorArgument(_options);
         }
     }
 }

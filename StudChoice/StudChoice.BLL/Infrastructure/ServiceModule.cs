@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using Microsoft.EntityFrameworkCore;
+using Ninject.Modules;
 using StudChoice.DAL.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,14 @@ namespace StudChoice.BLL.Infrastructure
 {
     public class ServiceModule : NinjectModule
     {
-        private string connectionString;
-        public ServiceModule(string connection)
+        private DbContextOptions _options;
+        public ServiceModule(DbContextOptions connection)
         {
-            connectionString = connection;
+            _options = connection;
         }
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(connectionString);
+            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(_options);
         }
     }
 }

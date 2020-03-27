@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using StudChoice.DAL.EF;
 using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories;
@@ -8,19 +9,34 @@ namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
+        //private EFDBContext db;
+        //private SubjectRepository subjectRepository;
+
+        //public UnitOfWork(DbContextOptions<EFDBContext> options)
+        //{
+        //    db = new EFDBContext(options);
+        //}
+
         private EFDBContext db;
         private SubjectRepository subjectRepository;
+       
 
-        public UnitOfWork(DbContextOptions<EFDBContext> options)
+        public UnitOfWork(DbContextOptions options)
         {
-            db = new EFDBContext(options);
+            this.db = new EFDBContext(options);
         }
+
+        public void Commit()
+        {
+            db.SaveChanges();
+        }
+
         public IBaseRepository<Subject> Subjects {
             get
             {
-                if(subjectRepository == null)
+                if(this.subjectRepository == null)
                 {
-                    subjectRepository = new SubjectRepository(db);
+                    this.subjectRepository = new SubjectRepository(db);
                 }
 
                 return subjectRepository;

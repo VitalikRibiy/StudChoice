@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using Ninject.Web.WebApi;
 using StudChoice.BLL.Services.Interfaces;
 using StudChoice.BLL.Services;
+using StudChoice.DAL.UnitOfWork;
 
 namespace StudChoice1
 {
@@ -31,21 +32,22 @@ namespace StudChoice1
         public void ConfigureServices(IServiceCollection services)
         {
             //var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
-            //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoice1"));
+            //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoise.DAL"));
 
-            services.AddDbContext<EFDBContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<EFDBContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
             //var connection = Configuration.GetConnectionString("DefaultConnection");
 
+            services.AddDbContext<EFDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             //services.AddDbContext<EFDBContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("StudChoice.DAL")));
             services.AddScoped<ISubjectService, SubjectService>();
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-          
-
+  
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,12 +37,14 @@ namespace StudChoice.DAL.Repositories
 
         public Subject Get(long id)
         {
+ 
             return db.Subjects.Find(id);
         }
 
         public IEnumerable<Subject> GetAll()
         {
-            return db.Subjects;
+            var data = db.Subjects;
+            return data;
         }
 
         public void Update(Subject item)

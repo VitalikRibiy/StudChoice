@@ -6,29 +6,30 @@ using StudChoice.DAL.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 
 namespace StudChoice.DAL.EF
 {
     public class EFDBContext : DbContext // : IdentityDbContext<IdentityUser
     {
-        //public ApplicationContext(DbContextOptions options)
-        //   : base(options)
-        //{
-        //}
-        //public DbSet<Subject> Subjects;
+        public EFDBContext(DbContextOptions options)
+           : base(options)
+        {
+        }
+        public Microsoft.EntityFrameworkCore.DbSet<Subject> Subjects;
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
-        //    builder.Entity<Subject>().HasData(new Subject
-        //    {
-        //        id = 1,
-        //        name = "MATAN",
-        //        description = "Matan",
-        //        type = "DVVS"
-        //    });
-        //}
+            builder.Entity<Subject>().HasData(new Subject
+            {
+                id = 1,
+                name = "MATAN",
+                description = "Matan",
+                type = "DVVS"
+            });
+        }
         //public System.Data.Entity.DbSet<Subject> Subjects { get; set; }
 
         //static ApplicationContext()
@@ -39,22 +40,7 @@ namespace StudChoice.DAL.EF
         //    : base(connectionString)
         //{
         //}
-        public System.Data.Entity.DbSet<Subject> Subjects { get; set; }
-
-        public EFDBContext(DbContextOptions<EFDBContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder.Entity<Subject>().HasData(new Subject
-            {
-                id = 3,
-                name = "First",
-                description = "FIRST",
-                type = "DV"
-            });
-        }
+       
         //    public DbSet<Subject> Subjects { get; set; }
 
         //    static EFDBContext()
@@ -84,7 +70,7 @@ namespace StudChoice.DAL.EF
 /// </summary>
 public class EFDBContextFactory : IDesignTimeDbContextFactory<EFDBContext>
 {
-    public EFDBContext CreateDbContext(string[] args)
+    public  EFDBContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
         optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoice1"));

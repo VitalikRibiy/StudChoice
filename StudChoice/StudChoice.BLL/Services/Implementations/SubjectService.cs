@@ -12,6 +12,11 @@ namespace StudChoice.BLL.Services
     public class SubjectService : ISubjectService
     {
         IUnitOfWork Database { get; set; }
+
+        public SubjectService (IUnitOfWork db)
+        {
+            Database = db;
+        }
         public void AddSubject(SubjectDTO subjectDTO)
         {
             Subject subj = Database.Subjects.Get(subjectDTO.id);
