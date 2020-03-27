@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +14,10 @@ namespace StudChoice.Controllers
     {
         [BindProperty]
         public RegisterModel Model { get; set; }
-        public readonly UserManager<IdentityUser> _userManager;
+        public readonly UserManager<IdentityUser<int>> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser> userManager, IConfiguration config)
+        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config)
         {
             _logger = logger;
             _userManager = userManager;
@@ -51,7 +49,7 @@ namespace StudChoice.Controllers
             if (ModelState.IsValid)
             {
                 var name_surname = $"{Model.Name} {Model.Surname}";
-                var user = new IdentityUser { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
+                var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
                 var randomGeneratedPassword = CreateRandomPassword();
                 if(_userManager.FindByEmailAsync(Model.Email)!=null)
                 {

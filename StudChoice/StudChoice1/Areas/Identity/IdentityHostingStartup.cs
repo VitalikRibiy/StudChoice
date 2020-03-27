@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StudChoice.Areas.Identity;
 using StudChoice.Areas.Identity.Data;
 
-[assembly: HostingStartup(typeof(StudChoice1.Areas.Identity.IdentityHostingStartup))]
-namespace StudChoice1.Areas.Identity
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
+namespace StudChoice.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
@@ -19,10 +18,14 @@ namespace StudChoice1.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                    .AddRoleManager<RoleManager<IdentityRole>>()
-                    .AddUserManager<UserManager<IdentityUser>>()
+                services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options =>
+                        options.SignIn.RequireConfirmedAccount = false)
+                    .AddRoleManager<RoleManager<IdentityRole<int>>>()
+                    .AddUserManager<UserManager<IdentityUser<int>>>()
+                    .AddSignInManager<SignInManager<IdentityUser<int>>>()
+                    .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<StudChoiceContext>();
+                    
 
                 services
                     .Configure<IdentityOptions>(options =>

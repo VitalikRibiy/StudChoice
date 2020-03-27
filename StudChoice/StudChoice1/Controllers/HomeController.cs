@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +11,14 @@ namespace StudChoice1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public readonly UserManager<IdentityUser> _userManager;
-        public readonly SignInManager<IdentityUser> _signInManager;
+        public readonly UserManager<IdentityUser<int>> _userManager;
+        public readonly SignInManager<IdentityUser<int>> _signInManager;
         [BindProperty]
         public InputModel Input { get; set; }
 
         
 
-    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
             _userManager = userManager;
@@ -50,13 +48,18 @@ namespace StudChoice1.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.TransictionNumber };
+                var user = await _userManager.FindByNameAsync(Input.TransictionNumber);
                 var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    //loginModel._logger.LogInformation("User logged in.");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    try
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
