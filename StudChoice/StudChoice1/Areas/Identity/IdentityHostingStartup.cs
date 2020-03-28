@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StudChoice1.Data;
+using StudChoice.Areas.Identity;
+using StudChoice.Areas.Identity.Data;
 
-[assembly: HostingStartup(typeof(StudChoice1.Areas.Identity.IdentityHostingStartup))]
-namespace StudChoice1.Areas.Identity
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
+namespace StudChoice.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
@@ -15,10 +16,27 @@ namespace StudChoice1.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<StudChoiceContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("StudChoiceContextConnection")));
+                        context.Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options =>
+                        options.SignIn.RequireConfirmedAccount = false)
+                    .AddRoleManager<RoleManager<IdentityRole<int>>>()
+                    .AddUserManager<UserManager<IdentityUser<int>>>()
+                    .AddSignInManager<SignInManager<IdentityUser<int>>>()
+                    .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<StudChoiceContext>();
+                    
+
+                services
+                    .Configure<IdentityOptions>(options =>
+                    {
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireUppercase = false;
+                        options.Password.RequiredLength = 1;
+                        options.Password.RequiredUniqueChars = 0;
+                    });
             });
         }
     }

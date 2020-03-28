@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using AutoMapper;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,16 +13,19 @@ namespace StudChoice1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public readonly UserManager<IdentityUser> _userManager;
-        public readonly SignInManager<IdentityUser> _signInManager;
+        public readonly UserManager<IdentityUser<int>> _userManager;
+        public readonly SignInManager<IdentityUser<int>> _signInManager;
+        public ISubjectService subjectService;
         [BindProperty]
         public InputModel Input { get; set; }
 
-        ISubjectService subjectService;
+        
 
-    public HomeController(ILogger<HomeController> logger, ISubjectService subj)
+    public HomeController(ILogger<HomeController> logger, ISubjectService subj, UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
             subjectService = subj;
         }
 
@@ -43,51 +46,29 @@ namespace StudChoice1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> LoginAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
             {
-
-
-                var user = new IdentityUser { UserName = Input.TransictionNumber };
-                var resultReg = _userManager.CreateAsync(user, Input.Password);
-                if (resultReg.IsCompletedSuccessfully)
+                var user = await _userManager.FindByNameAsync(Input.TransictionNumber);
+                var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
                 {
-                    var result = _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.IsCompletedSuccessfully)
+                    try
                     {
-                        //loginModel._logger.LogInformation("User logged in.");
-                        return View("Index");
-                    }
-
-                    else
-                    {
-                        //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return View();
-                    }
-
-                }
-                else
-                {
-                    var result = _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                    if (result.IsCompletedSuccessfully)
-                    {
-                        //loginModel._logger.LogInformation("User logged in.");
+                        await _signInManager.SignInAsync(user, false);
                         return LocalRedirect(returnUrl);
                     }
-
-                    else
+                    catch
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return View();
                     }
                 }
 
-            }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 
-            // If we got this far, something failed, redisplay form
+            }
             return View();
         }
     

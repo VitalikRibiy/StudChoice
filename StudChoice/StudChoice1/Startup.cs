@@ -1,7 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using StudChoice1.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +16,9 @@ using Ninject.Web.WebApi;
 using StudChoice.BLL.Services.Interfaces;
 using StudChoice.BLL.Services;
 using StudChoice.DAL.UnitOfWork;
+using StudChoice.Areas.Identity.Data;
+using StudChoice.BLL.Mappings;
+
 
 namespace StudChoice1
 {
@@ -31,6 +34,10 @@ namespace StudChoice1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<StudChoiceContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+
             //var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
             //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoise.DAL"));
 
@@ -47,7 +54,14 @@ namespace StudChoice1
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-  
+
+            var mappingConfig = new MapperConfiguration(options =>
+            {
+                options.AddProfile(new ModelMappingProfile());
+            });
+            mappingConfig.AssertConfigurationIsValid();
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,8 +93,11 @@ namespace StudChoice1
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-         
 
+            using var scope = app.ApplicationServices.CreateScope();
+            scope.ServiceProvider.GetRequiredService<StudChoiceContext>().Database.Migrate();
+
+            app.Seed();
         }
     }
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice.DAL", "StudChoic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice.BLL", "StudChoice.BLL\StudChoice.BLL.csproj", "{B8DAE00A-1BD0-4147-B65D-4C68ACB7CB09}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice1", "StudChoice1\StudChoice1.csproj", "{D57211E6-1F46-4540-BA5B-4135D3B478D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudChoice", "StudChoice1\StudChoice.csproj", "{D57211E6-1F46-4540-BA5B-4135D3B478D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

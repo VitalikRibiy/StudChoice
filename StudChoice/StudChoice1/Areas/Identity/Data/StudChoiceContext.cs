@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace StudChoice1.Data
+namespace StudChoice.Areas.Identity.Data
 {
-    public class StudChoiceContext : IdentityDbContext<IdentityUser>
+    public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
         public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
             : base(options)
