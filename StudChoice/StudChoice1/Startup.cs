@@ -5,6 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using StudChoice.DAL.EF;
+using Ninject.Modules;
+using StudChoice1.Util;
+using StudChoice.BLL.Infrastructure;
+using Ninject;
+using System.Web.Mvc;
+using Ninject.Web.WebApi;
+using StudChoice.BLL.Services.Interfaces;
+using StudChoice.BLL.Services;
+using StudChoice.DAL.UnitOfWork;
 using StudChoice.Areas.Identity.Data;
 using StudChoice.BLL.Mappings;
 
@@ -23,10 +34,24 @@ namespace StudChoice1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<StudChoiceContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<StudChoiceContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
+            //var optionsBuilder = new DbContextOptionsBuilder<EFDBContext>();
+            //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=StudChoise2;Trusted_Connection=True;MultipleActiveResultSets=true", b => b.MigrationsAssembly("StudChoise.DAL"));
+
+            //services.AddDbContext<EFDBContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //var connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<EFDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            //services.AddDbContext<EFDBContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("StudChoice.DAL")));
+            services.AddScoped<ISubjectService, SubjectService>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

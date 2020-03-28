@@ -13,7 +13,7 @@ namespace StudChoice.DAL
             services.ConfigureRepositories();
             services.ConfigureDbContext(configuration);
 
-            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
+            //services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
 
         private static void ConfigureRepositories(this IServiceCollection services)
