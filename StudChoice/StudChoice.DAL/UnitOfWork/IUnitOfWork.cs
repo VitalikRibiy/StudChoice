@@ -1,12 +1,14 @@
 ﻿using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories;
+using StudChoice.DAL.Repositories.RepositoryInterfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace StudChoice.DAL.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        public IBaseRepository<Subject> Subjects { get; }
-        public void save();
+        public ISubjectRepository SubjectRepository { get; }
+        public Task SaveChangesAsync();
     }
 }

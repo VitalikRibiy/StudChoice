@@ -3,37 +3,30 @@ using StudChoice.DAL.EF;
 using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories;
 using StudChoice.DAL.Repositories.RepositoryImplementations;
+using StudChoice.DAL.Repositories.RepositoryInterfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private EFDBContext db;
-        private SubjectRepository subjectRepository;
+        private EFDBContext _context;
+        
+        public ISubjectRepository SubjectRepository { get; }
 
-
-        public UnitOfWork(DbContextOptions<EFDBContext> options)
+        
+        public UnitOfWork(
+            EFDBContext context,
+            ISubjectRepository subjectRepository)
         {
-            this.db = new EFDBContext(options);
+            _context = context;
+            SubjectRepository = subjectRepository;
         }
 
-        public void Commit()
+        public Task SaveChangesAsync()
         {
-            db.SaveChanges();
-        }
-
-        public IBaseRepository<Subject> Subjects
-        {
-            get
-            {
-                if (this.subjectRepository == null)
-                {
-                    this.subjectRepository = new SubjectRepository(db);
-                }
-
-                return subjectRepository;
-            }
+            return _context.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -50,16 +43,10 @@ namespace StudChoice.DAL.UnitOfWork
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _context.Dispose();
                 }
                 this.disposed = true;
             }
-        }
-
-
-        public void save()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

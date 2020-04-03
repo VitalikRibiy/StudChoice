@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudChoice.DAL.Models
 {
-   public class BaseModel : IBaseModel
+    public interface IBaseModel
     {
         [Required]
         public long Id { get; set; }

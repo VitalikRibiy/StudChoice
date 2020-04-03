@@ -9,14 +9,13 @@ using System.Text;
 
 namespace StudChoice.DAL.EF
 {
-    public class EFDBContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> // : DbContext
+    public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
-        public EFDBContext(DbContextOptions<EFDBContext> options)
-             : base(options)
+
+        public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
+            : base(options)
         {
         }
-
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +25,5 @@ namespace StudChoice.DAL.EF
             // Add your customizations after calling base.OnModelCreating(builder);
         }
         public DbSet<Subject> Subjects;
-
     }
 }

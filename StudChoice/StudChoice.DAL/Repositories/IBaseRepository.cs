@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace StudChoice.DAL.Repositories
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
-        IEnumerable<T> GetAll();
-        T Get(long id);
-        IEnumerable<T> Find(Func<T, bool> predicate);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        Task<TEntity> GetByIdAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> GetRangeAsync(uint index, uint amount);
+        Task<TEntity> AddAsync(TEntity entity);
+        TEntity Remove(params object[] keys);
+        TEntity Remove(TEntity entity);
+        TEntity Update(TEntity entity);
     }
 }
