@@ -1,16 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using StudChoice.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace StudChoice.Areas.Identity.Data
+namespace StudChoice.DAL.EF
 {
-    public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class EFDBContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> // : DbContext
     {
-
-        public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
-            : base(options)
+        public EFDBContext(DbContextOptions<EFDBContext> options)
+             : base(options)
         {
         }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -19,5 +25,7 @@ namespace StudChoice.Areas.Identity.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<Subject> Subjects;
+
     }
 }
