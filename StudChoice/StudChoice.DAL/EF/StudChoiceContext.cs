@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using StudChoice.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudChoice.DAL.EF
 {

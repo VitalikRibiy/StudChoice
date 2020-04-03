@@ -1,57 +1,62 @@
-﻿using StudChoice.BLL.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using StudChoice.DAL.Models;
-using StudChoice.DAL.Repositories.RepositoryImplementations;
-using StudChoice.DAL.EF;
-using StudChoice.DAL.UnitOfWork;
-using AutoMapper;
-using StudChoice.BLL.infrastructure;
+﻿using AutoMapper;
+using StudChoice.BLL.DTOs;
 using StudChoice.BLL.Services.Interfaces;
+using StudChoice.DAL.Models;
+using StudChoice.DAL.UnitOfWork;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StudChoice.BLL.Services.Implementations
 {
     public class SubjectService : ISubjectService
     {
-        IUnitOfWork Database { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public SubjectService(IUnitOfWork db)
+        public SubjectService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            Database = db;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public void AddSubject(SubjectDTO subjectDTO)
+
+        public async Task<SubjectDTO> CreateAsync(SubjectDTO dto)
         {
-            Subject subj = Database.Subjects.Get(subjectDTO.id);
+            var model = _mapper.Map<Subject>(dto);
 
-            if (subj == null)
-                throw new ValidationException("Subject not found", "");
+            await _unitOfWork.SubjectRepository.AddAsync(model);
+            await _unitOfWork.SaveChangesAsync();
+            return _mapper.Map<SubjectDTO>(model);
+        }
 
+        public async Task DeleteAsync(long id)
+        {
+            _unitOfWork.SubjectRepository.Remove(id);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
-            StudChoice.DAL.Models.Subject subject = new Subject
-            {
-                name = subj.name,
-                description = subj.description,
-                type = subj.type
-            };
-            Database.Subjects.Create(subject);
-            Database.save();
+        public async Task<SubjectDTO> GetAsync(long id)
+        {
+            return _mapper.Map<SubjectDTO>(await _unitOfWork.SubjectRepository.GetByIdAsync(id));
+        }
+
+        public async Task<IEnumerable<SubjectDTO>> GetRangeAsync(uint offset, uint amount)
+        {
+            var entities = await _unitOfWork.SubjectRepository.GetRangeAsync(offset, amount);
+            return _mapper.Map<IEnumerable<SubjectDTO>>(entities);
+        }
+
+        public async Task<SubjectDTO> UpdateAsync(SubjectDTO dto)
+        {
+            var model = _mapper.Map<Subject>(dto);
+
+            _unitOfWork.SubjectRepository.Update(model);
+            await _unitOfWork.SaveChangesAsync();
+            return _mapper.Map<SubjectDTO>(model);
         }
 
         public void Dispose()
         {
-            Database?.Dispose();
-        }
-
-        public SubjectDTO GetSubject(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<SubjectDTO> GetSubjects()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Subject, SubjectDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Subject>, List<SubjectDTO>>(Database.Subjects.GetAll());
+            _unitOfWork?.Dispose();
         }
     }
 }
