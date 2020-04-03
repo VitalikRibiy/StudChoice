@@ -5,10 +5,14 @@ using System.Text;
 using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories.RepositoryImplementations;
 using StudChoice.DAL.EF;
+using StudChoice.DAL.UnitOfWork;
+using AutoMapper;
+using StudChoice.BLL.infrastructure;
+using StudChoice.BLL.Services.Interfaces;
 
 namespace StudChoice.BLL.Services.Implementations
 {
-    class SubjectService
+    public class SubjectService : ISubjectService
     {
         IUnitOfWork Database { get; set; }
 

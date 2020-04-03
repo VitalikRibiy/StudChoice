@@ -7,7 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudChoice.Areas.Identity.Data;
 using StudChoice.BLL.Mappings;
-
+using StudChoice.BLL.Services.Implementations;
+using StudChoice.BLL.Services.Interfaces;
+using StudChoice.DAL.EF;
+using StudChoice.DAL.UnitOfWork;
 
 namespace StudChoice1
 {
@@ -23,10 +26,12 @@ namespace StudChoice1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<StudChoiceContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
+            //services.AddDbContext<StudChoiceContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EFDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddScoped<ISubjectService, SubjectService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -34,6 +39,7 @@ namespace StudChoice1
             {
                 options.AddProfile(new ModelMappingProfile());
             });
+      
             mappingConfig.AssertConfigurationIsValid();
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

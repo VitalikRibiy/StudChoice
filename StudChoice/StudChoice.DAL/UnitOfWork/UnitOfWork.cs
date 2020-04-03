@@ -13,7 +13,7 @@ namespace StudChoice.DAL.UnitOfWork
         private SubjectRepository subjectRepository;
 
 
-        public UnitOfWork(DbContextOptions options)
+        public UnitOfWork(DbContextOptions<EFDBContext> options)
         {
             this.db = new EFDBContext(options);
         }

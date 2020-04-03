@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace StudChoice.BLL.DTOs
+namespace StudChoice.Models
 {
-   public class SubjectDTO
+    public class SubjectViewModel
     {
         public long id { get; set; }
 

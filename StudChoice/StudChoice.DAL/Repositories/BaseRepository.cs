@@ -1,6 +1,6 @@
 ﻿namespace StudChoice.DAL.Repositories
 {
-    public class BaseRepository: IBaseRepository
+    public class BaseRepository
     {
     }
 }
