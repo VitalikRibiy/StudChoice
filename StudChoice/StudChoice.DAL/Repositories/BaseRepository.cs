@@ -11,10 +11,10 @@ namespace StudChoice.DAL.Repositories
 {
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class ,IBaseModel
     {
-        private readonly EFDBContext _context;
+        private readonly StudChoiceContext _context;
         protected DbSet<TEntity> _entities;
 
-        public BaseRepository(EFDBContext dbContext)
+        public BaseRepository(StudChoiceContext dbContext)
         {
             _context = dbContext;
         }
@@ -34,7 +34,7 @@ namespace StudChoice.DAL.Repositories
             return Task.FromResult<IEnumerable<TEntity>>(Entities.Where(predicate));
         }
 
-        public virtual Task<TEntity> GetByIdAsync(int id)
+        public virtual Task<TEntity> GetByIdAsync(long id)
         {
             return Entities.SingleOrDefaultAsync(t => t.Id.Equals(id));
         }

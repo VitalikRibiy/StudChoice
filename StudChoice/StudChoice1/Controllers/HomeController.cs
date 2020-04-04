@@ -82,12 +82,10 @@ namespace StudChoice.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public ActionResult Subject()
+        public async Task<ActionResult> Subject(long id)
         {
-            IEnumerable<SubjectDTO> subjectDTO = subjectService.GetSubjects();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SubjectDTO, SubjectViewModel>()).CreateMapper();
-            var subjects = mapper.Map<IEnumerable<SubjectDTO>, List<SubjectViewModel>>(subjectDTO);
-            return View(subjects);
+            SubjectDTO subjectDTO = await subjectService.GetAsync(1);
+            return View(subjectDTO);
         }
 
         protected override void Dispose(bool disposing)

@@ -11,13 +11,13 @@ namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private EFDBContext _context;
+        private StudChoiceContext _context;
         
         public ISubjectRepository SubjectRepository { get; }
 
         
         public UnitOfWork(
-            EFDBContext context,
+            StudChoiceContext context,
             ISubjectRepository subjectRepository)
         {
             _context = context;

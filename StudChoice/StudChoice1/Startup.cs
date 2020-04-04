@@ -1,14 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudChoice.Areas.Identity.Data;
+using StudChoice.BLL;
 using StudChoice.BLL.Mappings;
-using StudChoice.BLL.Services.Implementations;
-using StudChoice.BLL.Services.Interfaces;
 
 namespace StudChoice1
 {
@@ -35,6 +33,7 @@ namespace StudChoice1
             mappingConfig.AssertConfigurationIsValid();
             var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            services.ConfigureBLL(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,9 +65,6 @@ namespace StudChoice1
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
-            using var scope = app.ApplicationServices.CreateScope();
-            scope.ServiceProvider.GetRequiredService<StudChoiceContext>().Database.Migrate();
 
             app.Seed();
         }

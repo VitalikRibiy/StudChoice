@@ -13,7 +13,7 @@ namespace StudChoice.DAL.Repositories.RepositoryImplementations
 {
     public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
-        public SubjectRepository(EFDBContext dbContext):base(dbContext)
+        public SubjectRepository(StudChoiceContext dbContext):base(dbContext)
         {
         }
     }

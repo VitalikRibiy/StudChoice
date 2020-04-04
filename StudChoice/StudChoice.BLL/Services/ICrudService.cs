@@ -14,5 +14,7 @@ namespace StudChoice.BLL.Services
         Task<TEntityDTO> UpdateAsync(TEntityDTO dto);
 
         Task DeleteAsync(long id);
+
+        public void Dispose();
     }
 }
