@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using StudChoice.BLL.ViewModels;
+using StudChoice.BLL.DTOs;
 
 namespace StudChoice.Controllers
 {
@@ -26,12 +26,12 @@ namespace StudChoice.Controllers
 
         public async Task<IActionResult> Users()
         {
-            var userVMs = new List<UserVM>();
+            var userVMs = new List<UserDTO>();
             foreach (var user in _userManager.Users)
             {
                 var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
                 
-                var userVM = _mapper.Map<UserVM>(user);
+                var userVM = _mapper.Map<UserDTO>(user);
                 userVM.Role = role;
                 userVMs.Add(userVM);
             }

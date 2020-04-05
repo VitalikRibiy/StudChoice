@@ -1,6 +1,10 @@
-﻿namespace StudChoice.BLL.ViewModels
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudChoice.BLL.DTOs
 {
-    public class UserVM
+    public class UserDTO
     {
         public int Id { get; set; }
 
