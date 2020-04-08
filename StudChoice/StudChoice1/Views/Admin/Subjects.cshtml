@@ -1,0 +1,70 @@
+﻿@model List<StudChoice.BLL.DTOs.SubjectDTO>
+
+@{
+    ViewData["Title"] = "Subjects";
+}
+
+<div class="bg-primary text-white text-center"><h4>Subjects list</h4></div>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Users">Users</a>
+            <a class="nav-link active" asp-action="Subjects">Subjects</a>
+        </li>
+    </ul>
+</div>
+
+<table class="table table-sm table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Type</th>
+            <th scope="col" class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr><td colspan="3" class="text-center">There are no subjects</td></tr>
+        }
+        else
+        {
+            foreach (var subject in Model)
+            {
+                <tr>
+                    <td>@subject.Id</td>
+                    <td>@subject.Name</td>
+                    <td>@subject.Description</td>
+                    <td>
+                        <form asp-action="SetSubjectType">
+                            <input type="hidden" name="subjectId" value="@subject.Id.ToString()" />
+                            <select name="subjectType" onchange="Submit(this)" class="form-control">
+                                @if (subject.Type == "ДВВС")
+                                {
+                                    <option value="ДВВС" selected>ДВВС</option>
+                                    <option value="ДВ">ДВ</option>
+                                }
+                                else if (subject.Type == "ДВ")
+                                {
+                                    <option value="ДВВС">ДВВС</option>
+                                    <option value="ДВ" selected>ДВ</option>
+                                }
+                                else
+                                {
+                                    <option value="ДВВС">ДВВС</option>
+                                    <option value="ДВ">ДВ</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

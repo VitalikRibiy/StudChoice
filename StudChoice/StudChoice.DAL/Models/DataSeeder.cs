@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using StudChoice.DAL.EF;
+using StudChoice.DAL.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace StudChoice.Areas.Identity.Data
@@ -11,6 +14,7 @@ namespace StudChoice.Areas.Identity.Data
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            await app.SeedData();
         }
 
         public static async Task SeedRolesAsync(this IApplicationBuilder app)
@@ -852,6 +856,46 @@ namespace StudChoice.Areas.Identity.Data
             {
                 await roleManager.CreateAsync(role);
             }
+        }
+
+        private static async Task SeedData(this IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
+
+            #region Subjects
+
+            var Subject1 = new Subject()
+            {
+                name = "Subject 1",
+                description = "Description 1",
+                type = "ДВВС"
+            };
+
+            var Subject2 = new Subject()
+            {
+                name = "Subject 2",
+                description = "Description 2",
+                type = "ДВ"
+            };
+
+            var Subject3 = new Subject()
+            {
+                name = "Subject 3",
+                description = "Description 3",
+                type = "ДВВС"
+            };
+
+            var Subject4 = new Subject()
+            {
+                name = "Subject 4",
+                description = "Description 4",
+                type = "ДВ"
+            };
+
+            context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
+
+            #endregion
         }
     }
 }
