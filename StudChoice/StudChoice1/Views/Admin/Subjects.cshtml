@@ -4,13 +4,15 @@
     ViewData["Title"] = "Subjects";
 }
 
-<div class="bg-primary text-white text-center"><h4>Subjects list</h4></div>
+<div class="bg-primary text-white text-center"><h4>Список предметів</h4></div>
 
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link" asp-action="Users">Users</a>
-            <a class="nav-link active" asp-action="Subjects">Subjects</a>
+            <a class="nav-link" asp-action="Users">Користувачі</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Subjects">Предмети</a>
         </li>
     </ul>
 </div>
@@ -18,11 +20,11 @@
 <table class="table table-sm table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Type</th>
-            <th scope="col" class="text-center">Actions</th>
+            <th scope="col">№</th>
+            <th scope="col">Назва</th>
+            <th scope="col">Опис</th>
+            <th scope="col">Тип</th>
+            <th scope="col" class="text-center">Дії</th>
         </tr>
     </thead>
     <tbody>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StudChoice.DAL.EF;
+using StudChoice.DAL.Models;
 using StudChoice.DAL.Repositories.RepositoryImplementations;
 using StudChoice.DAL.Repositories.RepositoryInterfaces;
 using StudChoice.DAL.UnitOfWork;
@@ -35,11 +36,11 @@ namespace StudChoice.DAL
 
         private static void ConfigureIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(options =>
+            services.AddIdentity<User, IdentityRole<int>>(options =>
                         options.SignIn.RequireConfirmedAccount = false)
                     .AddRoleManager<RoleManager<IdentityRole<int>>>()
-                    .AddUserManager<UserManager<IdentityUser<int>>>()
-                    .AddSignInManager<SignInManager<IdentityUser<int>>>()
+                    .AddUserManager<UserManager<User>>()
+                    .AddSignInManager<SignInManager<User>>()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<StudChoiceContext>();
 

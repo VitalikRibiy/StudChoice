@@ -4,6 +4,7 @@ using StudChoice.BLL.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using StudChoice.DAL.Models;
 
 namespace StudChoice.BLL.Mappings.Profiles
 {
@@ -11,8 +12,8 @@ namespace StudChoice.BLL.Mappings.Profiles
     {
         public UserProfile()
         {
-            CreateMap<UserDTO, IdentityUser<int>>();
-            CreateMap<IdentityUser<int>,UserDTO>();
+            CreateMap<UserDTO, User>();
+            CreateMap<User,UserDTO>();
         }
     }
 }
