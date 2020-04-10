@@ -1,4 +1,5 @@
-﻿@inject SignInManager<IdentityUser<int>> SignInManager
+﻿@using StudChoice.DAL.Models
+@inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

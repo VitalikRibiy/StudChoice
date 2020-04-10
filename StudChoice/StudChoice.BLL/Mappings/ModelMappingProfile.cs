@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using StudChoice.BLL.DTOs;
+using StudChoice.DAL.Models;
 
 namespace StudChoice.BLL.Mappings
 {
@@ -8,7 +9,7 @@ namespace StudChoice.BLL.Mappings
     {
         public ModelMappingProfile()
         {
-            CreateMap<IdentityUser<int>, UserDTO>()
+            CreateMap<User, UserDTO>()
                 .ForMember(dto => dto.Role, prop => prop.Ignore())
                 .ReverseMap();
         }

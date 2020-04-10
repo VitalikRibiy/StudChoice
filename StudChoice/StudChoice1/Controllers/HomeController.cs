@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StudChoice.BLL.DTOs;
 using StudChoice.BLL.Services.Interfaces;
+using StudChoice.DAL.Models;
 using StudChoice.Models;
 using StudChoice1.Models;
 
@@ -16,15 +17,15 @@ namespace StudChoice.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public readonly UserManager<IdentityUser<int>> _userManager;
-        public readonly SignInManager<IdentityUser<int>> _signInManager;
+        public readonly UserManager<User> _userManager;
+        public readonly SignInManager<User> _signInManager;
         public ISubjectService subjectService;
         [BindProperty]
         public InputModel Input { get; set; }
 
         
 
-    public HomeController(ILogger<HomeController> logger, ISubjectService subj, UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
+    public HomeController(ILogger<HomeController> logger, ISubjectService subj, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _logger = logger;
             _userManager = userManager;

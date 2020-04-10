@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using StudChoice.BLL.DTOs;
 using StudChoice.BLL.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
+using Microsoft.AspNetCore.Authorization;
+using StudChoice.DAL.Models;
 
 namespace StudChoice.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly ISubjectService _subjectService;
         private readonly IMapper _mapper;
 
-        public AdminController(UserManager<IdentityUser<int>> userManager, IMapper mapper, ISubjectService subjectService)
+        public AdminController(UserManager<User> userManager, IMapper mapper, ISubjectService subjectService)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -30,17 +34,17 @@ namespace StudChoice.Controllers
         #region Users
         public async Task<IActionResult> Users()
         {
-            var userVMs = new List<UserDTO>();
+            var userDtos = new List<UserDTO>();
             foreach (var user in _userManager.Users)
             {
                 var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
                 
-                var userVM = _mapper.Map<UserDTO>(user);
-                userVM.Role = role;
-                userVMs.Add(userVM);
+                var userDto = _mapper.Map<UserDTO>(user);
+                userDto.Role = role;
+                userDtos.Add(userDto);
             }
 
-            return View(userVMs);
+            return View(userDtos);
         }
 
         public async Task<IActionResult> DeleteUser(string userId)
@@ -63,6 +67,24 @@ namespace StudChoice.Controllers
                 await _userManager.RemoveFromRolesAsync(user, new string[] { "Admin", "User" });
                 await _userManager.AddToRoleAsync(user, roleName);
             }
+
+            return RedirectToAction("Users");
+        }
+
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            var userDto = new UserDTO();
+            return View(userDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(UserDTO userDto)
+        {
+            var user = _mapper.Map<User>(userDto);
+            await _userManager.CreateAsync(user, "Test123");
+
+            await _userManager.AddToRoleAsync(user, userDto.Role);
 
             return RedirectToAction("Users");
         }

@@ -5,7 +5,7 @@ using StudChoice.DAL.Models;
 
 namespace StudChoice.DAL.EF
 {
-    public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class StudChoiceContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
 
         public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
