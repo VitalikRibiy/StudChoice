@@ -6,6 +6,15 @@
     <title>@ViewData["Title"] - StudChoice</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/vendor.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+    <link rel="stylesheet" href="~/public/mdbootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="~/css/index.css">
+
+    <link href="~/public/mdbootstrap/css/mdb.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -20,15 +29,15 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Додому</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Приватність</a>
                         </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a asp-controller="Admin" class="nav-link text-dark">Admin</a>
+                                <a asp-controller="Admin" class="nav-link text-dark">Адмін-панель</a>
                             </li>
                         }
                     </ul>
@@ -44,12 +53,22 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-             2020 - StudChoice1 <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            2020 - StudChoice1 <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    <script src="~/vendor.min.js"></script>
+    <script type="text/javascript" src="~/public/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/public/mdbootstrap/js/popper.min.js"></script>
+    
+    <script type="text/javascript" src="~/public/mdbootstrap/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/public/mdbootstrap/js/mdb.min.js"></script>
+    
+    <script type="text/javascript" src="~/js/index.js"></script>
+        @RenderSection("Scripts", required: false)
 </body>
 </html>

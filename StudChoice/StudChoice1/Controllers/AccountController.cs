@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using StudChoice.DAL.Models;
 
 namespace StudChoice.Controllers
 {
@@ -14,10 +15,10 @@ namespace StudChoice.Controllers
     {
         [BindProperty]
         public RegisterModel Model { get; set; }
-        public readonly UserManager<IdentityUser<int>> _userManager;
+        public readonly UserManager<User> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config)
+        public AccountController(ILogger<AccountController> logger, UserManager<User> userManager, IConfiguration config)
         {
             _logger = logger;
             _userManager = userManager;
@@ -49,7 +50,7 @@ namespace StudChoice.Controllers
             if (ModelState.IsValid)
             {
                 var name_surname = $"{Model.Name} {Model.Surname}";
-                var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
+                var user = new User { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
                 var randomGeneratedPassword = CreateRandomPassword();
                 if(_userManager.FindByEmailAsync(Model.Email)!=null)
                 {

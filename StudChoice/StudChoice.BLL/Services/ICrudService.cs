@@ -7,6 +7,8 @@ namespace StudChoice.BLL.Services
     {
         Task<TEntityDTO> GetAsync(long id);
 
+        Task<IEnumerable<TEntityDTO>> GetAllAsync();
+
         Task<IEnumerable<TEntityDTO>> GetRangeAsync(uint offset, uint amount);
 
         Task<TEntityDTO> CreateAsync(TEntityDTO dto);

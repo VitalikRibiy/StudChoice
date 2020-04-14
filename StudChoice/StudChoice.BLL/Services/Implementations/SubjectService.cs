@@ -58,5 +58,11 @@ namespace StudChoice.BLL.Services.Implementations
         {
             _unitOfWork?.Dispose();
         }
+
+        public async Task<IEnumerable<SubjectDTO>> GetAllAsync()
+        {
+            var entities = await _unitOfWork.SubjectRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<SubjectDTO>>(entities);
+        }
     }
 }

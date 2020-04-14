@@ -31,6 +31,7 @@ namespace StudChoice.BLL
             services.AddSingleton(new MapperConfiguration(c =>
             {
                 c.AddProfile(new SubjectProfile());
+                c.AddProfile(new UserProfile());
             }).CreateMapper());
         }
     }
