@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StudChoice.BLL.DTOs;
+using StudChoice.BLL.Services.Interfaces;
+using StudChoice.Models;
 using StudChoice1.Models;
 
-namespace StudChoice1.Controllers
+namespace StudChoice.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public readonly UserManager<IdentityUser> _userManager;
-        public readonly SignInManager<IdentityUser> _signInManager;
+        public readonly UserManager<IdentityUser<int>> _userManager;
+        public readonly SignInManager<IdentityUser<int>> _signInManager;
+        public ISubjectService subjectService;
         [BindProperty]
         public InputModel Input { get; set; }
 
         
 
-    public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public HomeController(ILogger<HomeController> logger, ISubjectService subj, UserManager<IdentityUser<int>> userManager, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            subjectService = subj;
         }
 
         public IActionResult Index()
@@ -50,13 +55,18 @@ namespace StudChoice1.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.TransictionNumber };
+                var user = await _userManager.FindByNameAsync(Input.TransictionNumber);
                 var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    //loginModel._logger.LogInformation("User logged in.");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    try
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return LocalRedirect(returnUrl);
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -70,6 +80,18 @@ namespace StudChoice1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<ActionResult> Subject(long id)
+        {
+            SubjectDTO subjectDTO = await subjectService.GetAsync(1);
+            return View(subjectDTO);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            subjectService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

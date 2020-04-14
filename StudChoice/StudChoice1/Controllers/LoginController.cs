@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using StudChoice1.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace StudChoice1.Controllers
 {
    public class LoginController : Controller
     {
-    //    public readonly UserManager<IdentityUser> _userManager;
-    //    public readonly SignInManager<IdentityUser> _signInManager;
+    //    public readonly UserManager<IdentityUser<int>> _userManager;
+    //    public readonly SignInManager<IdentityUser<int>> _signInManager;
     //    [BindProperty]
     //    public InputModel Input { get; set; }
 
