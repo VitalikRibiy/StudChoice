@@ -15,13 +15,15 @@ namespace StudChoice.Controllers
         [BindProperty]
         public RegisterModel Model { get; set; }
         public readonly UserManager<IdentityUser<int>> _userManager;
+        public readonly SignInManager<IdentityUser<int>> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config)
+        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
             _userManager = userManager;
             _config = config;
+            _signInManager = signInManager;
         }
         [HttpGet]
         public ActionResult VerifyMe()
@@ -129,6 +131,20 @@ namespace StudChoice.Controllers
             smtp.Send(m);           
             
             return View();
+        }
+
+        public ActionResult LogOut(string returnUrl = null)
+        {
+            _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Home","Index");
+            }
         }
     }
 }
