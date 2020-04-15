@@ -1,0 +1,24 @@
+﻿@model StudChoice.BLL.DTOs.SubjectDTO
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name">Назва</label>
+        <input asp-for="Name" class="form-control" required value="@Model.Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Опис</label>
+        <input asp-for="Description" class="form-control" required value="@Model.Description" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Type">Тип предмету</label>
+        <select asp-for="Type" class="form-control" required>
+            <option value="ДВВС">ДВВС</option>
+            <option value="ДВ" selected>CДВ</option>
+        </select>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+        <a asp-action="Index" class="btn btn-danger">Скасувати</a>
+    </div>
+</form>

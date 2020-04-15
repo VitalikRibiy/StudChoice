@@ -132,6 +132,21 @@ namespace StudChoice.Controllers
             return RedirectToAction("Subjects");
         }
 
+        [HttpGet]
+        public IActionResult AddSubject()
+        {
+            var subjectDTO = new SubjectDTO();
+            return View(subjectDTO);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubject(SubjectDTO subjectDTO)
+        {
+            await _subjectService.CreateAsync(subjectDTO);
+            
+            return RedirectToAction("Subjects");
+        }
+
         #endregion
     }
 }
