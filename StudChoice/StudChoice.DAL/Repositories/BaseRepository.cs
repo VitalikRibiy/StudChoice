@@ -9,14 +9,22 @@ using System.Threading.Tasks;
 
 namespace StudChoice.DAL.Repositories
 {
-    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class ,IBaseModel
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseModel
     {
-        private readonly StudChoiceContext _context;
-        protected DbSet<TEntity> _entities;
+        private readonly StudChoiceContext context;
+        private DbSet<TEntity> entities;
 
         public BaseRepository(StudChoiceContext dbContext)
         {
-            _context = dbContext;
+            context = dbContext;
+        }
+
+        protected virtual DbSet<TEntity> Entities
+        {
+            get
+            {
+                return entities ?? (entities = context.Set<TEntity>());
+            }
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
@@ -54,7 +62,7 @@ namespace StudChoice.DAL.Repositories
 
             return model;
         }
-
+      
         public virtual TEntity Remove(TEntity entity)
         {
             return Entities.Remove(entity).Entity;
@@ -63,14 +71,6 @@ namespace StudChoice.DAL.Repositories
         public virtual TEntity Update(TEntity entity)
         {
             return Entities.Update(entity).Entity;
-        }
-
-        protected virtual DbSet<TEntity> Entities
-        {
-            get
-            {
-                return _entities ?? (_entities = _context.Set<TEntity>());
-            }
         }
     }
 }

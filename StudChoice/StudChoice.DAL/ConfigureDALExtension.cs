@@ -44,7 +44,6 @@ namespace StudChoice.DAL
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<StudChoiceContext>();
 
-
             services
                 .Configure<IdentityOptions>(options =>
                 {

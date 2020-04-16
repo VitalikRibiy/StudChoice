@@ -13,7 +13,7 @@ namespace StudChoice.BLL.Mappings.Profiles
         public UserProfile()
         {
             CreateMap<UserDTO, User>();
-            CreateMap<User,UserDTO>();
+            CreateMap<User, UserDTO>();
         }
     }
 }

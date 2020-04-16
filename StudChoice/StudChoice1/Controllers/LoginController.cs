@@ -23,7 +23,6 @@ namespace StudChoice1.Controllers
     //        if (ModelState.IsValid)
     //        {
                 
-
     //            var user = new IdentityUser { UserName = Input.TransictionNumber };
     //            var resultReg =  _userManager.CreateAsync(user, Input.Password);
     //            if (resultReg.IsCompletedSuccessfully)

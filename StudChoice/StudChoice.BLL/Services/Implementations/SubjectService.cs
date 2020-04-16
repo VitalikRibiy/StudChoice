@@ -10,59 +10,59 @@ namespace StudChoice.BLL.Services.Implementations
 {
     public class SubjectService : ISubjectService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public SubjectService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+      
+        public SubjectService(IUnitOfWork unitOfWorkVar, IMapper mapperVar)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            unitOfWork = unitOfWorkVar;
+            mapper = mapperVar;
         }
 
         public async Task<SubjectDTO> CreateAsync(SubjectDTO dto)
         {
-            var model = _mapper.Map<Subject>(dto);
+            var model = mapper.Map<Subject>(dto);
 
-            await _unitOfWork.SubjectRepository.AddAsync(model);
-            await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<SubjectDTO>(model);
+            await unitOfWork.SubjectRepository.AddAsync(model);
+            await unitOfWork.SaveChangesAsync();
+            return mapper.Map<SubjectDTO>(model);
         }
 
         public async Task DeleteAsync(long id)
         {
-            _unitOfWork.SubjectRepository.Remove(id);
-            await _unitOfWork.SaveChangesAsync();
+            unitOfWork.SubjectRepository.Remove(id);
+            await unitOfWork.SaveChangesAsync();
         }
 
         public async Task<SubjectDTO> GetAsync(long id)
         {
-            return _mapper.Map<SubjectDTO>(await _unitOfWork.SubjectRepository.GetByIdAsync(id));
+            return mapper.Map<SubjectDTO>(await unitOfWork.SubjectRepository.GetByIdAsync(id));
         }
 
         public async Task<IEnumerable<SubjectDTO>> GetRangeAsync(uint offset, uint amount)
         {
-            var entities = await _unitOfWork.SubjectRepository.GetRangeAsync(offset, amount);
-            return _mapper.Map<IEnumerable<SubjectDTO>>(entities);
+            var entities = await unitOfWork.SubjectRepository.GetRangeAsync(offset, amount);
+            return mapper.Map<IEnumerable<SubjectDTO>>(entities);
         }
 
         public async Task<SubjectDTO> UpdateAsync(SubjectDTO dto)
         {
-            var model = _mapper.Map<Subject>(dto);
+            var model = mapper.Map<Subject>(dto);
 
-            _unitOfWork.SubjectRepository.Update(model);
-            await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<SubjectDTO>(model);
+            unitOfWork.SubjectRepository.Update(model);
+            await unitOfWork.SaveChangesAsync();
+            return mapper.Map<SubjectDTO>(model);
         }
 
         public void Dispose()
         {
-            _unitOfWork?.Dispose();
+            unitOfWork?.Dispose();
         }
 
         public async Task<IEnumerable<SubjectDTO>> GetAllAsync()
         {
-            var entities = await _unitOfWork.SubjectRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<SubjectDTO>>(entities);
+            var entities = await unitOfWork.SubjectRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<SubjectDTO>>(entities);
         }
     }
 }

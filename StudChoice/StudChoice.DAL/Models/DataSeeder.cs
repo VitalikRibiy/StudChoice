@@ -10,7 +10,9 @@ namespace StudChoice.Areas.Identity.Data
 {
     public static class DataSeeder
     {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task SeedEssentialAsync(this IApplicationBuilder app)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -20,6 +22,7 @@ namespace StudChoice.Areas.Identity.Data
         public static async Task SeedRolesAsync(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
+
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
             await CreateRoleIfNotExists(roleManager, new IdentityRole<int>("Admin"));
@@ -127,7 +130,7 @@ namespace StudChoice.Areas.Identity.Data
             }
         }
 
-        private static async Task SeedData(this IApplicationBuilder app)
+        private async static Task SeedData(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
@@ -137,38 +140,40 @@ namespace StudChoice.Areas.Identity.Data
                 return;
             }
             #region Subjects
-
-            var Subject1 = new Subject()
+           
+           var Subject1 = new Subject()
             {
-                name = "Subject 1",
-                description = "Description 1",
-                type = "ДВВС"
+                Name = "Subject 1",
+                Description = "Description 1",
+                Type = "ДВВС"
             };
 
             var Subject2 = new Subject()
-            {
-                name = "Subject 2",
-                description = "Description 2",
-                type = "ДВ"
-            };
+                {
+                    Name = "Subject 2",
+                    Description = "Description 2",
+                    Type = "ДВ"
+                };
 
-            var Subject3 = new Subject()
-            {
-                name = "Subject 3",
-                description = "Description 3",
-                type = "ДВВС"
-            };
+                var Subject3 = new Subject()
+                {
+                    Name = "Subject 3",
+                    Description = "Description 3",
+                    Type = "ДВВС"
+                };
 
-            var Subject4 = new Subject()
-            {
-                name = "Subject 4",
-                description = "Description 4",
-                type = "ДВ"
-            };
+                var Subject4 = new Subject()
+                {
+                    Name = "Subject 4",
+                    Description = "Description 4",
+                    Type = "ДВ"
+                };
 
-            context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
-            context.SaveChanges();
+                context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
+                 context.SaveChanges();
+            
             #endregion
+            
         }
     }
 }

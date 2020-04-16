@@ -7,12 +7,12 @@ namespace StudChoice.DAL.EF
 {
     public class StudChoiceContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-
         public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
             : base(options)
-        {
-            
+        {          
         }
+
+        public DbSet<Subject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +21,5 @@ namespace StudChoice.DAL.EF
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
-        public DbSet<Subject> Subjects { get; set; }
     }
 }
