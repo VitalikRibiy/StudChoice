@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using StudChoice.DAL.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -14,10 +15,10 @@ namespace StudChoice1.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser<int>> userManager;
+        private readonly UserManager<User> userManager;
         private readonly IEmailSender emailSender;
 
-        public ForgotPasswordModel(UserManager<IdentityUser<int>> userManagerVar, IEmailSender emailSenderVar)
+        public ForgotPasswordModel(UserManager<User> userManagerVar, IEmailSender emailSenderVar)
         {
             userManager = userManagerVar;
             emailSender = emailSenderVar;
@@ -25,7 +26,7 @@ namespace StudChoice1.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
-
+  
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)

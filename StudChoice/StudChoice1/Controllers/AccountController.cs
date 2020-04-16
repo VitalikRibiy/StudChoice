@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using StudChoice.DAL.Models;
 using StudChoice1.Models;
 using System;
 using System.Net;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 namespace StudChoice.Controllers
 {
     public class AccountController : Controller
-    {      
-        public readonly UserManager<IdentityUser<int>> UserManager;
+    {
+        public readonly UserManager<User> UserManager;
 
         private readonly ILogger<AccountController> logger;
 
         private readonly IConfiguration config;
 
-        public AccountController(ILogger<AccountController> loggerVar, UserManager<IdentityUser<int>> userManagerVar, IConfiguration configVar)
+        public AccountController(ILogger<AccountController> loggerVar, UserManager<User> userManagerVar, IConfiguration configVar)
         {
             logger = loggerVar;
             UserManager = userManagerVar;
@@ -33,17 +34,16 @@ namespace StudChoice.Controllers
         {
             return View();
         }
-       
+      
         [HttpPost]
-        public async Task<ActionResult> VerifyMe(RegisterModel modelvar)
+        public async Task<ActionResult> VerifyMe(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
-                var name_surname = $"{modelvar.Name} {modelvar.Surname}";
-                var user = new IdentityUser<int> { UserName = modelvar.TransictionNumber, Email = modelvar.Email, NormalizedUserName = name_surname };
+                var name_surname = $"{model.Name} {model.Surname}";
+                var user = new User { UserName = model.TransictionNumber, Email = model.Email, NormalizedUserName = name_surname };
                 var randomGeneratedPassword = CreateRandomPassword();
-
-                if (UserManager.FindByEmailAsync(modelvar.Email) != null)
+                if (UserManager.FindByEmailAsync(model.Email) != null)
                 {
                     ModelState.AddModelError(string.Empty, "There is an user with this email address");
                 }
@@ -53,7 +53,7 @@ namespace StudChoice.Controllers
                 {
                     logger.LogInformation("User created a new account.");
 
-                    SendEmail(modelvar.Name, modelvar.Surname, modelvar.Email, modelvar.TransictionNumber, randomGeneratedPassword);
+                    SendEmail(model.Name, model.Surname, model.Email, model.TransictionNumber, randomGeneratedPassword);
                     return View("ToVerify");
                 }
 

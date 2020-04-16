@@ -7,18 +7,19 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using StudChoice.DAL.Models;
 
 namespace StudChoice1.Areas.Identity.Pages.Account.Manage
 {
     public partial class EmailModel : PageModel
     {
-        private readonly UserManager<IdentityUser<int>> userManager;
-        private readonly SignInManager<IdentityUser<int>> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly IEmailSender emailSender;
 
         public EmailModel(
-            UserManager<IdentityUser<int>> userManagerVar,
-            SignInManager<IdentityUser<int>> signInManagerVar,
+            UserManager<User> userManagerVar,
+            SignInManager<User> signInManagerVar,
             IEmailSender emailSenderVar)
         {
             userManager = userManagerVar;
@@ -119,7 +120,7 @@ namespace StudChoice1.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
 
-        private async Task LoadAsync(IdentityUser<int> user)
+        private async Task LoadAsync(User user)
         {
             var email = await userManager.GetEmailAsync(user);
             Email = email;

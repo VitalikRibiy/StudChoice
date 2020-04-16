@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudChoice.DAL.EF;
 
-namespace StudChoice.DAL.Migrations
+namespace StudChoice.Migrations
 {
     [DbContext(typeof(StudChoiceContext))]
     partial class StudChoiceContextModelSnapshot : ModelSnapshot

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StudChoice.BLL.DTOs;
 using StudChoice.BLL.Services.Interfaces;
+using StudChoice.DAL.Models;
+using StudChoice.Models;
 using StudChoice1.Models;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -10,13 +12,13 @@ using System.Threading.Tasks;
 namespace StudChoice.Controllers
 {
     public class HomeController : Controller
-    {   
-        public readonly UserManager<IdentityUser<int>> UserManager;
-        public readonly SignInManager<IdentityUser<int>> SignInManager;     
-        public readonly ISubjectService SubjectService;
-        private readonly ILogger<HomeController> logger;
-        
-        public HomeController(ILogger<HomeController> loggerVar, ISubjectService subjVar, UserManager<IdentityUser<int>> userManagerVar, SignInManager<IdentityUser<int>> signInManagerVar)
+    {
+        public readonly UserManager<User> UserManager;
+        public readonly SignInManager<User> SignInManager;
+        public ISubjectService SubjectService;
+        private readonly ILogger<HomeController> logger;   
+       
+    public HomeController(ILogger<HomeController> loggerVar, ISubjectService subjVar, UserManager<User> userManagerVar, SignInManager<User> signInManagerVar)
         {
             logger = loggerVar;
             UserManager = userManagerVar;

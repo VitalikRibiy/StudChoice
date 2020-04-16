@@ -9,6 +9,7 @@ namespace StudChoice.BLL.Mappings.Profiles
         public SubjectProfile()
         {
             CreateMap<SubjectDTO, Subject>();
+            CreateMap<Subject, SubjectDTO>();
         }
     }
 }

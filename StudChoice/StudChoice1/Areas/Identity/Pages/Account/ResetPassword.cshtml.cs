@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using StudChoice.DAL.Models;
 
 namespace StudChoice1.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser<int>> userManager;
+        private readonly UserManager<User> userManager;
 
-        public ResetPasswordModel(UserManager<IdentityUser<int>> userManagerVar)
+        public ResetPasswordModel(UserManager<User> userManagerVar)
         {
             userManager = userManagerVar;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
-      
+     
         public IActionResult OnGet(string code = null)
         {
             if (code == null)

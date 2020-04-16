@@ -5,14 +5,14 @@ using StudChoice.DAL.Models;
 
 namespace StudChoice.DAL.EF
 {
-    public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class StudChoiceContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public readonly DbSet<Subject> Subjects;
-
         public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
             : base(options)
-        {
+        {          
         }
+
+        public DbSet<Subject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
