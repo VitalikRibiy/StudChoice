@@ -4,7 +4,7 @@ using StudChoice.DAL.Models;
 
 namespace StudChoice.BLL.Mappings.Profiles
 {
-    public class SubjectProfile :Profile
+    public class SubjectProfile : Profile
     {
         public SubjectProfile()
         {

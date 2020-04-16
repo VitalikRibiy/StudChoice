@@ -7,6 +7,7 @@ namespace StudChoice.DAL.EF
 {
     public class StudChoiceContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
+        public readonly DbSet<Subject> Subjects;
 
         public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
             : base(options)
@@ -20,6 +21,5 @@ namespace StudChoice.DAL.EF
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
-        public DbSet<Subject> Subjects;
     }
 }

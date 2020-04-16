@@ -7,7 +7,9 @@ namespace StudChoice.Areas.Identity.Data
 {
     public static class DataSeeder
     {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task SeedEssentialAsync(this IApplicationBuilder app)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -16,6 +18,7 @@ namespace StudChoice.Areas.Identity.Data
         public static async Task SeedRolesAsync(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
+
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
             await CreateRoleIfNotExists(roleManager, new IdentityRole<int>("Admin"));

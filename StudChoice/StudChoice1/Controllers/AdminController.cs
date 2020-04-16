@@ -10,13 +10,13 @@ namespace StudChoice.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityUser<int>> _userManager;
-        private readonly IMapper _mapper;
+        private readonly UserManager<IdentityUser<int>> userManager;
+        private readonly IMapper mapper;
 
-        public AdminController(UserManager<IdentityUser<int>> userManager, IMapper mapper)
+        public AdminController(UserManager<IdentityUser<int>> userManagerVar, IMapper mapperVar)
         {
-            _userManager = userManager;
-            _mapper = mapper;
+            userManager = userManagerVar;
+            mapper = mapperVar;
         }
 
         public IActionResult Index()
@@ -27,11 +27,11 @@ namespace StudChoice.Controllers
         public async Task<IActionResult> Users()
         {
             var userVMs = new List<UserVM>();
-            foreach (var user in _userManager.Users)
+            foreach (var user in userManager.Users)
             {
-                var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
+                var role = (await userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
                 
-                var userVM = _mapper.Map<UserVM>(user);
+                var userVM = mapper.Map<UserVM>(user);
                 userVM.Role = role;
                 userVMs.Add(userVM);
             }
@@ -41,11 +41,11 @@ namespace StudChoice.Controllers
 
         public async Task<IActionResult> DeleteUser(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             
             if (user != null)
             {
-                await _userManager.DeleteAsync(user);
+                await userManager.DeleteAsync(user);
             }
 
             return RedirectToAction("Users");
@@ -53,11 +53,11 @@ namespace StudChoice.Controllers
 
         public async Task<IActionResult> SetUserRole(string userId, string roleName)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null && !(await _userManager.IsInRoleAsync(user, roleName)))
+            var user = await userManager.FindByIdAsync(userId);
+            if (user != null && !(await userManager.IsInRoleAsync(user, roleName)))
             {
-                await _userManager.RemoveFromRolesAsync(user, new string[] { "Admin", "User" });
-                await _userManager.AddToRoleAsync(user, roleName);
+                await userManager.RemoveFromRolesAsync(user, new string[] { "Admin", "User" });
+                await userManager.AddToRoleAsync(user, roleName);
             }
 
             return RedirectToAction("Users");
