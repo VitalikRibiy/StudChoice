@@ -14,6 +14,12 @@ namespace StudChoice.DAL.EF
 
         public DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<Faculty> Faculties { get; set; }
+
+        public DbSet<Cathedra> Cathedras { get; set; }
+
+        public DbSet<Professor> Professors { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

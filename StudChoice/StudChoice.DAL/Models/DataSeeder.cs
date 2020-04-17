@@ -135,20 +135,18 @@ namespace StudChoice.Areas.Identity.Data
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
 
-            if (context.Subjects.Any())
-            {
-                return;
-            }
             #region Subjects
-           
-           var Subject1 = new Subject()
-            {
-                Name = "Subject 1",
-                Description = "Description 1",
-                Type = "ДВВС"
-            };
 
-            var Subject2 = new Subject()
+            if (!context.Subjects.Any())
+            {
+                var Subject1 = new Subject()
+                {
+                    Name = "Subject 1",
+                    Description = "Description 1",
+                    Type = "ДВВС"
+                };
+
+                var Subject2 = new Subject()
                 {
                     Name = "Subject 2",
                     Description = "Description 2",
@@ -170,10 +168,74 @@ namespace StudChoice.Areas.Identity.Data
                 };
 
                 context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
-                 context.SaveChanges();
-            
+                context.SaveChanges();
+            }
+
             #endregion
-            
+
+            #region Faculties
+
+            if (!context.Faculties.Any())
+            {
+                for(int i = 1; i <= 5; i++)
+                {
+                    var faculty = new Faculty()
+                    {
+                        DisplayName = $"Faculty{i}",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna."                        
+                    };
+
+                    context.Faculties.Add(faculty);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Cathedras
+
+            if (!context.Cathedras.Any())
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    var cathedra = new Cathedra()
+                    {
+                        DisplayName = $"Cathedra{i}",
+                        Description = $"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna.",
+                        FacultyId = i
+                    };
+
+                    context.Cathedras.Add(cathedra);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Professors
+
+            if (!context.Professors.Any())
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    var professor = new Professor()
+                    {
+                       FirstName = $"FirstName{i}",
+                       LastName = $"LastName{i}",
+                       MiddleName = $"MiddleName{i}",
+                       FacultyId = i,
+                       CathedraId = i
+                    };
+
+                    context.Professors.Add(professor);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
         }
     }
 }
