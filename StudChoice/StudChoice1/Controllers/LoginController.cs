@@ -4,8 +4,8 @@ namespace StudChoice1.Controllers
 {
    public class LoginController : Controller
     {
-    //    public readonly UserManager<IdentityUser<int>> _userManager;
-    //    public readonly SignInManager<IdentityUser<int>> _signInManager;
+    //    public readonly UserManager<User> _userManager;
+    //    public readonly SignInManager<User> _signInManager;
     //    [BindProperty]
     //    public InputModel Input { get; set; }
 
@@ -23,7 +23,6 @@ namespace StudChoice1.Controllers
     //        if (ModelState.IsValid)
     //        {
                 
-
     //            var user = new IdentityUser { UserName = Input.TransictionNumber };
     //            var resultReg =  _userManager.CreateAsync(user, Input.Password);
     //            if (resultReg.IsCompletedSuccessfully)

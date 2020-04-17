@@ -1,0 +1,33 @@
+﻿@model StudChoice.BLL.DTOs.UserDTO
+
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name">Ім'я</label>
+            <input asp-for="Name" class="form-control" required value="@Model.Name" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Surname">Прізвище</label>
+            <input asp-for="Surname" class="form-control" required value="@Model.Surname" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserName">Ідентифікатор</label>
+            <input asp-for="UserName" class="form-control" required value="@Model.UserName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" required value="@Model.Email" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Role">Тип користувача</label>
+            <select asp-for="Role" class="form-control" required>
+                <option value="Admin">Адміністратор</option>
+                <option value="User" selected>Cтудент</option>
+            </select>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Зберегти</button>
+            <a asp-action="Index" class="btn btn-danger">Скасувати</a>
+        </div>
+    </form>
+

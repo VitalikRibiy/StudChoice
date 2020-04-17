@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace StudChoice.DAL.Models
 {
@@ -9,13 +6,13 @@ namespace StudChoice.DAL.Models
     {
         [Required]
         [Display(Name = "Subject name")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Display(Name = "Description")]
-        public string description { get; set; }
+        public string Description { get; set; }
 
         [Display(Name = "Type")]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         [Display(Name = "Professor")]
         public Professor Professor { get; set; }

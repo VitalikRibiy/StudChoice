@@ -1,68 +1,79 @@
-﻿@model List<StudChoice.BLL.ViewModels.UserVM>
+﻿@model List<StudChoice.BLL.DTOs.UserDTO>
 
 @{
     ViewData["Title"] = "Users";
 }
 
-<div class="bg-primary text-white text-center"><h4>User Accounts</h4></div>
+<div class="bg-primary text-white text-center"><h4>Акаунти користувачів</h4></div>
 
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" asp-action="Users">Users</a>
+            <a class="nav-link active" asp-action="Users">Користувачі</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Subjects">Предмети</a>
         </li>
     </ul>
+</div>
+
+<div class="container-fluid my-2">
+    <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddUser"><i class="fas fa-plus"></i></a>
 </div>
 
 <table class="table table-sm table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
+            <th scope="col">№</th>
+            <th scope="col">Ім'я</th>
+            <th scope="col">Прізвище</th>
+            <th scope="col">Ідентифікатор</th>
             <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col" class="text-center">Actions</th>
+            <th scope="col">Тип користувача</th>
+            <th scope="col" class="text-center">Дії</th>
         </tr>
     </thead>
     <tbody>
         @if (Model.Count() == 0)
         {
-            <tr><td colspan="3" class="text-center">No User Accounts</td></tr>
+            <tr><td colspan="3" class="text-center">Немає користувачів</td></tr>
         }
         else
         {
             foreach (var user in Model)
             {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <form asp-action="SetUserRole">
-                            <input type="hidden" name="userId" value="@user.Id.ToString()" />
-                            <select name="roleName" onchange="Submit(this)" class="form-control">
-                                @if (user.Role == "Admin")
-                                {
-                                    <option value="Admin" selected>Admin</option>
-                                    <option value="User">User</option>
-                                }
-                                else if (user.Role == "User")
-                                {
-                                    <option value="Admin">Admin</option>
-                                    <option value="User" selected>User</option>
-                                }
-                                else
-                                {
-                                    <option value="Admin">Admin</option>
-                                    <option value="User">User</option>
-                                }
-                            </select>
-                        </form>
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteUser" asp-all-route-data="@(new Dictionary<string, string> { {"userId", user.Id.ToString() } })">Delete</a>
-                    </td>
-                </tr>
+    <tr>
+        <td>@user.Id</td>
+        <td>@user.Name</td>
+        <td>@user.Surname</td>
+        <td>@user.UserName</td>
+        <td>@user.Email</td>
+        <td>
+            <form asp-action="SetUserRole">
+                <input type="hidden" name="userId" value="@user.Id.ToString()" />
+                <select name="roleName" onchange="Submit(this)" class="form-control">
+                    @if (user.Role == "Admin")
+                    {
+                        <option value="Admin" selected>Адміністратор</option>
+                        <option value="User">Студент</option>
+                    }
+                    else if (user.Role == "User")
+                    {
+                        <option value="Admin">Адміністратор</option>
+                        <option value="User" selected>Студент</option>
+                    }
+                    else
+                    {
+                        <option value="Admin">Адміністратор</option>
+                        <option value="User">Студент</option>
+                    }
+                </select>
+            </form>
+        </td>
+        <td class="text-center">
+            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteUser" asp-all-route-data="@(new Dictionary<string, string> { {"userId", user.Id.ToString() } })">Видалити</a>
+        </td>
+    </tr>
             }
         }
     </tbody>

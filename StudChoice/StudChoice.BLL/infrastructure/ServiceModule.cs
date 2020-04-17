@@ -3,18 +3,20 @@ using Ninject.Modules;
 using StudChoice.DAL.EF;
 using StudChoice.DAL.UnitOfWork;
 
-namespace StudChoice.BLL.infrastructure
+namespace StudChoice.BLL.Infrastructure
 {
-    class ServiceModule : NinjectModule
+   public class ServiceModule : NinjectModule
     {
-        private DbContextOptions<StudChoiceContext> _options;
+        private readonly DbContextOptions<StudChoiceContext> options;
+
         public ServiceModule(DbContextOptions<StudChoiceContext> connection)
         {
-            _options = connection;
+            options = connection;
         }
+
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(_options);
+            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(options);
         }
     }
 }

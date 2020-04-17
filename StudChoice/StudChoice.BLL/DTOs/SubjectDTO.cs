@@ -6,12 +6,12 @@ namespace StudChoice.BLL.DTOs
 {
    public class SubjectDTO
     {
-        public long id { get; set; }
+        public long Id { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public string type { get; set; }
+        public string Type { get; set; }
     }
 }

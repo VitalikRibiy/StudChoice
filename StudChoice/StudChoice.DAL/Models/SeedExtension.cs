@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace StudChoice.Areas.Identity.Data
 {
@@ -10,6 +11,7 @@ namespace StudChoice.Areas.Identity.Data
             this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
+
             var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
 
             app.SeedEssentialAsync().ConfigureAwait(false).GetAwaiter().GetResult();
