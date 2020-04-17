@@ -16,5 +16,11 @@ namespace StudChoice.DAL.Models
 
         [Display(Name = "Type")]
         public string type { get; set; }
+
+        [Display(Name = "Professor")]
+        public Professor Professor { get; set; }
+
+        [Display(Name = "Type")]
+        public Cathedra Cathedra { get; set; }
     }
 }
