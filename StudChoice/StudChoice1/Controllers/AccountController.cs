@@ -13,12 +13,14 @@ namespace StudChoice.Controllers
 {
     public class AccountController : Controller
     {
-        [BindProperty]
         public RegisterModel Model { get; set; }
         public readonly UserManager<IdentityUser<int>> _userManager;
         public readonly SignInManager<IdentityUser<int>> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
+
+        [TempData]
+        public string StatusMessage { get; set; }
         public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
@@ -155,7 +157,6 @@ namespace StudChoice.Controllers
         private async Task LoadAsync(IdentityUser<int> user)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var email = await _userManager.GetEmailAsync(user);
 
             AccountModel = new AccountModel
             {
@@ -178,10 +179,33 @@ namespace StudChoice.Controllers
             return View("ManageIndex", AccountModel);
         }
 
-        //public async ActionResult ChangePassword()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-            
-        //}
+        ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
+        public async Task<ActionResult> ChangePasswordAsync()
+        {
+            return View("ChangePassword", ChangePasswordModel);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePasswordAsync(ChangePasswordModel changePasswordModel)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (ModelState.IsValid)
+            {
+                var checkPassword = _userManager.CheckPasswordAsync(currentUser, changePasswordModel.CurrentPassword);
+                if (await checkPassword)
+                {
+                    changePasswordModel.StatusMessage = "You changed your password successfully!";
+                    await _userManager.ChangePasswordAsync(currentUser, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+
+                    return View("ChangePassword", changePasswordModel);
+                }
+                ModelState.AddModelError(string.Empty, "You entered wrong current password.");
+                
+                return View("ChangePassword");
+            }
+
+            return View("ChangePassword");
+        }
     }
 }
