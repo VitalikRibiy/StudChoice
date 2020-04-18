@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using StudChoice.Models;
 
 namespace StudChoice.Controllers
 {
@@ -146,5 +147,41 @@ namespace StudChoice.Controllers
                 return RedirectToAction("Home","Index");
             }
         }
+
+        public string Username { get; set; }
+        public AccountModel AccountModel;
+         
+
+        private async Task LoadAsync(IdentityUser<int> user)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var email = await _userManager.GetEmailAsync(user);
+
+            AccountModel = new AccountModel
+            {
+                Name = currentUser.NormalizedUserName,
+                Email = currentUser.Email,
+                TransictionCode = currentUser.UserName
+            };
+        }
+
+        public async Task<ActionResult> Manage()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            await LoadAsync(user);
+
+            return View("ManageIndex", AccountModel);
+        }
+
+        //public async ActionResult ChangePassword()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+            
+        //}
     }
 }

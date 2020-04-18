@@ -1,0 +1,27 @@
+﻿@using StudChoice.Models
+@model AccountModel
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "/Views/Account/LayoutManage.cshtml";
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" disabled />
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" disabled />
+                <label asp-for="TransictionCode">Transiction Code</label>
+                <input asp-for="TransictionCode" class="form-control" disabled />
+            </div>            
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
