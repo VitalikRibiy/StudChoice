@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudChoice.DAL.EF;
-using StudChoice.DAL.Models;
-using StudChoice.DAL.Repositories;
-using StudChoice.DAL.Repositories.RepositoryImplementations;
+﻿using StudChoice.DAL.EF;
 using StudChoice.DAL.Repositories.RepositoryInterfaces;
 using System;
 using System.Threading.Tasks;
@@ -11,22 +7,21 @@ namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private StudChoiceContext _context;
-        
-        public ISubjectRepository SubjectRepository { get; }
+        private readonly StudChoiceContext context;
 
-        
-        public UnitOfWork(
-            StudChoiceContext context,
-            ISubjectRepository subjectRepository)
+        private bool disposed = false;
+
+        public UnitOfWork(StudChoiceContext contextVar, ISubjectRepository subjectRepository)
         {
-            _context = context;
+            context = contextVar;
             SubjectRepository = subjectRepository;
         }
 
+        public ISubjectRepository SubjectRepository { get; }
+
         public Task SaveChangesAsync()
         {
-            return _context.SaveChangesAsync();
+            return context.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -35,16 +30,15 @@ namespace StudChoice.DAL.UnitOfWork
             GC.SuppressFinalize(this);
         }
 
-        private bool disposed = false;
-
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    context.Dispose();
                 }
+
                 this.disposed = true;
             }
         }

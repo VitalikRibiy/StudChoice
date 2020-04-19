@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using StudChoice1.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Net.Mail;
+using StudChoice.DAL.Models;
+using StudChoice1.Models;
+using System;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using StudChoice.Models;
@@ -30,14 +30,17 @@ namespace StudChoice.Controllers
             _config = config;
             _signInManager = signInManager;
         }
+
+        [BindProperty]
+        public RegisterModel Model { get; set; }
+
         [HttpGet]
         public ActionResult VerifyMe()
         {
             return View();
         }
-
         [HttpPost]
-        public async Task<ActionResult> VerifyMe(RegisterModel Model)
+        public async Task<ActionResult> VerifyMe(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -53,15 +56,17 @@ namespace StudChoice.Controllers
                 var result = await _userManager.CreateAsync(user, Model.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account.");
+                    logger.LogInformation("User created a new account.");
 
                     SendEmail(Model.Name,Model.Surname,Model.Email,Model.TransictionNumber);
                     return View("ToVerify");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+
                 return View();                    
             }            
             return View();
@@ -71,7 +76,7 @@ namespace StudChoice.Controllers
         {
             MailAddress from = new MailAddress("studchoice.smtp@gmail.com", "StudChoice");
 
-            var administrators = _config.GetValue<string>("Administrators").Split(",");
+            var administrators = config.GetValue<string>("Administrators").Split(",");
             foreach (var admin in administrators)
             {
                 MailAddress to = new MailAddress(admin);
@@ -85,7 +90,7 @@ namespace StudChoice.Controllers
 
                 m.Body = $"<body>" +
                     $"<h2>Check if this user is real and confirm registration</h2>" +
-                    $"<h3>Name: {name}</h3>"+
+                    $"<h3>Name: {name}</h3>" +
                     $"<h3>Surname: {surname}</h3>" +
                     $"<h3>Email: {email}</h3>" +                    
                     $"<h3>Transiction Code: {transiction_code}</h3>" +
