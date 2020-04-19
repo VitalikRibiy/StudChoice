@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StudChoice.DAL.Models
+namespace StudChoice.BLL.DTOs
 {
-    public class Cathedra : BaseModel
+    public class FacultyDTO
     {
+        public int Id { get; set; }
+
         public string DisplayName { get; set; }
 
         public string Description { get; set; }
 
         public int FacultyId { get; set; }
-        
-        public List<Professor> Professors { get; set; }
     }
 }

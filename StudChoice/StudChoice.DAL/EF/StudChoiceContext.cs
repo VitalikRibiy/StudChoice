@@ -7,9 +7,8 @@ namespace StudChoice.DAL.EF
 {
     public class StudChoiceContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public StudChoiceContext(DbContextOptions<StudChoiceContext> options)
-            : base(options)
-        {          
+        public StudChoiceContext(DbContextOptions<StudChoiceContext> options) : base(options)
+        {
         }
 
         public DbSet<Subject> Subjects { get; set; }

@@ -9,5 +9,7 @@ namespace StudChoice.DAL.Models
         public string DisplayName { get; set; }
 
         public string Description { get; set; }
+
+        public List<Cathedra> Cathedras { get; set; }
     }
 }

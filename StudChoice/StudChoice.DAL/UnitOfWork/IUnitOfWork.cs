@@ -8,6 +8,12 @@ namespace StudChoice.DAL.UnitOfWork
     {
         public ISubjectRepository SubjectRepository { get; }
 
+        public IFacultyRepository FacultyRepository { get; }
+
+        public IProfessorRepository ProfessorRepository { get; }
+
+        public ICathedraRepository CathedraRepository { get; }
+
         public Task SaveChangesAsync();
     }
 }
