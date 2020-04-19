@@ -8,19 +8,21 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using StudChoice.Models;
+using System.Text.Encodings.Web;
+using System.Web;
+
 
 namespace StudChoice.Controllers
 {
     public class AccountController : Controller
     {
         public RegisterModel Model { get; set; }
+        ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
+        public AccountModel AccountModel;
         public readonly UserManager<IdentityUser<int>> _userManager;
         public readonly SignInManager<IdentityUser<int>> _signInManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _config;
-
-        [TempData]
-        public string StatusMessage { get; set; }
         public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
         {
             _logger = logger;
@@ -33,21 +35,7 @@ namespace StudChoice.Controllers
         {
             return View();
         }
-        private static string CreateRandomPassword(int length = 15)
-        {
-            // Create a string of characters, numbers, special characters that allowed in the password  
-            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
-            Random random = new Random();
-            char[] chars = new char[length];
-            for (int i = 0; i < length; i++)
-            {
-                chars[i] = validChars[random.Next(0, validChars.Length)];
-            }
-            var password = new string(chars);
-            password += random.Next(111, 1111);
-            password += "_";
-            return password;
-        }
+
         [HttpPost]
         public async Task<ActionResult> VerifyMe(RegisterModel Model)
         {
@@ -55,17 +43,19 @@ namespace StudChoice.Controllers
             {
                 var name_surname = $"{Model.Name} {Model.Surname}";
                 var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
-                var randomGeneratedPassword = CreateRandomPassword();
-                if(_userManager.FindByEmailAsync(Model.Email)!=null)
+                var check_email = _userManager.FindByEmailAsync(Model.Email);
+                if (check_email.Result!= null)
                 {
                     ModelState.AddModelError(string.Empty, "There is an user with this email address");
+                    return View("VerifyMe");
                 }
-                var result = await _userManager.CreateAsync(user, randomGeneratedPassword);
+                //add checking if there is user with this transiction code
+                var result = await _userManager.CreateAsync(user, Model.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account.");
 
-                    SendEmail(Model.Name,Model.Surname,Model.Email,Model.TransictionNumber,randomGeneratedPassword);
+                    SendEmail(Model.Name,Model.Surname,Model.Email,Model.TransictionNumber);
                     return View("ToVerify");
                 }
                 foreach (var error in result.Errors)
@@ -73,13 +63,11 @@ namespace StudChoice.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
                 return View();                    
-            }
-
-            // If we got this far, something failed, redisplay form
+            }            
             return View();
         }
 
-        public void SendEmail(string name, string surname, string email,string transiction_code, string password)
+        public void SendEmail(string name, string surname, string email,string transiction_code)
         {
             MailAddress from = new MailAddress("studchoice.smtp@gmail.com", "StudChoice");
 
@@ -91,15 +79,17 @@ namespace StudChoice.Controllers
                 MailMessage m = new MailMessage(from, to);
 
                 m.Subject = $"Verify User {email}";
+                var http = HttpContext.Request.Scheme;
+                var request = HttpContext.Request.Host.ToUriComponent();
+                var url = http+ "://"+request + $"/Account/ConfirmEmailUser?email={email}";
 
                 m.Body = $"<body>" +
                     $"<h2>Check if this user is real and confirm registration</h2>" +
                     $"<h3>Name: {name}</h3>"+
                     $"<h3>Surname: {surname}</h3>" +
-                    $"<h3>Email: {email}</h3>" +
-                    $"<h3>Password: {password}</h3>" +
+                    $"<h3>Email: {email}</h3>" +                    
                     $"<h3>Transiction Code: {transiction_code}</h3>" +
-                    $"<a href='https://localhost:5001/Account/ConfirmEmailUser?email={email}&password={password}&transiction_code={transiction_code}'>VERIFY</a></body>";
+                    $"<a href='{url}'>VERIFY</a></body>";
 
                 m.IsBodyHtml = true;
 
@@ -111,8 +101,12 @@ namespace StudChoice.Controllers
                 smtp.Send(m);
             }            
         }
-        public ActionResult ConfirmEmailUser(string email, string password, string transiction_code)
+        public ActionResult ConfirmEmailUser(string email)
         {
+            var user = _userManager.FindByEmailAsync(email);
+            user.Result.EmailConfirmed = true;
+            _userManager.UpdateAsync(user.Result);
+
             MailAddress from = new MailAddress("studchoice.smtp@gmail.com", "StudChoice");
    
             MailAddress to = new MailAddress(email);
@@ -121,10 +115,19 @@ namespace StudChoice.Controllers
 
             m.Subject = $"Your account was verified!";
 
+            var callbackUrl = Url.Page(
+                    "/Home/Index",
+                    values:null,
+                    pageHandler: null,                    
+                    protocol: Request.Scheme);
+            
+            var http = HttpContext.Request.Scheme;
+            var request = HttpContext.Request.Host.ToUriComponent();
+            var url = http + "://" + request + "/Home/Login";
+
+
             m.Body = $"<body>" +
-                $"<h2>You can login using this credentials or change password after successfull login.</h2>" +
-                $"<h3>Transiction Code: {transiction_code}</h3>" +
-                $"<h3>Password: {password}</h3>";
+                $"<h2>Hi {user.Result.NormalizedUserName}. Your account was verified by administrators so now you can login to <a href='{url}'>StudChoice</a>.</h2>";
             m.IsBodyHtml = true;
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
@@ -150,10 +153,6 @@ namespace StudChoice.Controllers
             }
         }
 
-        public string Username { get; set; }
-        public AccountModel AccountModel;
-         
-
         private async Task LoadAsync(IdentityUser<int> user)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -178,8 +177,7 @@ namespace StudChoice.Controllers
 
             return View("ManageIndex", AccountModel);
         }
-
-        ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
+        
         public async Task<ActionResult> ChangePasswordAsync()
         {
             return View("ChangePassword", ChangePasswordModel);
@@ -197,14 +195,11 @@ namespace StudChoice.Controllers
                 {
                     changePasswordModel.StatusMessage = "You changed your password successfully!";
                     await _userManager.ChangePasswordAsync(currentUser, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
-
                     return View("ChangePassword", changePasswordModel);
                 }
-                ModelState.AddModelError(string.Empty, "You entered wrong current password.");
-                
+                ModelState.AddModelError(string.Empty, "You entered wrong current password.");                
                 return View("ChangePassword");
             }
-
             return View("ChangePassword");
         }
     }
