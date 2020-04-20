@@ -72,16 +72,10 @@ namespace StudChoice.Controllers
             return View();
         }
     
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public async Task<ActionResult> Subject(long id)
-        {
-            SubjectDTO subjectDTO = await SubjectService.GetAsync(1);
-            return View(subjectDTO);
         }
 
         protected override void Dispose(bool disposing)
