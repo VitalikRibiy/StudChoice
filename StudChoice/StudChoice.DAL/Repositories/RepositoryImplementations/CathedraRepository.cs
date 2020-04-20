@@ -4,9 +4,9 @@ using StudChoice.DAL.Repositories.RepositoryInterfaces;
 
 namespace StudChoice.DAL.Repositories.RepositoryImplementations
 {
-    class CathedrRepository : BaseRepository<Cathedra>, ICathedraRepository
+    public class CathedraRepository : BaseRepository<Cathedra>, ICathedraRepository
     {
-        public CathedrRepository(StudChoiceContext dbContext) : base(dbContext)
+        public CathedraRepository(StudChoiceContext dbContext) : base(dbContext)
         {
         }
     }

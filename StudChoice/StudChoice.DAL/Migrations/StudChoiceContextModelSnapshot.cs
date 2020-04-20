@@ -165,7 +165,12 @@ namespace StudChoice.DAL.Migrations
                     b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
+                    b.Property<long?>("FacultyId1")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FacultyId1");
 
                     b.ToTable("Cathedras");
                 });
@@ -198,6 +203,9 @@ namespace StudChoice.DAL.Migrations
                     b.Property<int>("CathedraId")
                         .HasColumnType("int");
 
+                    b.Property<long?>("CathedraId1")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
@@ -211,6 +219,8 @@ namespace StudChoice.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CathedraId1");
 
                     b.ToTable("Professors");
                 });
@@ -365,6 +375,20 @@ namespace StudChoice.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("StudChoice.DAL.Models.Cathedra", b =>
+                {
+                    b.HasOne("StudChoice.DAL.Models.Faculty", null)
+                        .WithMany("Cathedras")
+                        .HasForeignKey("FacultyId1");
+                });
+
+            modelBuilder.Entity("StudChoice.DAL.Models.Professor", b =>
+                {
+                    b.HasOne("StudChoice.DAL.Models.Cathedra", null)
+                        .WithMany("Professors")
+                        .HasForeignKey("CathedraId1");
                 });
 #pragma warning restore 612, 618
         }

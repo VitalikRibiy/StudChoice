@@ -10,8 +10,8 @@ using StudChoice.DAL.EF;
 namespace StudChoice.DAL.Migrations
 {
     [DbContext(typeof(StudChoiceContext))]
-    [Migration("20200417115152_test")]
-    partial class test
+    [Migration("20200420145038_lol")]
+    partial class lol
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,17 +158,23 @@ namespace StudChoice.DAL.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("FacultyId")
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("FacultyId1")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+                    b.HasIndex("FacultyId1");
 
-                    b.ToTable("Cathedra");
+                    b.ToTable("Cathedras");
                 });
 
             modelBuilder.Entity("StudChoice.DAL.Models.Faculty", b =>
@@ -186,7 +192,7 @@ namespace StudChoice.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faculty");
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("StudChoice.DAL.Models.Professor", b =>
@@ -196,9 +202,29 @@ namespace StudChoice.DAL.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CathedraId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("CathedraId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Professor");
+                    b.HasIndex("CathedraId1");
+
+                    b.ToTable("Professors");
                 });
 
             modelBuilder.Entity("StudChoice.DAL.Models.Subject", b =>
@@ -208,8 +234,8 @@ namespace StudChoice.DAL.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("CathedraId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CathedraId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -218,17 +244,13 @@ namespace StudChoice.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ProfessorId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CathedraId");
-
-                    b.HasIndex("ProfessorId");
 
                     b.ToTable("Subjects");
                 });
@@ -359,20 +381,16 @@ namespace StudChoice.DAL.Migrations
 
             modelBuilder.Entity("StudChoice.DAL.Models.Cathedra", b =>
                 {
-                    b.HasOne("StudChoice.DAL.Models.Faculty", "Faculty")
-                        .WithMany()
-                        .HasForeignKey("FacultyId");
+                    b.HasOne("StudChoice.DAL.Models.Faculty", null)
+                        .WithMany("Cathedras")
+                        .HasForeignKey("FacultyId1");
                 });
 
-            modelBuilder.Entity("StudChoice.DAL.Models.Subject", b =>
+            modelBuilder.Entity("StudChoice.DAL.Models.Professor", b =>
                 {
-                    b.HasOne("StudChoice.DAL.Models.Cathedra", "Cathedra")
-                        .WithMany()
-                        .HasForeignKey("CathedraId");
-
-                    b.HasOne("StudChoice.DAL.Models.Professor", "Professor")
-                        .WithMany()
-                        .HasForeignKey("ProfessorId");
+                    b.HasOne("StudChoice.DAL.Models.Cathedra", null)
+                        .WithMany("Professors")
+                        .HasForeignKey("CathedraId1");
                 });
 #pragma warning restore 612, 618
         }

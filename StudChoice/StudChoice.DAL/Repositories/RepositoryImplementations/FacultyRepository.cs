@@ -4,7 +4,7 @@ using StudChoice.DAL.Repositories.RepositoryInterfaces;
 
 namespace StudChoice.DAL.Repositories.RepositoryImplementations
 {
-    class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
+    public class FacultyRepository : BaseRepository<Faculty>, IFacultyRepository
     {
         public FacultyRepository(StudChoiceContext dbContext) : base(dbContext)
         {

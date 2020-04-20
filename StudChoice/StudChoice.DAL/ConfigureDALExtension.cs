@@ -25,6 +25,9 @@ namespace StudChoice.DAL
         private static void ConfigureRepositories(this IServiceCollection services)
         {
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<IFacultyRepository, FacultyRepository>();
+            services.AddScoped<IProfessorRepository, ProfessorRepository>();
+            services.AddScoped<ICathedraRepository, CathedraRepository>();
         }
 
         private static void ConfigureDbContext(
