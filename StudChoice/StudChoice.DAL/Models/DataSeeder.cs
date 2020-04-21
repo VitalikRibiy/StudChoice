@@ -10,7 +10,9 @@ namespace StudChoice.Areas.Identity.Data
 {
     public static class DataSeeder
     {
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task SeedEssentialAsync(this IApplicationBuilder app)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -20,6 +22,7 @@ namespace StudChoice.Areas.Identity.Data
         public static async Task SeedRolesAsync(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
+
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
             await CreateRoleIfNotExists(roleManager, new IdentityRole<int>("Admin"));
@@ -132,42 +135,106 @@ namespace StudChoice.Areas.Identity.Data
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
 
-            if (context.Subjects.Any())
-            {
-                return;
-            }
             #region Subjects
 
-            var Subject1 = new Subject()
+            if (!context.Subjects.Any())
             {
-                name = "Subject 1",
-                description = "Description 1",
-                type = "ДВВС"
-            };
+                var Subject1 = new Subject()
+                {
+                    Name = "Subject 1",
+                    Description = "Description 1",
+                    Type = "ДВВС"
+                };
 
-            var Subject2 = new Subject()
+                var Subject2 = new Subject()
+                {
+                    Name = "Subject 2",
+                    Description = "Description 2",
+                    Type = "ДВ"
+                };
+
+                var Subject3 = new Subject()
+                {
+                    Name = "Subject 3",
+                    Description = "Description 3",
+                    Type = "ДВВС"
+                };
+
+                var Subject4 = new Subject()
+                {
+                    Name = "Subject 4",
+                    Description = "Description 4",
+                    Type = "ДВ"
+                };
+
+                context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Faculties
+
+            if (!context.Faculties.Any())
             {
-                name = "Subject 2",
-                description = "Description 2",
-                type = "ДВ"
-            };
+                for(int i = 1; i <= 5; i++)
+                {
+                    var faculty = new Faculty()
+                    {
+                        DisplayName = $"Faculty{i}",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna."                        
+                    };
 
-            var Subject3 = new Subject()
+                    context.Faculties.Add(faculty);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Cathedras
+
+            if (!context.Cathedras.Any())
             {
-                name = "Subject 3",
-                description = "Description 3",
-                type = "ДВВС"
-            };
+                for (int i = 1; i <= 5; i++)
+                {
+                    var cathedra = new Cathedra()
+                    {
+                        DisplayName = $"Cathedra{i}",
+                        Description = $"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna.",
+                        FacultyId = i
+                    };
 
-            var Subject4 = new Subject()
+                    context.Cathedras.Add(cathedra);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Professors
+
+            if (!context.Professors.Any())
             {
-                name = "Subject 4",
-                description = "Description 4",
-                type = "ДВ"
-            };
+                for (int i = 1; i <= 5; i++)
+                {
+                    var professor = new Professor()
+                    {
+                       FirstName = $"FirstName{i}",
+                       LastName = $"LastName{i}",
+                       MiddleName = $"MiddleName{i}",
+                       FacultyId = i,
+                       CathedraId = i
+                    };
 
-            context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
-            context.SaveChanges();
+                    context.Professors.Add(professor);
+                }
+
+                context.SaveChanges();
+            }
+
             #endregion
         }
     }

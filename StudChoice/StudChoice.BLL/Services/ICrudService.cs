@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace StudChoice.BLL.Services
 {
-    public interface ICrudService<TEntityDTO> where TEntityDTO: class, new()
+    public interface ICrudService<TEntityDTO> where TEntityDTO : class, new()
     {
         Task<TEntityDTO> GetAsync(long id);
 

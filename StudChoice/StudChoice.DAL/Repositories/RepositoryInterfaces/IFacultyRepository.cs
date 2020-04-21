@@ -2,7 +2,7 @@
 
 namespace StudChoice.DAL.Repositories.RepositoryInterfaces
 {
-    public interface ISubjectRepository : IBaseRepository<Subject>
+    public interface IFacultyRepository : IBaseRepository<Faculty>
     {
     }
 }

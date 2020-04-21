@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudChoice.DAL.EF;
-using StudChoice.DAL.Models;
-using StudChoice.DAL.Repositories;
-using StudChoice.DAL.Repositories.RepositoryImplementations;
+﻿using StudChoice.DAL.EF;
 using StudChoice.DAL.Repositories.RepositoryInterfaces;
 using System;
 using System.Threading.Tasks;
@@ -11,22 +7,36 @@ namespace StudChoice.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private StudChoiceContext _context;
-        
+        private readonly StudChoiceContext context;
+
+        private bool disposed = false;
+
         public ISubjectRepository SubjectRepository { get; }
 
-        
+        public IFacultyRepository FacultyRepository { get; }
+
+        public IProfessorRepository ProfessorRepository { get; }
+
+        public ICathedraRepository CathedraRepository { get; }
+
         public UnitOfWork(
-            StudChoiceContext context,
-            ISubjectRepository subjectRepository)
+            StudChoiceContext contextVar,
+            ISubjectRepository subjectRepository,
+            IFacultyRepository facultyRepository,
+            IProfessorRepository professorRepository,
+            ICathedraRepository cathedraRepository
+        )
         {
-            _context = context;
+            context = contextVar;
             SubjectRepository = subjectRepository;
+            FacultyRepository = facultyRepository;
+            ProfessorRepository = professorRepository;
+            CathedraRepository = cathedraRepository;
         }
 
         public Task SaveChangesAsync()
         {
-            return _context.SaveChangesAsync();
+            return context.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -35,16 +45,15 @@ namespace StudChoice.DAL.UnitOfWork
             GC.SuppressFinalize(this);
         }
 
-        private bool disposed = false;
-
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    context.Dispose();
                 }
+
                 this.disposed = true;
             }
         }
