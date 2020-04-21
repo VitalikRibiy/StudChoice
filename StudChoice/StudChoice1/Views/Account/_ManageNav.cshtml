@@ -1,0 +1,7 @@
+﻿@using StudChoice.Models;
+
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-action="Manage">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-action="ChangePassword">Password</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-action="SetEmalNotification">Set email notification</a></li>    
+</ul>
