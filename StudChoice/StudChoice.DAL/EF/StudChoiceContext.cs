@@ -27,7 +27,5 @@ namespace StudChoice.DAL.EF
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
-
-        public DbSet<Subject> Subjects { get; set; }
     }
 }
