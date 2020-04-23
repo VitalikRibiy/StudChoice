@@ -10,7 +10,7 @@ using StudChoice.DAL.EF;
 namespace StudChoice.DAL.Migrations
 {
     [DbContext(typeof(StudChoiceContext))]
-    [Migration("20200420145038_lol")]
+    [Migration("20200421214214_lol")]
     partial class lol
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
