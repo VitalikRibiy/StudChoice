@@ -64,11 +64,5 @@ namespace StudChoice.BLL.Services.Implementations
             var entities = await unitOfWork.SubjectRepository.GetAllAsync();
             return mapper.Map<IEnumerable<SubjectDTO>>(entities);
         }
-
-        public async Task<IEnumerable<SubjectDTO>> GetAllAsync()
-        {
-            var entities = await _unitOfWork.SubjectRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<SubjectDTO>>(entities);
-        }
     }
 }

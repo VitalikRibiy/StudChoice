@@ -10,9 +10,7 @@ namespace StudChoice.Areas.Identity.Data
 {
     public static class DataSeeder
     {
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task SeedEssentialAsync(this IApplicationBuilder app)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -57,14 +55,14 @@ namespace StudChoice.Areas.Identity.Data
                 },
                 "user", "User");
             await SeedUserAsync(userManager,
-    new User()
-    {
-        Name = "Name",
-        Surname = "Surname",
-        UserName = "admin1",
-        Email = "admin1@email.com",
-    },
-    "admin1", "Admin");
+            new User()
+            {
+                Name = "Name",
+                Surname = "Surname",
+                UserName = "admin1",
+                Email = "admin1@email.com",
+            },
+            "admin1", "Admin");
 
             await SeedUserAsync(
                 userManager,
