@@ -36,7 +36,9 @@ namespace StudChoice.BLL.Services.Implementations
 
         public async Task<CathedraDTO> GetAsync(long id)
         {
-            return mapper.Map<CathedraDTO>(await unitOfWork.CathedraRepository.GetByIdAsync(id));
+            var cathedra = mapper.Map<CathedraDTO>(await unitOfWork.CathedraRepository.GetByIdAsync(id));
+            cathedra.FacultyName = (await unitOfWork.FacultyRepository.GetByIdAsync(cathedra.FacultyId)).DisplayName;
+            return cathedra;
         }
 
         public async Task<IEnumerable<CathedraDTO>> GetRangeAsync(uint offset, uint amount)
@@ -62,7 +64,15 @@ namespace StudChoice.BLL.Services.Implementations
         public async Task<IEnumerable<CathedraDTO>> GetAllAsync()
         {
             var entities = await unitOfWork.CathedraRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<CathedraDTO>>(entities);
+
+            var cathedras = mapper.Map<IEnumerable<CathedraDTO>>(entities);
+
+            foreach (var cathedra in cathedras)
+            {
+                cathedra.FacultyName = (await unitOfWork.FacultyRepository.GetByIdAsync(cathedra.FacultyId)).DisplayName;
+            }
+
+            return cathedras;
         }
     }
 }

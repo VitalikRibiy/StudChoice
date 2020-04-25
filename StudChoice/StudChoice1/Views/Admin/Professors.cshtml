@@ -1,0 +1,68 @@
+﻿@model List<StudChoice.BLL.DTOs.ProfessorDTO>
+
+@{
+    ViewData["Title"] = "Professors";
+}
+
+<div class="bg-primary text-white text-center"><h4>Список професорів</h4></div>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Users">Користувачі</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Subjects">Предмети</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Faculties">Факультети</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Cathedras">Кафедри</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Professors">Професори</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid my-2">
+    <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddProfessor"><i class="fas fa-plus"></i></a>
+</div>
+
+<table class="table table-sm table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Ім'я</th>
+            <th scope="col">Прізвище</th>
+            <th scope="col">По Батькові</th>
+            <th scope="col">Факультет</th>
+            <th scope="col">Кафедра</th>
+            <th scope="col" class="text-center">Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr><td colspan="3" class="text-center">There are no professors</td></tr>
+        }
+        else
+        {
+            foreach (var professor in Model)
+            {
+                <tr>
+                    <td>@professor.Id</td>
+                    <td>@professor.FirstName</td>
+                    <td>@professor.LastName</td>
+                    <td>@professor.MiddleName</td>
+                    <td>@professor.FacultyName</td>
+                    <td>@professor.CathedraName</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteFaculty" asp-all-route-data="@(new Dictionary<string, string> { {"professorId", professor.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

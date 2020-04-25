@@ -18,6 +18,10 @@ namespace StudChoice.BLL.DTOs
 
         public int FacultyId { get; set; }
 
+        public string FacultyName { get; set; }
+
         public int CathedraId { get; set; }
+
+        public string CathedraName { get; set; }
     }
 }
