@@ -1,0 +1,45 @@
+﻿@using StudChoice.BLL.DTOs
+
+@model StudChoice.BLL.DTOs.ProfessorDTO
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="FirstName">Ім'я</label>
+        <input asp-for="FirstName" class="form-control" required value="@Model.FirstName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName">Прізвище</label>
+        <input asp-for="LastName" class="form-control" required value="@Model.LastName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="MiddleName">По Батькові</label>
+        <input asp-for="MiddleName" class="form-control" required value="@Model.MiddleName" />
+    </div>
+    <div class="form-group">
+            <label asp-for="FacultyId">Факультет</label>
+            <select asp-for="FacultyId" class="form-control" required>
+                @foreach (var faculty in (TempData["Faculties"] as List<FacultyDTO>))
+                {
+                    <option value="@faculty.Id">@faculty.DisplayName</option>
+
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="CathedraId">Факультет</label>
+            <select asp-for="CathedraId" class="form-control" required>
+                @foreach (var cathedra in (TempData["Cathedras"] as List<CathedraDTO>))
+                {
+                    if (cathedra.FacultyId == Model.FacultyId)
+                    {
+                        <option value="@cathedra.Id">@cathedra.DisplayName</option>
+                    }
+                }
+            </select>
+        </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+        <a asp-action="Index" class="btn btn-danger">Скасувати</a>
+    </div>
+</form>

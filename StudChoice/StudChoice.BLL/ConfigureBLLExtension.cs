@@ -24,6 +24,9 @@ namespace StudChoice.BLL
         private static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<ISubjectService, SubjectService>();
+            services.AddScoped<IFacultyService, FacultyService>();
+            services.AddScoped<IProfessorService, ProfessorService>();
+            services.AddScoped<ICathedraService, CathedraService>();
         }
 
         private static void ConfigureAutoMapper(this IServiceCollection services)
@@ -32,6 +35,9 @@ namespace StudChoice.BLL
             {
                 c.AddProfile(new SubjectProfile());
                 c.AddProfile(new UserProfile());
+                c.AddProfile(new FacultyProfile());
+                c.AddProfile(new ProfessorProfile());
+                c.AddProfile(new CathedraProfile());
             }).CreateMapper());
         }
     }
