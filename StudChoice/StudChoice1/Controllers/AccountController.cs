@@ -10,7 +10,8 @@ using Microsoft.Extensions.Configuration;
 using StudChoice.Models;
 using System.Text.Encodings.Web;
 using System.Web;
-
+using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace StudChoice.Controllers
 {
@@ -19,20 +20,17 @@ namespace StudChoice.Controllers
         public RegisterModel Model { get; set; }
         ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
         public AccountModel AccountModel;
-        public readonly UserManager<IdentityUser<int>> _userManager;
-        public readonly SignInManager<IdentityUser<int>> _signInManager;
-        private readonly ILogger<AccountController> _logger;
-        private readonly IConfiguration _config;
+        public readonly UserManager<IdentityUser<int>> userManager;
+        public readonly SignInManager<IdentityUser<int>> signInManager;
+        private readonly ILogger<AccountController> logger;
+        private readonly IConfiguration config;
         public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
         {
-            _logger = logger;
-            _userManager = userManager;
-            _config = config;
-            _signInManager = signInManager;
+            this.logger = logger;
+            this.userManager = userManager;
+            this.config = config;
+            this.signInManager = signInManager;
         }
-
-        [BindProperty]
-        public RegisterModel Model { get; set; }
 
         [HttpGet]
         public ActionResult VerifyMe()
@@ -46,14 +44,14 @@ namespace StudChoice.Controllers
             {
                 var name_surname = $"{Model.Name} {Model.Surname}";
                 var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
-                var check_email = _userManager.FindByEmailAsync(Model.Email);
+                var check_email = userManager.FindByEmailAsync(Model.Email);
                 if (check_email.Result!= null)
                 {
                     ModelState.AddModelError(string.Empty, "There is an user with this email address");
                     return View("VerifyMe");
                 }
                 //add checking if there is user with this transiction code
-                var result = await _userManager.CreateAsync(user, Model.Password);
+                var result = await userManager.CreateAsync(user, Model.Password);
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account.");
@@ -108,9 +106,9 @@ namespace StudChoice.Controllers
         }
         public ActionResult ConfirmEmailUser(string email)
         {
-            var user = _userManager.FindByEmailAsync(email);
+            var user = userManager.FindByEmailAsync(email);
             user.Result.EmailConfirmed = true;
-            _userManager.UpdateAsync(user.Result);
+            userManager.UpdateAsync(user.Result);
 
             MailAddress from = new MailAddress("studchoice.smtp@gmail.com", "StudChoice");
    
@@ -146,8 +144,8 @@ namespace StudChoice.Controllers
 
         public ActionResult LogOut(string returnUrl = null)
         {
-            _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            signInManager.SignOutAsync();
+            logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
@@ -160,7 +158,7 @@ namespace StudChoice.Controllers
 
         private async Task LoadAsync(IdentityUser<int> user)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+            var currentUser = await userManager.GetUserAsync(User);
 
             AccountModel = new AccountModel
             {
@@ -172,10 +170,10 @@ namespace StudChoice.Controllers
 
         public async Task<ActionResult> Manage()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -192,14 +190,14 @@ namespace StudChoice.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePasswordAsync(ChangePasswordModel changePasswordModel)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+            var currentUser = await userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
-                var checkPassword = _userManager.CheckPasswordAsync(currentUser, changePasswordModel.CurrentPassword);
+                var checkPassword = userManager.CheckPasswordAsync(currentUser, changePasswordModel.CurrentPassword);
                 if (await checkPassword)
                 {
                     changePasswordModel.StatusMessage = "You changed your password successfully!";
-                    await _userManager.ChangePasswordAsync(currentUser, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+                    await userManager.ChangePasswordAsync(currentUser, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
                     return View("ChangePassword", changePasswordModel);
                 }
                 ModelState.AddModelError(string.Empty, "You entered wrong current password.");                

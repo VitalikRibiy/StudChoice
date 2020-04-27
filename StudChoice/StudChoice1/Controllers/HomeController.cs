@@ -13,17 +13,17 @@ namespace StudChoice.Controllers
 {
     public class HomeController : Controller
     {
-        public readonly UserManager<User> UserManager;
-        public readonly SignInManager<User> SignInManager;
-        public ISubjectService SubjectService;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly ISubjectService subjectService;
         private readonly ILogger<HomeController> logger;   
        
     public HomeController(ILogger<HomeController> loggerVar, ISubjectService subjVar, UserManager<User> userManagerVar, SignInManager<User> signInManagerVar)
         {
             logger = loggerVar;
-            UserManager = userManagerVar;
-            SignInManager = signInManagerVar;
-            SubjectService = subjVar;
+            userManager = userManagerVar;
+            signInManager = signInManagerVar;
+            subjectService = subjVar;
         }
 
         [BindProperty]
@@ -52,7 +52,7 @@ namespace StudChoice.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(Input.TransictionNumber);
+                var user = await userManager.FindByNameAsync(Input.TransictionNumber);
                 if (user != null)
                 {
                     if (!user.EmailConfirmed)
@@ -61,12 +61,12 @@ namespace StudChoice.Controllers
                         return View();
                     }
                 }
-                var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     try
                     {
-                        await SignInManager.SignInAsync(user, false);
+                        await signInManager.SignInAsync(user, false);
                         return LocalRedirect(returnUrl);
                     }
                     catch
@@ -88,7 +88,7 @@ namespace StudChoice.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            SubjectService.Dispose();
+            subjectService.Dispose();
             base.Dispose(disposing);
         }
     }
