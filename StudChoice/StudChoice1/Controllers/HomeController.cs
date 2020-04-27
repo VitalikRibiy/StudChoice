@@ -52,8 +52,16 @@ namespace StudChoice.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(Input.TransictionNumber);
-                var result = await SignInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByNameAsync(Input.TransictionNumber);
+                if (user != null)
+                {
+                    if (!user.EmailConfirmed)
+                    {
+                        ModelState.AddModelError(string.Empty, "Your account is not verified. You will be able to login after administrator confirm you.");
+                        return View();
+                    }
+                }
+                var result = await _signInManager.PasswordSignInAsync(Input.TransictionNumber, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     try
