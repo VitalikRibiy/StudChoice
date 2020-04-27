@@ -36,7 +36,11 @@ namespace StudChoice.BLL.Services.Implementations
 
         public async Task<SubjectDTO> GetAsync(long id)
         {
-            return mapper.Map<SubjectDTO>(await unitOfWork.SubjectRepository.GetByIdAsync(id));
+            var subject = mapper.Map<SubjectDTO>(await unitOfWork.SubjectRepository.GetByIdAsync(id));
+            subject.FacultyName = (await unitOfWork.FacultyRepository.GetByIdAsync(subject.FacultyId)).DisplayName;
+            subject.CathedraName = (await unitOfWork.CathedraRepository.GetByIdAsync(subject.CathedraId)).DisplayName;
+            subject.ProfessorFullName = (await unitOfWork.ProfessorRepository.GetByIdAsync(subject.ProfessorId)).FullName;
+            return subject;
         }
 
         public async Task<IEnumerable<SubjectDTO>> GetRangeAsync(uint offset, uint amount)
@@ -62,7 +66,17 @@ namespace StudChoice.BLL.Services.Implementations
         public async Task<IEnumerable<SubjectDTO>> GetAllAsync()
         {
             var entities = await unitOfWork.SubjectRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<SubjectDTO>>(entities);
+
+            var subjectDTOs = mapper.Map<IEnumerable<SubjectDTO>>(entities);
+
+            foreach (var subject in subjectDTOs)
+            {
+                subject.FacultyName = (await unitOfWork.FacultyRepository.GetByIdAsync(subject.FacultyId)).DisplayName;
+                subject.CathedraName = (await unitOfWork.CathedraRepository.GetByIdAsync(subject.CathedraId)).DisplayName;
+                subject.ProfessorFullName = (await unitOfWork.ProfessorRepository.GetByIdAsync(subject.ProfessorId)).FullName;
+            }
+
+            return subjectDTOs;
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@using StudChoice.BLL.DTOs
+
+@model StudChoice.BLL.DTOs.CathedraDTO
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="DisplayName">Назва Кафедри</label>
+        <input asp-for="DisplayName" class="form-control" required value="@Model.DisplayName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Опис</label>
+        <input asp-for="Description" class="form-control" required value="@Model.Description" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FacultyId">Факультет</label>
+        <select asp-for="FacultyId" class="form-control" required>
+            @foreach(var faculty in (TempData["Faculties"] as List<FacultyDTO>))
+            {
+                <option value="@faculty.Id">@faculty.DisplayName</option>        
+            }
+        </select>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+        <a asp-action="Index" class="btn btn-danger">Скасувати</a>
+    </div>
+</form>
+
