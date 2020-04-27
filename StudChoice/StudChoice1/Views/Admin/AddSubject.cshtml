@@ -1,24 +1,55 @@
-﻿@model StudChoice.BLL.DTOs.SubjectDTO
+﻿@using StudChoice.BLL.DTOs
 
-<form method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label asp-for="Name">Назва</label>
-        <input asp-for="Name" class="form-control" required value="@Model.Name" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Description">Опис</label>
-        <input asp-for="Description" class="form-control" required value="@Model.Description" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Type">Тип предмету</label>
-        <select asp-for="Type" class="form-control" required>
-            <option value="ДВВС">ДВВС</option>
-            <option value="ДВ" selected>CДВ</option>
-        </select>
-    </div>
-    <div class="text-center">
-        <button class="btn btn-primary" type="submit">Зберегти</button>
-        <a asp-action="Index" class="btn btn-danger">Скасувати</a>
-    </div>
-</form>
+@model StudChoice.BLL.DTOs.SubjectDTO
+
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name">Назва</label>
+            <input asp-for="Name" class="form-control" required value="@Model.Name" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">Опис</label>
+            <input asp-for="Description" class="form-control" required value="@Model.Description" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Type">Тип предмету</label>
+            <select asp-for="Type" class="form-control" required>
+                <option value="ДВВС">ДВВС</option>
+                <option value="ДВ" selected>ДВ</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="FacultyId">Факультет</label>
+            <select asp-for="FacultyId" class="form-control" required>
+                @foreach (var faculty in (TempData["Faculties"] as List<FacultyDTO>))
+                {
+                    <option value="@faculty.Id">@faculty.DisplayName</option>
+
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            @*need to change*@
+            <label asp-for="CathedraId">Кафедра</label>
+            <select asp-for="CathedraId" class="form-control" required>
+                @foreach (var cathedra in (TempData["Cathedras"] as List<CathedraDTO>))
+                {
+                    <option value="@cathedra.Id">@cathedra.DisplayName</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProfessorId">Професор</label>
+            <select asp-for="ProfessorId" class="form-control" required>
+                @foreach (var professor in (TempData["Professors"] as List<ProfessorDTO>))
+                {
+                    <option value="@professor.Id">@professor.FullName</option>
+                }
+            </select>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Зберегти</button>
+            <a asp-action="Index" class="btn btn-danger">Скасувати</a>
+        </div>
+    </form>

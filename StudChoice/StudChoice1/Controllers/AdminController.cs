@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using StudChoice.DAL.Models;
+using System;
 
 namespace StudChoice.Controllers
 {
@@ -265,6 +266,36 @@ namespace StudChoice.Controllers
             }
 
             return View(subjectDTOs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddSubject()
+        {
+            var subjectDTO = new SubjectDTO();
+
+            var faculties = await facultyService.GetAllAsync();
+            TempData["Faculties"] = faculties;
+            var cathedras = await cathedraService.GetAllAsync();
+            TempData["Cathedras"] = cathedras;
+            var professors = await professorService.GetAllAsync();
+            TempData["Professors"] = professors;
+
+            return View(subjectDTO);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubject(SubjectDTO subjectDTO)
+        {
+            subjectDTO.FacultyName = (await facultyService.GetAsync(subjectDTO.FacultyId)).DisplayName;
+
+            subjectDTO.CathedraName = (await cathedraService.GetAsync(subjectDTO.CathedraId)).DisplayName;
+
+            subjectDTO.ProfessorFullName = (await professorService.GetAsync(subjectDTO.CathedraId)).FullName;
+
+            await subjectService.CreateAsync(subjectDTO);
+
+            return RedirectToAction("Subjects");
         }
 
         public async Task<IActionResult> DeleteSubject(int subjectId)

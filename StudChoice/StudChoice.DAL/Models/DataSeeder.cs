@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StudChoice.DAL.EF;
 using StudChoice.DAL.Models;
@@ -133,44 +134,6 @@ namespace StudChoice.Areas.Identity.Data
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
 
-            #region Subjects
-
-            if (!context.Subjects.Any())
-            {
-                var Subject1 = new Subject()
-                {
-                    Name = "Subject 1",
-                    Description = "Description 1",
-                    Type = "ДВВС"
-                };
-
-                var Subject2 = new Subject()
-                {
-                    Name = "Subject 2",
-                    Description = "Description 2",
-                    Type = "ДВ"
-                };
-
-                var Subject3 = new Subject()
-                {
-                    Name = "Subject 3",
-                    Description = "Description 3",
-                    Type = "ДВВС"
-                };
-
-                var Subject4 = new Subject()
-                {
-                    Name = "Subject 4",
-                    Description = "Description 4",
-                    Type = "ДВ"
-                };
-
-                context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
-                context.SaveChanges();
-            }
-
-            #endregion
-
             #region Faculties
 
             if (!context.Faculties.Any())
@@ -230,6 +193,56 @@ namespace StudChoice.Areas.Identity.Data
                     context.Professors.Add(professor);
                 }
 
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Subjects
+
+            if (!context.Subjects.Any())
+            {
+                var Subject1 = new Subject()
+                {
+                    Name = "Subject 1",
+                    Description = "Description 1",
+                    Type = "ДВВС",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id
+            };
+
+                var Subject2 = new Subject()
+                {
+                    Name = "Subject 2",
+                    Description = "Description 2",
+                    Type = "ДВ",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                };
+
+                var Subject3 = new Subject()
+                {
+                    Name = "Subject 3",
+                    Description = "Description 3",
+                    Type = "ДВВС",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                };
+
+                var Subject4 = new Subject()
+                {
+                    Name = "Subject 4",
+                    Description = "Description 4",
+                    Type = "ДВ",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                };
+
+                context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
                 context.SaveChanges();
             }
 
