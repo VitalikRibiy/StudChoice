@@ -22,5 +22,14 @@ namespace StudChoice.DAL.Models
 
         [Display(Name = "Faculty")]
         public long FacultyId { get; set; }
+
+        [Display(Name = "MinStudents")]
+        public int MinStudents { get; set; }
+
+        [Display(Name = "MaxStudents")]
+        public int MaxStudents { get; set; }
+
+        [Display(Name = "AssignedUsers")]
+        public int AssignedStudentsCount { get; set; }
     }
 }

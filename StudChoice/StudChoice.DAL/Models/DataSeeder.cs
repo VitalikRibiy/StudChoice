@@ -209,8 +209,11 @@ namespace StudChoice.Areas.Identity.Data
                     Type = "ДВВС",
                     ProfessorId = context.Professors.FirstOrDefault().Id,
                     FacultyId = context.Faculties.FirstOrDefault().Id,
-                    CathedraId = context.Cathedras.FirstOrDefault().Id
-            };
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 15,
+                    MaxStudents = 60,
+                    AssignedStudentsCount = 0
+                };
 
                 var Subject2 = new Subject()
                 {
@@ -219,7 +222,10 @@ namespace StudChoice.Areas.Identity.Data
                     Type = "ДВ",
                     ProfessorId = context.Professors.FirstOrDefault().Id,
                     FacultyId = context.Faculties.FirstOrDefault().Id,
-                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 20,
+                    MaxStudents = 60,
+                    AssignedStudentsCount = 0
                 };
 
                 var Subject3 = new Subject()
@@ -229,7 +235,10 @@ namespace StudChoice.Areas.Identity.Data
                     Type = "ДВВС",
                     ProfessorId = context.Professors.FirstOrDefault().Id,
                     FacultyId = context.Faculties.FirstOrDefault().Id,
-                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 30,
+                    MaxStudents = 90,
+                    AssignedStudentsCount = 0
                 };
 
                 var Subject4 = new Subject()
@@ -239,7 +248,10 @@ namespace StudChoice.Areas.Identity.Data
                     Type = "ДВ",
                     ProfessorId = context.Professors.FirstOrDefault().Id,
                     FacultyId = context.Faculties.FirstOrDefault().Id,
-                    CathedraId = context.Cathedras.FirstOrDefault().Id
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 20,
+                    MaxStudents = 80,
+                    AssignedStudentsCount = 0
                 };
 
                 context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);

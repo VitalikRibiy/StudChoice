@@ -26,5 +26,11 @@ namespace StudChoice.BLL.DTOs
         public int ProfessorId { get; set; }
 
         public string ProfessorFullName { get; set; }
+
+        public int MinStudents { get; set; }
+
+        public int MaxStudents { get; set; }
+
+        public int AssignedStudentsCount { get; set; }
     }
 }

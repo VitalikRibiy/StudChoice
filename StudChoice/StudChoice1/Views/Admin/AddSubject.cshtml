@@ -20,6 +20,14 @@
             </select>
         </div>
         <div class="form-group">
+            <label asp-for="MinStudents">Мінімальна кількість студентів</label>
+            <input asp-for="MinStudents" class="form-control" required value="@Model.MinStudents" />
+        </div>
+        <div class="form-group">
+            <label asp-for="MaxStudents">Максимальна кількість студентів</label>
+            <input asp-for="MaxStudents" class="form-control" required value="@Model.MaxStudents" />
+        </div>
+        <div class="form-group">
             <label asp-for="FacultyId">Факультет</label>
             <select asp-for="FacultyId" class="form-control" required>
                 @foreach (var faculty in (TempData["Faculties"] as List<FacultyDTO>))

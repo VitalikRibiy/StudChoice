@@ -37,6 +37,7 @@
             <th scope="col">Назва</th>
             <th scope="col">Опис</th>
             <th scope="col">Тип</th>
+            <th scope="col">Кількість студентів</th>
             <th scope="col">Факультет</th>
             <th scope="col">Кафедра</th>
             <th scope="col">Викладач</th>
@@ -78,6 +79,7 @@
                 </select>
             </form>
         </td>
+        <td>@subject.AssignedStudentsCount / @subject.MaxStudents</td>
         <td>@subject.FacultyName</td>
         <td>@subject.CathedraName</td>
         <td>@subject.ProfessorFullName</td>
