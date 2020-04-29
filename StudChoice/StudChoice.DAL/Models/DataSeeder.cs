@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StudChoice.DAL.EF;
 using StudChoice.DAL.Models;
@@ -10,9 +11,7 @@ namespace StudChoice.Areas.Identity.Data
 {
     public static class DataSeeder
     {
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task SeedEssentialAsync(this IApplicationBuilder app)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             app.SeedRolesAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             app.SeedUsersAsync().ConfigureAwait(false).GetAwaiter().GetResult();
@@ -57,14 +56,14 @@ namespace StudChoice.Areas.Identity.Data
                 },
                 "user", "User");
             await SeedUserAsync(userManager,
-    new User()
-    {
-        Name = "Name",
-        Surname = "Surname",
-        UserName = "admin1",
-        Email = "admin1@email.com",
-    },
-    "admin1", "Admin");
+            new User()
+            {
+                Name = "Name",
+                Surname = "Surname",
+                UserName = "admin1",
+                Email = "admin1@email.com",
+            },
+            "admin1", "Admin");
 
             await SeedUserAsync(
                 userManager,
@@ -130,50 +129,136 @@ namespace StudChoice.Areas.Identity.Data
             }
         }
 
-        private async static Task SeedData(this IApplicationBuilder app)
+        private static async Task SeedData(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<StudChoiceContext>();
 
-            if (context.Subjects.Any())
-            {
-                return;
-            }
-            #region Subjects
-           
-           var Subject1 = new Subject()
-            {
-                Name = "Subject 1",
-                Description = "Description 1",
-                Type = "ДВВС"
-            };
+            #region Faculties
 
-            var Subject2 = new Subject()
+            if (!context.Faculties.Any())
+            {
+                for(int i = 1; i <= 5; i++)
+                {
+                    var faculty = new Faculty()
+                    {
+                        DisplayName = $"Faculty{i}",
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna."                        
+                    };
+
+                    context.Faculties.Add(faculty);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Cathedras
+
+            if (!context.Cathedras.Any())
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    var cathedra = new Cathedra()
+                    {
+                        DisplayName = $"Cathedra{i}",
+                        Description = $"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet lobortis lorem et vestibulum. Nulla ac sollicitudin tortor. Nullam gravida posuere aliquet. Ut dictum sodales varius. Nulla imperdiet sagittis neque eget vulputate. Nunc vitae velit quis dui fringilla pretium. Maecenas et sagittis sem. Donec sed odio sed justo tincidunt convallis porttitor eget felis. In sed sem id erat posuere efficitur. Suspendisse dignissim turpis at enim rutrum, eu malesuada dui lacinia. Cras elementum hendrerit gravida. Fusce id velit id augue dictum egestas. Vivamus eget neque eu felis finibus efficitur. Vestibulum non lobortis magna.",
+                        FacultyId = i
+                    };
+
+                    context.Cathedras.Add(cathedra);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Professors
+
+            if (!context.Professors.Any())
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    var professor = new Professor()
+                    {
+                       FirstName = $"FirstName{i}",
+                       LastName = $"LastName{i}",
+                       MiddleName = $"MiddleName{i}",
+                       FacultyId = i,
+                       CathedraId = i
+                    };
+
+                    context.Professors.Add(professor);
+                }
+
+                context.SaveChanges();
+            }
+
+            #endregion
+
+            #region Subjects
+
+            if (!context.Subjects.Any())
+            {
+                var Subject1 = new Subject()
+                {
+                    Name = "Subject 1",
+                    Description = "Description 1",
+                    Type = "ДВВС",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 15,
+                    MaxStudents = 60,
+                    AssignedStudentsCount = 0
+                };
+
+                var Subject2 = new Subject()
                 {
                     Name = "Subject 2",
                     Description = "Description 2",
-                    Type = "ДВ"
+                    Type = "ДВ",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 20,
+                    MaxStudents = 60,
+                    AssignedStudentsCount = 0
                 };
 
                 var Subject3 = new Subject()
                 {
                     Name = "Subject 3",
                     Description = "Description 3",
-                    Type = "ДВВС"
+                    Type = "ДВВС",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 30,
+                    MaxStudents = 90,
+                    AssignedStudentsCount = 0
                 };
 
                 var Subject4 = new Subject()
                 {
                     Name = "Subject 4",
                     Description = "Description 4",
-                    Type = "ДВ"
+                    Type = "ДВ",
+                    ProfessorId = context.Professors.FirstOrDefault().Id,
+                    FacultyId = context.Faculties.FirstOrDefault().Id,
+                    CathedraId = context.Cathedras.FirstOrDefault().Id,
+                    MinStudents = 20,
+                    MaxStudents = 80,
+                    AssignedStudentsCount = 0
                 };
 
                 context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);
-                 context.SaveChanges();
-            
+                context.SaveChanges();
+            }
+
             #endregion
-            
         }
     }
 }

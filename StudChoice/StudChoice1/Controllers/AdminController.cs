@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using StudChoice.DAL.Models;
+using System;
 
 namespace StudChoice.Controllers
 {
@@ -17,13 +18,26 @@ namespace StudChoice.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly ISubjectService subjectService;
+        private readonly IFacultyService facultyService;
+        private readonly IProfessorService professorService;
+        private readonly ICathedraService cathedraService;
         private readonly IMapper mapper;
 
-        public AdminController(UserManager<User> userManagerVar, IMapper mapperVar, ISubjectService subjectServiceVar)
+        public AdminController(
+            UserManager<User> userManagerVar,
+            IMapper mapperVar,
+            ISubjectService subjectServiceVar,
+            IFacultyService facultyServiceVar,
+            IProfessorService professorServiceVar,
+            ICathedraService cathedraServiceVar
+        )
         {
             userManager = userManagerVar;
             mapper = mapperVar;
             subjectService = subjectServiceVar;
+            facultyService = facultyServiceVar;
+            professorService = professorServiceVar;
+            cathedraService = cathedraServiceVar;
         }
 
         public IActionResult Index()
@@ -91,6 +105,152 @@ namespace StudChoice.Controllers
 
         #endregion
 
+        #region Faculties
+
+
+        public async Task<IActionResult> Faculties()
+        {
+            var facultyDTOs = new List<FacultyDTO>();
+            foreach (var faculty in await facultyService.GetAllAsync())
+            {
+                var facultyDTO = mapper.Map<FacultyDTO>(faculty);
+                facultyDTOs.Add(facultyDTO);
+            }
+
+            return View(facultyDTOs);
+        }
+
+        [HttpGet]
+        public IActionResult AddFaculty()
+        {
+            var facultyDTO = new FacultyDTO();
+            return View(facultyDTO);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddFaculty(FacultyDTO facultyDTO)
+        {
+            await facultyService.CreateAsync(facultyDTO);
+            return RedirectToAction("Faculties");
+        }
+
+
+        public async Task<IActionResult> DeleteFaculty(int facultyId)
+        {
+            var faculty = await facultyService.GetAsync(facultyId);
+
+            if (faculty != null)
+            {
+                await facultyService.DeleteAsync(faculty.Id);
+            }
+
+            return RedirectToAction("Faculties");
+        }
+
+        #endregion
+
+        #region Proffesors
+        public async Task<IActionResult> Professors()
+        {
+            var professorDTOs = new List<ProfessorDTO>();
+            foreach (var professor in await professorService.GetAllAsync())
+            {
+                var professorDTO = mapper.Map<ProfessorDTO>(professor);
+                professorDTOs.Add(professorDTO);
+            }
+
+            return View(professorDTOs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddProfessor()
+        {
+            var professorDTO = new ProfessorDTO();
+
+            var faculties = await facultyService.GetAllAsync();
+            TempData["Faculties"] = faculties;
+            var cathedras = await cathedraService.GetAllAsync();
+            TempData["Cathedras"] = cathedras;
+
+            return View(professorDTO);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddProfessor(ProfessorDTO professorDTO)
+        {
+            professorDTO.FacultyName = (await facultyService.GetAsync(professorDTO.FacultyId)).DisplayName;
+
+            professorDTO.CathedraName = (await facultyService.GetAsync(professorDTO.CathedraId)).DisplayName;
+
+            await professorService.CreateAsync(professorDTO);
+
+            return RedirectToAction("Professors");
+        }
+
+
+        public async Task<IActionResult> DeleteProfessor(int professorId)
+        {
+            var professor = await professorService.GetAsync(professorId);
+
+            if (professor != null)
+            {
+                await professorService.DeleteAsync(professor.Id);
+            }
+
+            return RedirectToAction("Professors");
+        }
+
+        #endregion
+
+        #region Cathedra
+
+        public async Task<IActionResult> Cathedras()
+        {
+            var cathedraDTOs = new List<CathedraDTO>();
+            foreach (var cathedra in await cathedraService.GetAllAsync())
+            {
+                var cathedraDTO = mapper.Map<CathedraDTO>(cathedra);
+                cathedraDTOs.Add(cathedraDTO);
+            }
+
+            return View(cathedraDTOs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddCathedra()
+        {
+            var cathedraDTO = new CathedraDTO();
+            var faculties = await facultyService.GetAllAsync();
+            TempData["Faculties"] = faculties;
+            return View(cathedraDTO);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddCathedra(CathedraDTO cathedraDTO)
+        {
+            cathedraDTO.FacultyName = (await facultyService.GetAsync(cathedraDTO.FacultyId)).DisplayName;
+            await cathedraService.CreateAsync(cathedraDTO);
+            return RedirectToAction("Cathedras");
+        }
+
+
+        public async Task<IActionResult> DeleteCathedra(int cathedraId)
+        {
+            var cathedra = await cathedraService.GetAsync(cathedraId);
+
+            if (cathedra != null)
+            {
+                await cathedraService.DeleteAsync(cathedra.Id);
+            }
+
+            return RedirectToAction("Cathedras");
+        }
+
+        #endregion
+
         #region Subjects
 
         public async Task<IActionResult> Subjects()
@@ -106,6 +266,36 @@ namespace StudChoice.Controllers
             }
 
             return View(subjectDTOs);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddSubject()
+        {
+            var subjectDTO = new SubjectDTO();
+
+            var faculties = await facultyService.GetAllAsync();
+            TempData["Faculties"] = faculties;
+            var cathedras = await cathedraService.GetAllAsync();
+            TempData["Cathedras"] = cathedras;
+            var professors = await professorService.GetAllAsync();
+            TempData["Professors"] = professors;
+
+            return View(subjectDTO);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddSubject(SubjectDTO subjectDTO)
+        {
+            subjectDTO.FacultyName = (await facultyService.GetAsync(subjectDTO.FacultyId)).DisplayName;
+
+            subjectDTO.CathedraName = (await cathedraService.GetAsync(subjectDTO.CathedraId)).DisplayName;
+
+            subjectDTO.ProfessorFullName = (await professorService.GetAsync(subjectDTO.CathedraId)).FullName;
+
+            await subjectService.CreateAsync(subjectDTO);
+
+            return RedirectToAction("Subjects");
         }
 
         public async Task<IActionResult> DeleteSubject(int subjectId)

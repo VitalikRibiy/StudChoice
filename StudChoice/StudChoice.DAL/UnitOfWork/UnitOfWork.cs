@@ -11,13 +11,28 @@ namespace StudChoice.DAL.UnitOfWork
 
         private bool disposed = false;
 
-        public UnitOfWork(StudChoiceContext contextVar, ISubjectRepository subjectRepository)
+        public ISubjectRepository SubjectRepository { get; }
+
+        public IFacultyRepository FacultyRepository { get; }
+
+        public IProfessorRepository ProfessorRepository { get; }
+
+        public ICathedraRepository CathedraRepository { get; }
+
+        public UnitOfWork(
+            StudChoiceContext contextVar,
+            ISubjectRepository subjectRepository,
+            IFacultyRepository facultyRepository,
+            IProfessorRepository professorRepository,
+            ICathedraRepository cathedraRepository
+        )
         {
             context = contextVar;
             SubjectRepository = subjectRepository;
+            FacultyRepository = facultyRepository;
+            ProfessorRepository = professorRepository;
+            CathedraRepository = cathedraRepository;
         }
-
-        public ISubjectRepository SubjectRepository { get; }
 
         public Task SaveChangesAsync()
         {

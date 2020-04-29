@@ -12,6 +12,10 @@ namespace StudChoice.BLL.Mappings
             CreateMap<User, UserDTO>()
                 .ForMember(dto => dto.Role, prop => prop.Ignore())
                 .ReverseMap();
+
+            CreateMap<FacultyDTO, Faculty>()
+                .ForMember(ent => ent.Cathedras, prop => prop.Ignore())
+                .ReverseMap();
         }
     }
 }

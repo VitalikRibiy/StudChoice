@@ -14,7 +14,20 @@
         <li class="nav-item">
             <a class="nav-link active" asp-action="Subjects">Предмети</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Faculties">Факультети</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Cathedras">Кафедри</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Professors">Професори</a>
+        </li>
     </ul>
+</div>
+
+<div class="container-fluid my-2">
+    <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddSubject"><i class="fas fa-plus"></i></a>
 </div>
 
 <table class="table table-sm table-bordered table-hover">
@@ -24,6 +37,10 @@
             <th scope="col">Назва</th>
             <th scope="col">Опис</th>
             <th scope="col">Тип</th>
+            <th scope="col">Кількість студентів</th>
+            <th scope="col">Факультет</th>
+            <th scope="col">Кафедра</th>
+            <th scope="col">Викладач</th>
             <th scope="col" class="text-center">Дії</th>
         </tr>
     </thead>
@@ -36,36 +53,40 @@
         {
             foreach (var subject in Model)
             {
-                <tr>
-                    <td>@subject.Id</td>
-                    <td>@subject.Name</td>
-                    <td>@subject.Description</td>
-                    <td>
-                        <form asp-action="SetSubjectType">
-                            <input type="hidden" name="subjectId" value="@subject.Id.ToString()" />
-                            <select name="subjectType" onchange="Submit(this)" class="form-control">
-                                @if (subject.Type == "ДВВС")
-                                {
-                                    <option value="ДВВС" selected>ДВВС</option>
-                                    <option value="ДВ">ДВ</option>
-                                }
-                                else if (subject.Type == "ДВ")
-                                {
-                                    <option value="ДВВС">ДВВС</option>
-                                    <option value="ДВ" selected>ДВ</option>
-                                }
-                                else
-                                {
-                                    <option value="ДВВС">ДВВС</option>
-                                    <option value="ДВ">ДВ</option>
-                                }
-                            </select>
-                        </form>
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">Delete</a>
-                    </td>
-                </tr>
+    <tr>
+        <td>@subject.Id</td>
+        <td>@subject.Name</td>
+        <td>@subject.Description</td>
+        <td>
+            <form asp-action="SetSubjectType">
+                <input type="hidden" name="subjectId" value="@subject.Id.ToString()" />
+                <select name="subjectType" onchange="Submit(this)" class="form-control">
+                    @if (subject.Type == "ДВВС")
+                    {
+                        <option value="ДВВС" selected>ДВВС</option>
+                        <option value="ДВ">ДВ</option>
+                    }
+                    else if (subject.Type == "ДВ")
+                    {
+                        <option value="ДВВС">ДВВС</option>
+                        <option value="ДВ" selected>ДВ</option>
+                    }
+                    else
+                    {
+                        <option value="ДВВС">ДВВС</option>
+                        <option value="ДВ">ДВ</option>
+                    }
+                </select>
+            </form>
+        </td>
+        <td>@subject.AssignedStudentsCount / @subject.MaxStudents</td>
+        <td>@subject.FacultyName</td>
+        <td>@subject.CathedraName</td>
+        <td>@subject.ProfessorFullName</td>
+        <td class="text-center">
+            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">Delete</a>
+        </td>
+    </tr>
             }
         }
     </tbody>
