@@ -17,7 +17,7 @@ namespace StudChoice.Controllers
     public class AccountController : Controller
     {
         public RegisterModel Model { get; set; }
-        ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
+        readonly ChangePasswordModel ChangePasswordModel;
         public AccountModel AccountModel;
         public readonly UserManager<User> userManager;
         public readonly SignInManager<User> signInManager;
@@ -29,6 +29,7 @@ namespace StudChoice.Controllers
             this.userManager = userManager;
             this.config = config;
             this.signInManager = signInManager;
+            ChangePasswordModel = new ChangePasswordModel();
         }
 
         [HttpGet]
@@ -78,9 +79,10 @@ namespace StudChoice.Controllers
             {
                 MailAddress to = new MailAddress(admin);
 
-                MailMessage m = new MailMessage(from, to);
-
-                m.Subject = $"Verify User {email}";
+                MailMessage m = new MailMessage(from, to)
+                {
+                    Subject = $"Verify User {email}"
+                };
                 var http = HttpContext.Request.Scheme;
                 var request = HttpContext.Request.Host.ToUriComponent();
                 var url = http+ "://"+request + $"/Account/ConfirmEmailUser?email={email}";
@@ -95,11 +97,13 @@ namespace StudChoice.Controllers
 
                 m.IsBodyHtml = true;
 
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.UseDefaultCredentials = false;
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    UseDefaultCredentials = false,
 
-                smtp.Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123");
-                smtp.EnableSsl = true;
+                    Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123"),
+                    EnableSsl = true
+                };
                 smtp.Send(m);
             }            
         }
@@ -113,15 +117,10 @@ namespace StudChoice.Controllers
    
             MailAddress to = new MailAddress(email);
 
-            MailMessage m = new MailMessage(from, to);
-
-            m.Subject = $"Your account was verified!";
-
-            var callbackUrl = Url.Page(
-                    "/Home/Index",
-                    values:null,
-                    pageHandler: null,                    
-                    protocol: Request.Scheme);
+            MailMessage m = new MailMessage(from, to)
+            {
+                Subject = $"Your account was verified!"
+            };
             
             var http = HttpContext.Request.Scheme;
             var request = HttpContext.Request.Host.ToUriComponent();
@@ -132,10 +131,11 @@ namespace StudChoice.Controllers
                 $"<h2>Hi {user.Result.NormalizedUserName}. Your account was verified by administrators so now you can login to <a href='{url}'>StudChoice</a>.</h2>";
             m.IsBodyHtml = true;
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-
-            smtp.Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123");
-            smtp.EnableSsl = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123"),
+                EnableSsl = true
+            };
             smtp.Send(m);           
             
             return View();
