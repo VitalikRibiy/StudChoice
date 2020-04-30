@@ -42,27 +42,33 @@ namespace StudChoice.Controllers
         {
             if (ModelState.IsValid)
             {
-                var name_surname = $"{Model.Name} {Model.Surname}";
-                var user = new User { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
-                var check_email = userManager.FindByEmailAsync(Model.Email);
+                var name_surname = $"{model.Name} {model.Surname}";
+                var user = new User { UserName = model.TransictionNumber, Email = model.Email, NormalizedUserName = name_surname };
+                var check_email = userManager.FindByEmailAsync(model.Email);
+                var check_transiction = userManager.FindByNameAsync(model.TransictionNumber);
                 if (check_email.Result!= null)
                 {
                     ModelState.AddModelError(string.Empty, "There is an user with this email address");
                     return View("VerifyMe");
                 }
+                if (check_transiction.Result != null)
+                {
+                    ModelState.AddModelError(string.Empty, $"There is registered user with {model.TransictionNumber} transiction code.");
+                    return View("VerifyMe");
+                }
                 //add checking if there is user with this transiction code
-                var result = await userManager.CreateAsync(user, Model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account.");
 
-                    SendEmail(Model.Name,Model.Surname,Model.Email,Model.TransictionNumber);
+                    SendEmail(model.Name, model.Surname, model.Email, model.TransictionNumber);
                     return View("ToVerify");
                 }
-
+                
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);                    
                 }
 
                 return View();                    
@@ -180,7 +186,7 @@ namespace StudChoice.Controllers
             return View("ManageIndex", AccountModel);
         }
         
-        public ActionResult ChangePasswordAsync()
+        public ActionResult ChangePassword()
         {
             return View("ChangePassword", ChangePasswordModel);
         }
@@ -200,9 +206,9 @@ namespace StudChoice.Controllers
                     return View("ChangePassword", changePasswordModel);
                 }
                 ModelState.AddModelError(string.Empty, "You entered wrong current password.");                
-                return View("ChangePassword");
+                return View("ChangePassword", changePasswordModel);
             }
-            return View("ChangePassword");
+            return View("ChangePassword", changePasswordModel);
         }
     }
 }
