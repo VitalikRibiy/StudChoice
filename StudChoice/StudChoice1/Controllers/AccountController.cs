@@ -6,7 +6,6 @@ using StudChoice.DAL.Models;
 using StudChoice1.Models;
 using System;
 using System.Net;
-using Microsoft.Extensions.Configuration;
 using StudChoice.Models;
 using System.Text.Encodings.Web;
 using System.Web;
@@ -20,11 +19,11 @@ namespace StudChoice.Controllers
         public RegisterModel Model { get; set; }
         ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
         public AccountModel AccountModel;
-        public readonly UserManager<IdentityUser<int>> userManager;
-        public readonly SignInManager<IdentityUser<int>> signInManager;
+        public readonly UserManager<User> userManager;
+        public readonly SignInManager<User> signInManager;
         private readonly ILogger<AccountController> logger;
         private readonly IConfiguration config;
-        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
+        public AccountController(ILogger<AccountController> logger, UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager)
         {
             this.logger = logger;
             this.userManager = userManager;
@@ -43,7 +42,7 @@ namespace StudChoice.Controllers
             if (ModelState.IsValid)
             {
                 var name_surname = $"{Model.Name} {Model.Surname}";
-                var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
+                var user = new User { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
                 var check_email = userManager.FindByEmailAsync(Model.Email);
                 if (check_email.Result!= null)
                 {
@@ -156,7 +155,7 @@ namespace StudChoice.Controllers
             }
         }
 
-        private async Task LoadAsync(IdentityUser<int> user)
+        private async Task LoadAsync(User user)
         {
             var currentUser = await userManager.GetUserAsync(User);
 
@@ -181,7 +180,7 @@ namespace StudChoice.Controllers
             return View("ManageIndex", AccountModel);
         }
         
-        public async Task<ActionResult> ChangePasswordAsync()
+        public ActionResult ChangePasswordAsync()
         {
             return View("ChangePassword", ChangePasswordModel);
         }
