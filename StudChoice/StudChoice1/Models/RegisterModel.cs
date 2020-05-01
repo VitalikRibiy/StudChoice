@@ -5,10 +5,13 @@ namespace StudChoice1.Models
     public class RegisterModel
     {
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
-        public string Surname { get; set; }
+        public string LastName { get; set; }
+
+        [Required]
+        public string MiddleName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]

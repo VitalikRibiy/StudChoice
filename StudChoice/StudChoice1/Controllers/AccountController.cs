@@ -42,7 +42,7 @@ namespace StudChoice.Controllers
         {
             if (ModelState.IsValid)
             {
-                var name_surname = $"{Model.Name} {Model.Surname}";
+                var name_surname = $"{Model.FirstName} {Model.LastName} {Model.MiddleName}";
                 var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
                 var check_email = userManager.FindByEmailAsync(Model.Email);
                 if (check_email.Result!= null)
@@ -56,7 +56,7 @@ namespace StudChoice.Controllers
                 {
                     logger.LogInformation("User created a new account.");
 
-                    SendEmail(Model.Name,Model.Surname,Model.Email,Model.TransictionNumber);
+                    SendEmail(Model.FirstName, Model.LastName, Model.Email,Model.TransictionNumber);
                     return View("ToVerify");
                 }
 
@@ -162,7 +162,7 @@ namespace StudChoice.Controllers
 
             AccountModel = new AccountModel
             {
-                Name = currentUser.NormalizedUserName,
+                FirstName = currentUser.NormalizedUserName,
                 Email = currentUser.Email,
                 TransictionCode = currentUser.UserName
             };

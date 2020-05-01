@@ -255,15 +255,7 @@ namespace StudChoice.Controllers
 
         public async Task<IActionResult> Subjects()
         {
-            var subjectDTOs = new List<SubjectDTO>();
-            foreach (var subject in await subjectService.GetAllAsync())
-            {
-                var type = subject.Type != null ? subject.Type : string.Empty;
-
-                var subjectDTO = mapper.Map<SubjectDTO>(subject);
-                subjectDTO.Type = type;
-                subjectDTOs.Add(subjectDTO);
-            }
+            var subjectDTOs = (await subjectService.GetAllAsync()).ToList();
 
             return View(subjectDTOs);
         }
