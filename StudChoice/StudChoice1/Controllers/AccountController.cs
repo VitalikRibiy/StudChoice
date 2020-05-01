@@ -6,7 +6,6 @@ using StudChoice.DAL.Models;
 using StudChoice1.Models;
 using System;
 using System.Net;
-using Microsoft.Extensions.Configuration;
 using StudChoice.Models;
 using System.Text.Encodings.Web;
 using System.Web;
@@ -18,18 +17,19 @@ namespace StudChoice.Controllers
     public class AccountController : Controller
     {
         public RegisterModel Model { get; set; }
-        ChangePasswordModel ChangePasswordModel = new ChangePasswordModel();
+        readonly ChangePasswordModel ChangePasswordModel;
         public AccountModel AccountModel;
-        public readonly UserManager<IdentityUser<int>> userManager;
-        public readonly SignInManager<IdentityUser<int>> signInManager;
+        public readonly UserManager<User> userManager;
+        public readonly SignInManager<User> signInManager;
         private readonly ILogger<AccountController> logger;
         private readonly IConfiguration config;
-        public AccountController(ILogger<AccountController> logger, UserManager<IdentityUser<int>> userManager, IConfiguration config, SignInManager<IdentityUser<int>> signInManager)
+        public AccountController(ILogger<AccountController> logger, UserManager<User> userManager, IConfiguration config, SignInManager<User> signInManager)
         {
             this.logger = logger;
             this.userManager = userManager;
             this.config = config;
             this.signInManager = signInManager;
+            ChangePasswordModel = new ChangePasswordModel();
         }
 
         [HttpGet]
@@ -42,27 +42,33 @@ namespace StudChoice.Controllers
         {
             if (ModelState.IsValid)
             {
-                var name_surname = $"{Model.FirstName} {Model.LastName} {Model.MiddleName}";
-                var user = new IdentityUser<int> { UserName = Model.TransictionNumber, Email = Model.Email, NormalizedUserName = name_surname };
-                var check_email = userManager.FindByEmailAsync(Model.Email);
+                var name_surname = $"{model.Name} {model.Surname}";
+                var user = new User { UserName = model.TransictionNumber, Email = model.Email, NormalizedUserName = name_surname };
+                var check_email = userManager.FindByEmailAsync(model.Email);
+                var check_transiction = userManager.FindByNameAsync(model.TransictionNumber);
                 if (check_email.Result!= null)
                 {
                     ModelState.AddModelError(string.Empty, "There is an user with this email address");
                     return View("VerifyMe");
                 }
+                if (check_transiction.Result != null)
+                {
+                    ModelState.AddModelError(string.Empty, $"There is registered user with {model.TransictionNumber} transiction code.");
+                    return View("VerifyMe");
+                }
                 //add checking if there is user with this transiction code
-                var result = await userManager.CreateAsync(user, Model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account.");
 
-                    SendEmail(Model.FirstName, Model.LastName, Model.Email,Model.TransictionNumber);
+                    SendEmail(model.Name, model.Surname, model.Email, model.TransictionNumber);
                     return View("ToVerify");
                 }
-
+                
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);                    
                 }
 
                 return View();                    
@@ -79,9 +85,10 @@ namespace StudChoice.Controllers
             {
                 MailAddress to = new MailAddress(admin);
 
-                MailMessage m = new MailMessage(from, to);
-
-                m.Subject = $"Verify User {email}";
+                MailMessage m = new MailMessage(from, to)
+                {
+                    Subject = $"Verify User {email}"
+                };
                 var http = HttpContext.Request.Scheme;
                 var request = HttpContext.Request.Host.ToUriComponent();
                 var url = http+ "://"+request + $"/Account/ConfirmEmailUser?email={email}";
@@ -96,11 +103,13 @@ namespace StudChoice.Controllers
 
                 m.IsBodyHtml = true;
 
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.UseDefaultCredentials = false;
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    UseDefaultCredentials = false,
 
-                smtp.Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123");
-                smtp.EnableSsl = true;
+                    Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123"),
+                    EnableSsl = true
+                };
                 smtp.Send(m);
             }            
         }
@@ -114,15 +123,10 @@ namespace StudChoice.Controllers
    
             MailAddress to = new MailAddress(email);
 
-            MailMessage m = new MailMessage(from, to);
-
-            m.Subject = $"Your account was verified!";
-
-            var callbackUrl = Url.Page(
-                    "/Home/Index",
-                    values:null,
-                    pageHandler: null,                    
-                    protocol: Request.Scheme);
+            MailMessage m = new MailMessage(from, to)
+            {
+                Subject = $"Your account was verified!"
+            };
             
             var http = HttpContext.Request.Scheme;
             var request = HttpContext.Request.Host.ToUriComponent();
@@ -133,10 +137,11 @@ namespace StudChoice.Controllers
                 $"<h2>Hi {user.Result.NormalizedUserName}. Your account was verified by administrators so now you can login to <a href='{url}'>StudChoice</a>.</h2>";
             m.IsBodyHtml = true;
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-
-            smtp.Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123");
-            smtp.EnableSsl = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("studchoice.smtp@gmail.com", "studchoice123"),
+                EnableSsl = true
+            };
             smtp.Send(m);           
             
             return View();
@@ -156,7 +161,7 @@ namespace StudChoice.Controllers
             }
         }
 
-        private async Task LoadAsync(IdentityUser<int> user)
+        private async Task LoadAsync(User user)
         {
             var currentUser = await userManager.GetUserAsync(User);
 
@@ -181,7 +186,7 @@ namespace StudChoice.Controllers
             return View("ManageIndex", AccountModel);
         }
         
-        public async Task<ActionResult> ChangePasswordAsync()
+        public ActionResult ChangePassword()
         {
             return View("ChangePassword", ChangePasswordModel);
         }
@@ -201,9 +206,9 @@ namespace StudChoice.Controllers
                     return View("ChangePassword", changePasswordModel);
                 }
                 ModelState.AddModelError(string.Empty, "You entered wrong current password.");                
-                return View("ChangePassword");
+                return View("ChangePassword", changePasswordModel);
             }
-            return View("ChangePassword");
+            return View("ChangePassword", changePasswordModel);
         }
     }
 }
