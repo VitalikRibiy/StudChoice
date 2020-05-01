@@ -32,5 +32,7 @@ namespace StudChoice.BLL.DTOs
         public int MaxStudents { get; set; }
 
         public int AssignedStudentsCount { get; set; }
+
+        public Course Course { get; set; }
     }
 }

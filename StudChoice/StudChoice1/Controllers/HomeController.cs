@@ -7,7 +7,9 @@ using StudChoice.DAL.Models;
 using StudChoice.Models;
 using StudChoice1.Models;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace StudChoice.Controllers
 {
@@ -16,22 +18,52 @@ namespace StudChoice.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly ISubjectService subjectService;
-        private readonly ILogger<HomeController> logger;   
-       
-    public HomeController(ILogger<HomeController> loggerVar, ISubjectService subjVar, UserManager<User> userManagerVar, SignInManager<User> signInManagerVar)
+        private readonly IFacultyService facultyService;
+        private readonly IProfessorService professorService;
+        private readonly ICathedraService cathedraService;
+        private readonly ILogger<HomeController> logger;
+        private readonly IMapper mapper;
+
+        public HomeController(
+            ILogger<HomeController> loggerVar,
+            ISubjectService subjectServiceVar,
+            IFacultyService facultyServiceVar,
+            IProfessorService professorServiceVar,
+            ICathedraService cathedraServiceVar,
+            UserManager<User> userManagerVar,
+            SignInManager<User> signInManagerVar,
+            IMapper mapperVar)
         {
             logger = loggerVar;
             userManager = userManagerVar;
             signInManager = signInManagerVar;
-            subjectService = subjVar;
+            subjectService = subjectServiceVar;
+            cathedraService = cathedraServiceVar;
+            facultyService = facultyServiceVar;
+            professorService = professorServiceVar;
+            mapper = mapperVar;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var user = mapper.Map<UserDTO>((await userManager.GetUserAsync(User)));
+
+            user.FacultyName = (await facultyService.GetAsync(user.FacultyId)).DisplayName;
+
+            user.CathedraName = (await cathedraService.GetAsync(user.CathedraId)).DisplayName;
+
+            if(user.Dv1Id != null) user.Dv1IName = (await subjectService.GetAsync((long)user.Dv1Id)).Name;
+
+            if (user.Dv2Id != null) user.Dv2IName = (await subjectService.GetAsync((long)user.Dv2Id)).Name;
+
+            if (user.Dvvs1Id != null) user.Dvvs1Name = (await subjectService.GetAsync((long)user.Dvvs1Id)).Name;
+
+            if (user.Dvvs2Id != null) user.Dvvs2Name = (await subjectService.GetAsync((long)user.Dvvs2Id)).Name;
+
+            return View("Index", user);
         }
 
         public IActionResult Privacy()

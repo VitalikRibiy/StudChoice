@@ -3,12 +3,16 @@
     <form method="post">
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <label asp-for="Name">Ім'я</label>
-            <input asp-for="Name" class="form-control" required value="@Model.Name" />
+            <label asp-for="FirstName">Ім'я</label>
+            <input asp-for="FirstName" class="form-control" required value="@Model.FirstName" />
         </div>
         <div class="form-group">
-            <label asp-for="Surname">Прізвище</label>
-            <input asp-for="Surname" class="form-control" required value="@Model.Surname" />
+            <label asp-for="LastName">Прізвище</label>
+            <input asp-for="LastName" class="form-control" required value="@Model.LastName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="MiddleName">Прізвище</label>
+            <input asp-for="MiddleName" class="form-control" required value="@Model.MiddleName" />
         </div>
         <div class="form-group">
             <label asp-for="UserName">Ідентифікатор</label>
