@@ -354,11 +354,11 @@ namespace StudChoice.Controllers
         {
             if (!String.IsNullOrEmpty(userFilterParams.Name))
             {
-                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Name) ? false : s.Name.ToLower().Contains(userFilterParams.Name.ToLower()))).ToList();
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.FirstName) ? false : s.FirstName.ToLower().Contains(userFilterParams.Name.ToLower()))).ToList();
             }
             if (!String.IsNullOrEmpty(userFilterParams.Surname))
             {
-                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Surname) ? false : s.Surname.ToLower().Contains(userFilterParams.Surname.ToLower()))).ToList();
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.LastName) ? false : s.LastName.ToLower().Contains(userFilterParams.Surname.ToLower()))).ToList();
             }
             if (!String.IsNullOrEmpty(userFilterParams.Email))
             {
