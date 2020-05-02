@@ -12,4 +12,13 @@ namespace StudChoice.BLL.DTOs
         public string Role { get; set; }
         public string TransictionCode { get; set; }
     }
+    public class SubjectFilterParams
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string MinStudents { get; set; }
+        public string MaxStudents { get; set; }
+        public string FacultyName { get; set; }
+        public string Professor { get; set; }
+    }
 }

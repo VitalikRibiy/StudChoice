@@ -37,3 +37,7 @@
     display: inline-block;
     width: 15%;
 }
+.subjects .form-control {
+    display: inline-block;
+    width: 13%;
+}

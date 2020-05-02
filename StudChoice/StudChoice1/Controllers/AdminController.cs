@@ -48,7 +48,7 @@ namespace StudChoice.Controllers
         }
 
         #region Users
-        public async Task<IActionResult> Users(UserFilterParams userFilterParams, int? page)
+        public async Task<IActionResult> Users(int? page, UserFilterParams userFilterParams)
         {
             var userDtos = new List<UserDTO>();
             foreach (var user in userManager.Users)
@@ -262,7 +262,7 @@ namespace StudChoice.Controllers
 
         #region Subjects
 
-        public async Task<IActionResult> Subjects(int? page)
+        public async Task<IActionResult> Subjects(int? page, SubjectFilterParams subjectFilterParams)
         {
             var subjectDTOs = new List<SubjectDTO>();
             foreach (var subject in await subjectService.GetAllAsync())
@@ -272,6 +272,13 @@ namespace StudChoice.Controllers
                 var subjectDTO = mapper.Map<SubjectDTO>(subject);
                 subjectDTO.Type = type;
                 subjectDTOs.Add(subjectDTO);
+            }
+            ViewBag.Faculties = subjectDTOs.Select(x => x.FacultyName).Distinct().ToList();
+            ViewBag.Types = subjectDTOs.Select(x => x.Type).Distinct().ToList();
+            if (subjectFilterParams.Name != null || subjectFilterParams.FacultyName != null || subjectFilterParams.MinStudents != null || subjectFilterParams.MaxStudents != null || subjectFilterParams.Professor != null || subjectFilterParams.Type!=null)
+            {
+                subjectDTOs = GetFilteredSubjects(subjectDTOs, subjectFilterParams);
+                ViewBag.FilterParams = subjectFilterParams;
             }
             int pageNumber = (page ?? 1);
             return View(subjectDTOs.ToPagedList(pageNumber, pageSize));            
@@ -357,6 +364,35 @@ namespace StudChoice.Controllers
                 userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.UserName) ? false : s.UserName.ToLower().Contains(userFilterParams.TransictionCode.ToLower()))).ToList();
             }
             return userDtos;
+        }
+
+        private List<SubjectDTO> GetFilteredSubjects(List<SubjectDTO> subjectDtos, SubjectFilterParams subjectFilterParams)
+        {
+            if (!String.IsNullOrEmpty(subjectFilterParams.Name))
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.Name) ? false : s.Name.ToLower().Contains(subjectFilterParams.Name.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(subjectFilterParams.Type)&& subjectFilterParams.Type!="0")
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.Type) ? false : s.Type==subjectFilterParams.Type)).ToList();
+            }
+            if (!String.IsNullOrEmpty(subjectFilterParams.Professor))
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.ProfessorFullName) ? false : s.ProfessorFullName.ToLower().Contains(subjectFilterParams.Professor.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(subjectFilterParams.MinStudents))
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MinStudents.ToString()) ? false : s.MinStudents >= Convert.ToInt32(subjectFilterParams.MinStudents))).ToList();
+            }
+            if (!String.IsNullOrEmpty(subjectFilterParams.MaxStudents))
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MaxStudents.ToString()) ? false : s.MaxStudents <= Convert.ToInt32(subjectFilterParams.MaxStudents))).ToList();
+            }
+            if (!String.IsNullOrEmpty(subjectFilterParams.FacultyName) && subjectFilterParams.FacultyName != "0")
+            {
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.FacultyName) ? false : s.FacultyName==subjectFilterParams.FacultyName)).ToList();
+            }
+            return subjectDtos;
         }
 
         #endregion
