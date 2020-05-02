@@ -1,9 +1,9 @@
-﻿@model List<StudChoice.BLL.DTOs.ProfessorDTO>
-
+﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.ProfessorDTO>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Professors";
 }
-
+<link href="~/css/pagination.css" rel="stylesheet" />
 <div class="bg-primary text-white text-center"><h4>Список професорів</h4></div>
 
 <div>
@@ -66,3 +66,9 @@
         }
     </tbody>
 </table>
+<div class="paging">
+    <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+    <ul style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("Professors", new { page }))
+    </ul>
+</div>

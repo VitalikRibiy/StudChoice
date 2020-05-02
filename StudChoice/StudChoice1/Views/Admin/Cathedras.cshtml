@@ -1,9 +1,9 @@
-﻿@model List<StudChoice.BLL.DTOs.CathedraDTO>
-
+﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.CathedraDTO>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Cathedras";
 }
-
+<link href="~/css/pagination.css" rel="stylesheet" />
 <div class="bg-primary text-white text-center"><h4>Список кафедра</h4></div>
 
 <div>
@@ -49,16 +49,22 @@
         {
             foreach (var cathedra in Model)
             {
-    <tr>
-        <td>@cathedra.Id</td>
-        <td>@cathedra.DisplayName</td>
-        <td>@cathedra.Description</td>
-        <td>@cathedra.FacultyName</td>
-        <td class="text-center">
-            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteFaculty" asp-all-route-data="@(new Dictionary<string, string> { {"cathedraId", cathedra.Id.ToString() } })">Delete</a>
-        </td>
-    </tr>
+                <tr>
+                    <td>@cathedra.Id</td>
+                    <td>@cathedra.DisplayName</td>
+                    <td>@cathedra.Description</td>
+                    <td>@cathedra.FacultyName</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteFaculty" asp-all-route-data="@(new Dictionary<string, string> { {"cathedraId", cathedra.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
+<div class="paging">
+    <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+    <ul style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("Cathedras", new { page }))
+    </ul>
+</div>

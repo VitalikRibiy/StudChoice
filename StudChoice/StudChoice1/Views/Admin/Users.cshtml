@@ -1,9 +1,9 @@
-﻿@model List<StudChoice.BLL.DTOs.UserDTO>
-
+﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.UserDTO>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Users";
 }
-
+<link href="~/css/pagination.css" rel="stylesheet" />
 <div class="bg-primary text-white text-center"><h4>Акаунти користувачів</h4></div>
 
 <div>
@@ -51,39 +51,45 @@
         {
             foreach (var user in Model)
             {
-    <tr>
-        <td>@user.Id</td>
-        <td>@user.Name</td>
-        <td>@user.Surname</td>
-        <td>@user.UserName</td>
-        <td>@user.Email</td>
-        <td>
-            <form asp-action="SetUserRole">
-                <input type="hidden" name="userId" value="@user.Id.ToString()" />
-                <select name="roleName" onchange="Submit(this)" class="form-control">
-                    @if (user.Role == "Admin")
-                    {
-                        <option value="Admin" selected>Адміністратор</option>
-                        <option value="User">Студент</option>
-                    }
-                    else if (user.Role == "User")
-                    {
-                        <option value="Admin">Адміністратор</option>
-                        <option value="User" selected>Студент</option>
-                    }
-                    else
-                    {
-                        <option value="Admin">Адміністратор</option>
-                        <option value="User">Студент</option>
-                    }
-                </select>
-            </form>
-        </td>
-        <td class="text-center">
-            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteUser" asp-all-route-data="@(new Dictionary<string, string> { {"userId", user.Id.ToString() } })">Видалити</a>
-        </td>
-    </tr>
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form asp-action="SetUserRole">
+                            <input type="hidden" name="userId" value="@user.Id.ToString()" />
+                            <select name="roleName" onchange="Submit(this)" class="form-control">
+                                @if (user.Role == "Admin")
+                                {
+                                    <option value="Admin" selected>Адміністратор</option>
+                                    <option value="User">Студент</option>
+                                }
+                                else if (user.Role == "User")
+                                {
+                                    <option value="Admin">Адміністратор</option>
+                                    <option value="User" selected>Студент</option>
+                                }
+                                else
+                                {
+                                    <option value="Admin">Адміністратор</option>
+                                    <option value="User">Студент</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteUser" asp-all-route-data="@(new Dictionary<string, string> { {"userId", user.Id.ToString() } })">Видалити</a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
+<div class="paging">
+    <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+    <ul style="text-align:center">
+        @Html.PagedListPager(Model, page => Url.Action("Users", new { page }))
+    </ul>
+</div>

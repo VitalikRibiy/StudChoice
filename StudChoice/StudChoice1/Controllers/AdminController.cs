@@ -10,6 +10,7 @@ using System.Transactions;
 using Microsoft.AspNetCore.Authorization;
 using StudChoice.DAL.Models;
 using System;
+using X.PagedList;
 
 namespace StudChoice.Controllers
 {
@@ -22,6 +23,7 @@ namespace StudChoice.Controllers
         private readonly IProfessorService professorService;
         private readonly ICathedraService cathedraService;
         private readonly IMapper mapper;
+        private readonly int pageSize = 3;
 
         public AdminController(
             UserManager<User> userManagerVar,
@@ -46,7 +48,7 @@ namespace StudChoice.Controllers
         }
 
         #region Users
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(int? page)
         {
             var userDtos = new List<UserDTO>();
             foreach (var user in userManager.Users)
@@ -57,8 +59,8 @@ namespace StudChoice.Controllers
                 userDto.Role = role;
                 userDtos.Add(userDto);
             }
-
-            return View(userDtos);
+            int pageNumber = (page ?? 1);            
+            return View(userDtos.ToPagedList(pageNumber, pageSize));
         }
 
         public async Task<IActionResult> DeleteUser(string userId)
@@ -108,7 +110,7 @@ namespace StudChoice.Controllers
         #region Faculties
 
 
-        public async Task<IActionResult> Faculties()
+        public async Task<IActionResult> Faculties(int? page)
         {
             var facultyDTOs = new List<FacultyDTO>();
             foreach (var faculty in await facultyService.GetAllAsync())
@@ -116,8 +118,8 @@ namespace StudChoice.Controllers
                 var facultyDTO = mapper.Map<FacultyDTO>(faculty);
                 facultyDTOs.Add(facultyDTO);
             }
-
-            return View(facultyDTOs);
+            int pageNumber = (page ?? 1);
+            return View(facultyDTOs.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -151,7 +153,7 @@ namespace StudChoice.Controllers
         #endregion
 
         #region Proffesors
-        public async Task<IActionResult> Professors()
+        public async Task<IActionResult> Professors(int? page)
         {
             var professorDTOs = new List<ProfessorDTO>();
             foreach (var professor in await professorService.GetAllAsync())
@@ -159,8 +161,8 @@ namespace StudChoice.Controllers
                 var professorDTO = mapper.Map<ProfessorDTO>(professor);
                 professorDTOs.Add(professorDTO);
             }
-
-            return View(professorDTOs);
+            int pageNumber = (page ?? 1);
+            return View(professorDTOs.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -206,7 +208,7 @@ namespace StudChoice.Controllers
 
         #region Cathedra
 
-        public async Task<IActionResult> Cathedras()
+        public async Task<IActionResult> Cathedras(int? page)
         {
             var cathedraDTOs = new List<CathedraDTO>();
             foreach (var cathedra in await cathedraService.GetAllAsync())
@@ -214,8 +216,8 @@ namespace StudChoice.Controllers
                 var cathedraDTO = mapper.Map<CathedraDTO>(cathedra);
                 cathedraDTOs.Add(cathedraDTO);
             }
-
-            return View(cathedraDTOs);
+            int pageNumber = (page ?? 1);
+            return View(cathedraDTOs.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -253,7 +255,7 @@ namespace StudChoice.Controllers
 
         #region Subjects
 
-        public async Task<IActionResult> Subjects()
+        public async Task<IActionResult> Subjects(int? page)
         {
             var subjectDTOs = new List<SubjectDTO>();
             foreach (var subject in await subjectService.GetAllAsync())
@@ -264,8 +266,8 @@ namespace StudChoice.Controllers
                 subjectDTO.Type = type;
                 subjectDTOs.Add(subjectDTO);
             }
-
-            return View(subjectDTOs);
+            int pageNumber = (page ?? 1);
+            return View(subjectDTOs.ToPagedList(pageNumber, pageSize));            
         }
 
         [HttpGet]
