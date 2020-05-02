@@ -33,3 +33,7 @@
     display: inline-block;
     text-align: center;
 }
+.users .form-control {
+    display: inline-block;
+    width: 15%;
+}

@@ -1,5 +1,6 @@
 ﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.UserDTO>
 @using X.PagedList.Mvc.Core;
+@using StudChoice.BLL.DTOs;
 @{
     ViewData["Title"] = "Users";
 }
@@ -25,6 +26,27 @@
         </li>
     </ul>
 </div>
+@using (Html.BeginForm())
+{
+    <div class="users">
+        Пошук: @Html.TextBox("name", (string)ViewBag.FilterParams?.Name, new { @placeholder = "Ім'я...", @class = "form-control" }) @Html.TextBox("surname", (string)ViewBag.FilterParams?.Surname, new { @placeholder = "Прізвище...", @class = "form-control" }) @Html.TextBox("transictionCode", (string)ViewBag.FilterParams?.TransictionCode, new { @placeholder = "Ідентифікатор...", @class = "form-control" }) @Html.TextBox("email", (string)ViewBag.FilterParams?.Email, new { @placeholder = "Емейл...", @class = "form-control" })
+        <select name="Role" class="form-control">
+            <option value="0">Виберіть роль</option>
+            @foreach (string role in ViewBag.Roles)
+            {
+                @if (role == "Admin")
+                {
+                    <option value="Admin">Адміністратор</option>
+                }
+                else if (role == "User")
+                {
+                    <option value="User">Студент</option>
+                }
+            }
+        </select>
+        <input type="submit" value="Search" class="form-control" />
+    </div>
+}
 
 <div class="container-fluid my-2">
     <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddUser"><i class="fas fa-plus"></i></a>
@@ -45,7 +67,7 @@
     <tbody>
         @if (Model.Count() == 0)
         {
-            <tr><td colspan="3" class="text-center">Немає користувачів</td></tr>
+            <tr><td colspan="7" class="text-center">Немає користувачів</td></tr>
         }
         else
         {
@@ -87,9 +109,12 @@
         }
     </tbody>
 </table>
-<div class="paging">
-    <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
-    <ul style="text-align:center">
-        @Html.PagedListPager(Model, page => Url.Action("Users", new { page }))
-    </ul>
-</div>
+@if (Model.Count() > 0)
+{
+    <div class="paging">
+        <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+        <ul style="text-align:center">
+            @Html.PagedListPager(Model, page => Url.Action("Users", new { page, userFilterParams = ViewBag.FilterParams }))
+        </ul>
+    </div>
+}

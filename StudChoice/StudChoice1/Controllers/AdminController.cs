@@ -48,21 +48,28 @@ namespace StudChoice.Controllers
         }
 
         #region Users
-        public async Task<IActionResult> Users(int? page)
+        public async Task<IActionResult> Users(UserFilterParams userFilterParams, int? page)
         {
             var userDtos = new List<UserDTO>();
             foreach (var user in userManager.Users)
             {
                 var role = (await userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
-                
+
                 var userDto = mapper.Map<UserDTO>(user);
                 userDto.Role = role;
                 userDtos.Add(userDto);
             }
+            ViewBag.Roles = userDtos.Select(x => x.Role).Distinct().ToList();
+            if (userFilterParams.Name != null || userFilterParams.Surname !=null || userFilterParams.Email!=null || userFilterParams.Role != null)
+            {
+                userDtos = GetFilteredUsers(userDtos, userFilterParams);
+                ViewBag.FilterParams = userFilterParams;
+            }
+                  
             int pageNumber = (page ?? 1);            
             return View(userDtos.ToPagedList(pageNumber, pageSize));
         }
-
+        
         public async Task<IActionResult> DeleteUser(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -322,6 +329,34 @@ namespace StudChoice.Controllers
             }
 
             return RedirectToAction("Subjects");
+        }
+
+        #endregion
+
+        #region Filtering
+        private List<UserDTO> GetFilteredUsers(List<UserDTO> userDtos, UserFilterParams userFilterParams)
+        {
+            if (!String.IsNullOrEmpty(userFilterParams.Name))
+            {
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Name) ? false : s.Name.ToLower().Contains(userFilterParams.Name.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(userFilterParams.Surname))
+            {
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Surname) ? false : s.Surname.ToLower().Contains(userFilterParams.Surname.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(userFilterParams.Email))
+            {
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Email) ? false : s.Email.ToLower().Contains(userFilterParams.Email.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(userFilterParams.Role) && userFilterParams.Role != "0")
+            {
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.Role) ? false : s.Role.ToLower().Contains(userFilterParams.Role.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(userFilterParams.TransictionCode))
+            {
+                userDtos = userDtos.Where(s => (string.IsNullOrEmpty(s.UserName) ? false : s.UserName.ToLower().Contains(userFilterParams.TransictionCode.ToLower()))).ToList();
+            }
+            return userDtos;
         }
 
         #endregion
