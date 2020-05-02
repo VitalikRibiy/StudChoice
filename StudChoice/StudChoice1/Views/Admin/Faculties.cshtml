@@ -25,7 +25,13 @@
         </li>
     </ul>
 </div>
-
+@using (Html.BeginForm())
+{
+    <div class="users">
+        Пошук: @Html.TextBox("name", (string)ViewBag.FilterParams?.Name, new { @placeholder = "Ім'я...", @class = "form-control" })
+        <input type="submit" value="Search" class="form-control" />
+    </div>
+}
 <div class="container-fluid my-2">
     <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddFaculty"><i class="fas fa-plus"></i></a>
 </div>
@@ -60,9 +66,12 @@
         }
     </tbody>
 </table>
-<div class="paging">
-    <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
-    <ul style="text-align:center">
-        @Html.PagedListPager(Model, page => Url.Action("Faculties", new { page }))
-    </ul>
-</div>
+@if (Model.Count() > 0)
+{
+    <div class="paging">
+        <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+        <ul style="text-align:center">
+            @Html.PagedListPager(Model, page => Url.Action("Faculties", new { page , facultyFilterParams = ViewBag.FilterParams}))
+        </ul>
+    </div>
+}

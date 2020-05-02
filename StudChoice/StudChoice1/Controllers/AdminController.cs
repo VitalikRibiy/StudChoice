@@ -117,13 +117,18 @@ namespace StudChoice.Controllers
         #region Faculties
 
 
-        public async Task<IActionResult> Faculties(int? page)
+        public async Task<IActionResult> Faculties(int? page, FacultyFilterParams facultyFilterParams)
         {
             var facultyDTOs = new List<FacultyDTO>();
             foreach (var faculty in await facultyService.GetAllAsync())
             {
                 var facultyDTO = mapper.Map<FacultyDTO>(faculty);
                 facultyDTOs.Add(facultyDTO);
+            }
+            if (facultyFilterParams.Name != null )
+            {
+                facultyDTOs = GetFilteredFaculties(facultyDTOs, facultyFilterParams);
+                ViewBag.FilterParams = facultyFilterParams;
             }
             int pageNumber = (page ?? 1);
             return View(facultyDTOs.ToPagedList(pageNumber, pageSize));
@@ -160,13 +165,20 @@ namespace StudChoice.Controllers
         #endregion
 
         #region Proffesors
-        public async Task<IActionResult> Professors(int? page)
+        public async Task<IActionResult> Professors(int? page, ProfessorFilterParams professorFilterParams)
         {
             var professorDTOs = new List<ProfessorDTO>();
             foreach (var professor in await professorService.GetAllAsync())
             {
                 var professorDTO = mapper.Map<ProfessorDTO>(professor);
                 professorDTOs.Add(professorDTO);
+            }
+            ViewBag.Faculties = professorDTOs.Select(x => x.FacultyName).Distinct().ToList();
+            ViewBag.Cathedras = professorDTOs.Select(x => x.CathedraName).Distinct().ToList();
+            if (professorFilterParams.FirstName != null || professorFilterParams.MiddleName != null || professorFilterParams.LastName != null || professorFilterParams.FacultyName != null || professorFilterParams.CathedraName != null )
+            {
+                professorDTOs = GetFilteredProfessors(professorDTOs, professorFilterParams);
+                ViewBag.FilterParams = professorFilterParams;
             }
             int pageNumber = (page ?? 1);
             return View(professorDTOs.ToPagedList(pageNumber, pageSize));
@@ -215,13 +227,18 @@ namespace StudChoice.Controllers
 
         #region Cathedra
 
-        public async Task<IActionResult> Cathedras(int? page)
+        public async Task<IActionResult> Cathedras(int? page,CathedraFilterParams cathedraFilterParams)
         {
             var cathedraDTOs = new List<CathedraDTO>();
             foreach (var cathedra in await cathedraService.GetAllAsync())
             {
                 var cathedraDTO = mapper.Map<CathedraDTO>(cathedra);
                 cathedraDTOs.Add(cathedraDTO);
+            }
+            if (cathedraFilterParams.Name != null)
+            {
+                cathedraDTOs = GetFilteredCathedras(cathedraDTOs, cathedraFilterParams);
+                ViewBag.FilterParams = cathedraFilterParams;
             }
             int pageNumber = (page ?? 1);
             return View(cathedraDTOs.ToPagedList(pageNumber, pageSize));
@@ -394,7 +411,46 @@ namespace StudChoice.Controllers
             }
             return subjectDtos;
         }
-
+        private List<FacultyDTO> GetFilteredFaculties(List<FacultyDTO> facultyDTOs, FacultyFilterParams facultyFilterParams)
+        {
+            if (!String.IsNullOrEmpty(facultyFilterParams.Name))
+            {
+                facultyDTOs = facultyDTOs.Where(s => (string.IsNullOrEmpty(s.DisplayName) ? false : s.DisplayName.ToLower().Contains(facultyFilterParams.Name.ToLower()))).ToList();
+            }            
+            return facultyDTOs;
+        }
+        private List<CathedraDTO> GetFilteredCathedras(List<CathedraDTO> cathedraDTOs, CathedraFilterParams cathedraFilterParams)
+        {
+            if (!String.IsNullOrEmpty(cathedraFilterParams.Name))
+            {
+                cathedraDTOs = cathedraDTOs.Where(s => (string.IsNullOrEmpty(s.DisplayName) ? false : s.DisplayName.ToLower().Contains(cathedraFilterParams.Name.ToLower()))).ToList();
+            }
+            return cathedraDTOs;
+        }
+        private List<ProfessorDTO> GetFilteredProfessors(List<ProfessorDTO> professorDTOs, ProfessorFilterParams professorFilterParams)
+        {
+            if (!String.IsNullOrEmpty(professorFilterParams.FirstName))
+            {
+                professorDTOs = professorDTOs.Where(s => (string.IsNullOrEmpty(s.FirstName) ? false : s.FirstName.ToLower().Contains(professorFilterParams.FirstName.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(professorFilterParams.CathedraName) && professorFilterParams.CathedraName != "0")
+            {
+                professorDTOs = professorDTOs.Where(s => (string.IsNullOrEmpty(s.FacultyName) ? false : s.CathedraName == professorFilterParams.CathedraName)).ToList();
+            }
+            if (!String.IsNullOrEmpty(professorFilterParams.MiddleName))
+            {
+                professorDTOs = professorDTOs.Where(s => (string.IsNullOrEmpty(s.MiddleName) ? false : s.MiddleName.ToLower().Contains(professorFilterParams.MiddleName.ToLower()))).ToList();
+            }
+            if (!String.IsNullOrEmpty(professorFilterParams.FacultyName) && professorFilterParams.FacultyName != "0")
+            {
+                professorDTOs = professorDTOs.Where(s => (string.IsNullOrEmpty(s.FacultyName) ? false : s.FacultyName == professorFilterParams.FacultyName)).ToList();
+            }
+            if (!String.IsNullOrEmpty(professorFilterParams.LastName))
+            {
+                professorDTOs = professorDTOs.Where(s => (string.IsNullOrEmpty(s.LastName) ? false : s.LastName.ToLower().Contains(professorFilterParams.LastName.ToLower()))).ToList();
+            }
+            return professorDTOs;
+        }
         #endregion
     }
 }
