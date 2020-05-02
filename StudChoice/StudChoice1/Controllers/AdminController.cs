@@ -281,24 +281,16 @@ namespace StudChoice.Controllers
 
         public async Task<IActionResult> Subjects(int? page, SubjectFilterParams subjectFilterParams)
         {
-            var subjectDTOs = new List<SubjectDTO>();
-            foreach (var subject in await subjectService.GetAllAsync())
-            {
-                var type = subject.Type != null ? subject.Type : string.Empty;
-
-                var subjectDTO = mapper.Map<SubjectDTO>(subject);
-                subjectDTO.Type = type;
-                subjectDTOs.Add(subjectDTO);
-            }
+            var subjectDTOs = (await subjectService.GetAllAsync()).ToList();
             ViewBag.Faculties = subjectDTOs.Select(x => x.FacultyName).Distinct().ToList();
             ViewBag.Types = subjectDTOs.Select(x => x.Type).Distinct().ToList();
-            if (subjectFilterParams.Name != null || subjectFilterParams.FacultyName != null || subjectFilterParams.MinStudents != null || subjectFilterParams.MaxStudents != null || subjectFilterParams.Professor != null || subjectFilterParams.Type!=null)
+            if (subjectFilterParams.Name != null || subjectFilterParams.FacultyName != null || subjectFilterParams.MinStudents != null || subjectFilterParams.MaxStudents != null || subjectFilterParams.Professor != null || subjectFilterParams.Type != null)
             {
                 subjectDTOs = GetFilteredSubjects(subjectDTOs, subjectFilterParams);
                 ViewBag.FilterParams = subjectFilterParams;
             }
             int pageNumber = (page ?? 1);
-            return View(subjectDTOs.ToPagedList(pageNumber, pageSize));            
+            return View(subjectDTOs.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

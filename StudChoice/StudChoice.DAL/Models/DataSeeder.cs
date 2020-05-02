@@ -38,10 +38,13 @@ namespace StudChoice.Areas.Identity.Data
                 userManager,
                 new User()
                 {
-                    Name = "Name",
-                    Surname = "Surname",
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    MiddleName = "MiddleName",
                     UserName = "admin",
                     Email = "admin@email.com",
+                    Course = Course.First,
+                    Term = Term.First
                 },
                 "admin", "Admin");
 
@@ -49,61 +52,13 @@ namespace StudChoice.Areas.Identity.Data
                 userManager,
                 new User()
                 {
-                    Name = "Name",
-                    Surname = "Surname",
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    MiddleName = "MiddleName",
                     UserName = "user",
                     Email = "user@email.com",
                 },
                 "user", "User");
-            await SeedUserAsync(userManager,
-            new User()
-            {
-                Name = "Name",
-                Surname = "Surname",
-                UserName = "admin1",
-                Email = "admin1@email.com",
-            },
-            "admin1", "Admin");
-
-            await SeedUserAsync(
-                userManager,
-                new User()
-                {
-                    Name = "Name",
-                    Surname = "Surname",
-                    UserName = "user1",
-                    Email = "user1@email.com",
-                },
-                "user1", "User");
-            await SeedUserAsync(userManager,
-                new User()
-                {
-                    Name = "Name",
-                    Surname = "Surname",
-                    UserName = "admin2",
-                    Email = "admin2@email.com",
-                },
-                "admin2", "Admin");
-
-            await SeedUserAsync(
-                userManager,
-                new User()
-                {
-                    Name = "Name",
-                    Surname = "Surname",
-                    UserName = "user2",
-                    Email = "user2@email.com",
-                },
-                "user2", "User");
-            await SeedUserAsync(userManager,
-                new User()
-                {
-                    Name = "Name",
-                    Surname = "Surname",
-                    UserName = "admin3",
-                    Email = "admin3@email.com",
-                },
-                "admin3", "Admin");
             #endregion
         }
 
@@ -212,7 +167,8 @@ namespace StudChoice.Areas.Identity.Data
                     CathedraId = context.Cathedras.FirstOrDefault().Id,
                     MinStudents = 15,
                     MaxStudents = 60,
-                    AssignedStudentsCount = 0
+                    AssignedStudentsCount = 0,
+                    Course = Course.First
                 };
 
                 var Subject2 = new Subject()
@@ -225,7 +181,8 @@ namespace StudChoice.Areas.Identity.Data
                     CathedraId = context.Cathedras.FirstOrDefault().Id,
                     MinStudents = 20,
                     MaxStudents = 60,
-                    AssignedStudentsCount = 0
+                    AssignedStudentsCount = 0,
+                    Course = Course.First
                 };
 
                 var Subject3 = new Subject()
@@ -238,7 +195,8 @@ namespace StudChoice.Areas.Identity.Data
                     CathedraId = context.Cathedras.FirstOrDefault().Id,
                     MinStudents = 30,
                     MaxStudents = 90,
-                    AssignedStudentsCount = 0
+                    AssignedStudentsCount = 0,
+                    Course = Course.Second
                 };
 
                 var Subject4 = new Subject()
@@ -251,7 +209,8 @@ namespace StudChoice.Areas.Identity.Data
                     CathedraId = context.Cathedras.FirstOrDefault().Id,
                     MinStudents = 20,
                     MaxStudents = 80,
-                    AssignedStudentsCount = 0
+                    AssignedStudentsCount = 0,
+                    Course = Course.Second
                 };
 
                 context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);

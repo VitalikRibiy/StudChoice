@@ -1,0 +1,21 @@
+﻿@model StudChoice.BLL.DTOs.SubjectDTO
+
+@{
+    ViewData["Title"] = $"{Model.Name}";
+}
+
+<div class="bg-primary text-white text-center"><h4>@Model.Name</h4></div>
+
+<div class="container d-flex flex-row justify-content-around">
+    <div class="container d-flex flex-row">
+        <div class="">
+            <p>Факультет: @Model.FacultyName</p>
+            <p>Кафедра: @Model.CathedraName</p>
+            <p>Студентів: @Model.AssignedStudentsCount / @Model.MaxStudents</p>
+            <p>Викладач: @Model.ProfessorFullName</p>
+            <p>Опис: @Model.Description</p>
+            <a asp-action="Choose" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", Model.Id.ToString() }, { "term", "1"} })">Вибрати цей предмет предмет (1 семестр)</a>
+            <a asp-action="Choose" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", Model.Id.ToString() }, { "term", "2"} })">Вибрати цей предмет предмет (2 семестр)</a>
+        </div>
+    </div>
+</div>

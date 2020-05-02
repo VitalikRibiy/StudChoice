@@ -167,7 +167,7 @@ namespace StudChoice.Controllers
 
             AccountModel = new AccountModel
             {
-                Name = currentUser.NormalizedUserName,
+                FirstName = currentUser.NormalizedUserName,
                 Email = currentUser.Email,
                 TransictionCode = currentUser.UserName
             };

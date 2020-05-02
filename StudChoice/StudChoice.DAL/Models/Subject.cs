@@ -31,5 +31,8 @@ namespace StudChoice.DAL.Models
 
         [Display(Name = "AssignedUsers")]
         public int AssignedStudentsCount { get; set; }
+
+        [Display(Name = "Course")]
+        public Course Course { get; set; }
     }
 }
