@@ -1,0 +1,43 @@
+﻿.paging {
+    display: block;
+}
+
+.paging li {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+    .paging li.active {
+        background-color: #1395dd;
+        color: white;
+        border: 1px solid #1395dd;
+    }
+
+    .paging li:hover:not(.active) {
+        background-color: #ddd;
+    }
+
+    .paging li:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .paging li:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+.pagination {
+    display: inline-block;
+    text-align: center;
+}
+.users .form-control {
+    display: inline-block;
+    width: 15%;
+}
+.subjects .form-control {
+    display: inline-block;
+    width: 13%;
+}

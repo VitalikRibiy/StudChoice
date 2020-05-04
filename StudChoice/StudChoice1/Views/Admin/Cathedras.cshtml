@@ -1,9 +1,9 @@
-﻿@model List<StudChoice.BLL.DTOs.CathedraDTO>
-
+﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.CathedraDTO>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Cathedras";
 }
-
+<link href="~/css/pagination.css" rel="stylesheet" />
 <div class="bg-primary text-white text-center"><h4>Список кафедра</h4></div>
 
 <div>
@@ -25,6 +25,14 @@
         </li>
     </ul>
 </div>
+
+@using (Html.BeginForm())
+{
+    <div class="users">
+        Пошук: @Html.TextBox("name", (string)ViewBag.FilterParams?.Name, new { @placeholder = "Ім'я...", @class = "form-control" })
+        <input type="submit" value="Search" class="form-control" />
+    </div>
+}
 
 <div class="container-fluid my-2">
     <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddCathedra"><i class="fas fa-plus"></i></a>
@@ -49,16 +57,25 @@
         {
             foreach (var cathedra in Model)
             {
-    <tr>
-        <td>@cathedra.Id</td>
-        <td>@cathedra.DisplayName</td>
-        <td>@cathedra.Description</td>
-        <td>@cathedra.FacultyName</td>
-        <td class="text-center">
-            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteFaculty" asp-all-route-data="@(new Dictionary<string, string> { {"cathedraId", cathedra.Id.ToString() } })">Delete</a>
-        </td>
-    </tr>
+                <tr>
+                    <td>@cathedra.Id</td>
+                    <td>@cathedra.DisplayName</td>
+                    <td>@cathedra.Description</td>
+                    <td>@cathedra.FacultyName</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteFaculty" asp-all-route-data="@(new Dictionary<string, string> { {"cathedraId", cathedra.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
+@if (Model.Count() > 0)
+{
+    <div class="paging">
+        <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+        <ul style="text-align:center">
+            @Html.PagedListPager(Model, page => Url.Action("Cathedras", new { page, cathedraFilterParams = ViewBag.FilterParams }))
+        </ul>
+    </div>
+}

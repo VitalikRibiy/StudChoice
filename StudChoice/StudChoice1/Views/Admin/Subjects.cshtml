@@ -1,9 +1,9 @@
-﻿@model List<StudChoice.BLL.DTOs.SubjectDTO>
-
+﻿@model X.PagedList.IPagedList<StudChoice.BLL.DTOs.SubjectDTO>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Subjects";
 }
-
+<link href="~/css/pagination.css" rel="stylesheet" />
 <div class="bg-primary text-white text-center"><h4>Список предметів</h4></div>
 
 <div>
@@ -25,7 +25,30 @@
         </li>
     </ul>
 </div>
-
+@using (Html.BeginForm())
+{
+    <div class="subjects">
+        Пошук: @Html.TextBox("name", (string)ViewBag.FilterParams?.Name, new { @placeholder = "Назва...", @class = "form-control" })
+        <select name="Type" class="form-control">
+            <option value="0">Виберіть тип</option>
+            @foreach (string type in ViewBag.Types)
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+        @Html.TextBox("MinStudents", (string)ViewBag.FilterParams?.MinStudents, new { @placeholder = "Мінімальна к-сть студентів...", @class = "form-control" })
+        @Html.TextBox("MaxStudents", (string)ViewBag.FilterParams?.MaxStudents, new { @placeholder = "Максимальна к-сть студентів...", @class = "form-control" })
+        <select name="FacultyName" class="form-control">
+            <option value="0">Виберіть факультет</option>
+            @foreach (string faculty in ViewBag.Faculties)
+            {
+                <option value="@faculty">@faculty</option>
+            }
+        </select>
+        @Html.TextBox("Professor", (string)ViewBag.FilterParams?.Professor, new { @placeholder = "Професор...", @class = "form-control" })
+        <input type="submit" value="Search" class="form-control" />
+    </div>
+}
 <div class="container-fluid my-2">
     <a class="btn btn-sm btn-outline-primary btn-block z-depth-0" asp-action="AddSubject"><i class="fas fa-plus"></i></a>
 </div>
@@ -47,47 +70,56 @@
     <tbody>
         @if (Model.Count() == 0)
         {
-            <tr><td colspan="3" class="text-center">There are no subjects</td></tr>
+            <tr><td colspan="9" class="text-center">There are no subjects</td></tr>
         }
         else
         {
             foreach (var subject in Model)
             {
-    <tr>
-        <td>@subject.Id</td>
-        <td>@subject.Name</td>
-        <td>@subject.Description</td>
-        <td>
-            <form asp-action="SetSubjectType">
-                <input type="hidden" name="subjectId" value="@subject.Id.ToString()" />
-                <select name="subjectType" onchange="Submit(this)" class="form-control">
-                    @if (subject.Type == "ДВВС")
-                    {
-                        <option value="ДВВС" selected>ДВВС</option>
-                        <option value="ДВ">ДВ</option>
-                    }
-                    else if (subject.Type == "ДВ")
-                    {
-                        <option value="ДВВС">ДВВС</option>
-                        <option value="ДВ" selected>ДВ</option>
-                    }
-                    else
-                    {
-                        <option value="ДВВС">ДВВС</option>
-                        <option value="ДВ">ДВ</option>
-                    }
-                </select>
-            </form>
-        </td>
-        <td>@subject.AssignedStudentsCount / @subject.MaxStudents</td>
-        <td>@subject.FacultyName</td>
-        <td>@subject.CathedraName</td>
-        <td>@subject.ProfessorFullName</td>
-        <td class="text-center">
-            <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">Delete</a>
-        </td>
-    </tr>
+                <tr>
+                    <td>@subject.Id</td>
+                    <td>@subject.Name</td>
+                    <td>@subject.Description</td>
+                    <td>
+                        <form asp-action="SetSubjectType">
+                            <input type="hidden" name="subjectId" value="@subject.Id.ToString()" />
+                            <select name="subjectType" onchange="Submit(this)" class="form-control">
+                                @if (subject.Type == "ДВВС")
+                                {
+                                    <option value="ДВВС" selected>ДВВС</option>
+                                    <option value="ДВ">ДВ</option>
+                                }
+                                else if (subject.Type == "ДВ")
+                                {
+                                    <option value="ДВВС">ДВВС</option>
+                                    <option value="ДВ" selected>ДВ</option>
+                                }
+                                else
+                                {
+                                    <option value="ДВВС">ДВВС</option>
+                                    <option value="ДВ">ДВ</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td>@subject.AssignedStudentsCount / @subject.MaxStudents</td>
+                    <td>@subject.FacultyName</td>
+                    <td>@subject.CathedraName</td>
+                    <td>@subject.ProfessorFullName</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger z-depth-0" asp-action="DeleteSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">Delete</a>
+                    </td>
+                </tr>
             }
         }
     </tbody>
 </table>
+@if (Model.Count() > 0)
+{
+    <div class="paging">
+        <p style="text-align:center;">Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount</p>
+        <ul style="text-align:center">
+            @Html.PagedListPager(Model, page => Url.Action("Subjects", new { page, subjectFilterParams = ViewBag.FilterParams }))
+        </ul>
+    </div>
+}
