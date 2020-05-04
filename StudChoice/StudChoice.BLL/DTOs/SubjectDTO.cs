@@ -34,5 +34,7 @@ namespace StudChoice.BLL.DTOs
         public int AssignedStudentsCount { get; set; }
 
         public Course Course { get; set; }
+
+        public Term Term { get; set; }
     }
 }

@@ -34,5 +34,8 @@ namespace StudChoice.DAL.Models
 
         [Display(Name = "Course")]
         public Course Course { get; set; }
+
+        [Display(Name = "Term")]
+        public Term Term { get; set; }
     }
 }
