@@ -391,11 +391,11 @@ namespace StudChoice.Controllers
             }
             if (!String.IsNullOrEmpty(subjectFilterParams.MinStudents))
             {
-                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MinStudents.ToString()) ? false : s.MinStudents >= Convert.ToInt32(subjectFilterParams.MinStudents))).ToList();
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MinStudents.ToString()) ? false : s.MinStudents >= Convert.ToInt64(subjectFilterParams.MinStudents))).ToList();
             }
             if (!String.IsNullOrEmpty(subjectFilterParams.MaxStudents))
             {
-                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MaxStudents.ToString()) ? false : s.MaxStudents <= Convert.ToInt32(subjectFilterParams.MaxStudents))).ToList();
+                subjectDtos = subjectDtos.Where(s => (string.IsNullOrEmpty(s.MaxStudents.ToString()) ? false : s.MaxStudents <= Convert.ToInt64(subjectFilterParams.MaxStudents))).ToList();
             }
             if (!String.IsNullOrEmpty(subjectFilterParams.FacultyName) && subjectFilterParams.FacultyName != "0")
             {

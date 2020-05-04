@@ -5,7 +5,7 @@ namespace StudChoice.BLL.Services
 {
     public interface ICrudService<TEntityDTO> where TEntityDTO : class, new()
     {
-        Task<TEntityDTO> GetAsync(long id);
+        Task<TEntityDTO> GetAsync(int id);
 
         Task<IEnumerable<TEntityDTO>> GetAllAsync();
 
@@ -15,7 +15,7 @@ namespace StudChoice.BLL.Services
 
         Task<TEntityDTO> UpdateAsync(TEntityDTO dto);
 
-        Task DeleteAsync(long id);
+        Task DeleteAsync(int id);
 
         public void Dispose();
     }

@@ -24,7 +24,7 @@
             foreach (var subject in Model)
             {
                 <tr>
-                    <td class="col col-2"><a asp-controller="Subject" asp-action="View" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">@subject.Name</a></td>
+                    <td class="col col-2"><a asp-controller="Subject" asp-action="ViewSubject" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", subject.Id.ToString() } })">@subject.Name</a></td>
                     <td class="col col-8">@subject.Description</td>
                     <td class="col col-1">@subject.AssignedStudentsCount / @subject.MaxStudents</td>
                 </tr>

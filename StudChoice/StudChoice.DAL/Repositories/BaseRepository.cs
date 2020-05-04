@@ -42,7 +42,7 @@ namespace StudChoice.DAL.Repositories
             return Task.FromResult<IEnumerable<TEntity>>(Entities.Where(predicate));
         }
 
-        public virtual Task<TEntity> GetByIdAsync(long id)
+        public virtual Task<TEntity> GetByIdAsync(int id)
         {
             return Entities.SingleOrDefaultAsync(t => t.Id.Equals(id));
         }
@@ -70,6 +70,18 @@ namespace StudChoice.DAL.Repositories
 
         public virtual TEntity Update(TEntity entity)
         {
+            var local = context.Set<TEntity>()
+                .Local
+                .FirstOrDefault(entry => entry.Id.Equals(entity.Id));
+
+            // check if local is not null 
+            if (local != null)
+            {
+                // detach
+                context.Entry(local).State = EntityState.Detached;
+            }
+
+
             return Entities.Update(entity).Entity;
         }
     }

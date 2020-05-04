@@ -10,7 +10,7 @@ namespace StudChoice.DAL.Models
 
         public string Description { get; set; }
 
-        public long FacultyId { get; set; }
+        public int FacultyId { get; set; }
         
         public List<Professor> Professors { get; set; }
     }

@@ -28,13 +28,13 @@ namespace StudChoice.BLL.Services.Implementations
             return mapper.Map<CathedraDTO>(model);
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(int id)
         {
             unitOfWork.CathedraRepository.Remove(id);
             await unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<CathedraDTO> GetAsync(long id)
+        public async Task<CathedraDTO> GetAsync(int id)
         {
             var cathedra = mapper.Map<CathedraDTO>(await unitOfWork.CathedraRepository.GetByIdAsync(id));
             cathedra.FacultyName = (await unitOfWork.FacultyRepository.GetByIdAsync(cathedra.FacultyId)).DisplayName;

@@ -168,7 +168,8 @@ namespace StudChoice.Areas.Identity.Data
                     MinStudents = 15,
                     MaxStudents = 60,
                     AssignedStudentsCount = 0,
-                    Course = Course.First
+                    Course = Course.First,
+                    Term = Term.First
                 };
 
                 var Subject2 = new Subject()
@@ -182,7 +183,8 @@ namespace StudChoice.Areas.Identity.Data
                     MinStudents = 20,
                     MaxStudents = 60,
                     AssignedStudentsCount = 0,
-                    Course = Course.First
+                    Course = Course.First,
+                    Term = Term.First
                 };
 
                 var Subject3 = new Subject()
@@ -196,7 +198,8 @@ namespace StudChoice.Areas.Identity.Data
                     MinStudents = 30,
                     MaxStudents = 90,
                     AssignedStudentsCount = 0,
-                    Course = Course.Second
+                    Course = Course.Second,
+                    Term = Term.Second
                 };
 
                 var Subject4 = new Subject()
@@ -210,7 +213,8 @@ namespace StudChoice.Areas.Identity.Data
                     MinStudents = 20,
                     MaxStudents = 80,
                     AssignedStudentsCount = 0,
-                    Course = Course.Second
+                    Course = Course.Second,
+                    Term = Term.Second
                 };
 
                 context.Subjects.AddRange(Subject1, Subject2, Subject3, Subject4);

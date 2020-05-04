@@ -7,7 +7,7 @@ namespace StudChoice.DAL.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(long id);
+        Task<TEntity> GetByIdAsync(int id);
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 

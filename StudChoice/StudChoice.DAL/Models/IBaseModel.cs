@@ -5,6 +5,6 @@ namespace StudChoice.DAL.Models
     public interface IBaseModel
     {
         [Required]
-        public long Id { get; set; }
+        public int Id { get; set; }
     }
 }

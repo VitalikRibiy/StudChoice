@@ -36,33 +36,42 @@ namespace StudChoice.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Subjects(string subjectType)
+        public async Task<IActionResult> Subjects(string subjectType, string term)
         {
             var subjectDTOs = (await subjectService.GetAllAsync()).ToList();
 
             var user = await userManager.GetUserAsync(User);
 
-            subjectDTOs = subjectDTOs.Where(x => x.Type == subjectType && x.Course == user.Course).ToList();
+            if(subjectType == "ДВ")
+            {
+                subjectDTOs = subjectDTOs.Where(x => x.Type == subjectType && x.Course == user.Course && x.Term.GetDescription() == term && x.FacultyId == user.FacultyId).ToList();
+            }
+            else if(subjectType == "ДВВС")
+            {
+                subjectDTOs = subjectDTOs.Where(x => x.Type == subjectType && x.Course == user.Course && x.Term.GetDescription() == term).ToList();
+            }
+            else
+            {
+                throw (new Exception("Wrong subject type!"));
+            }            
 
             return View("Subjects", subjectDTOs);
         }
 
-        public async Task<IActionResult> View(string subjectId)
+        public async Task<IActionResult> ViewSubject(string subjectId)
         {
             var subject = await subjectService.GetAsync(Int32.Parse(subjectId));
 
             return View("ViewSubject", subject);
         }
 
-        public async Task<IActionResult> Choose(string subjectId, string term)
+        public async Task<IActionResult> Choose(string subjectId)
         {
             var user = await userManager.GetUserAsync(User);
 
             var subject = await subjectService.GetAsync(Int32.Parse(subjectId));
 
-            int termNumber = Int32.Parse(term);
-
-            if(termNumber == 1)
+            if(subject.Term.GetDescription() == "First")
             {
                 if(subject.Type == "ДВ")
                 {
@@ -73,7 +82,7 @@ namespace StudChoice.Controllers
                     user.Dvvs1Id = Int32.Parse(subjectId);
                 }
             }
-            else if(termNumber == 2)
+            else if(subject.Term.GetDescription() == "Second")
             {
                 if (subject.Type == "ДВ")
                 {
@@ -84,6 +93,10 @@ namespace StudChoice.Controllers
                     user.Dvvs2Id = Int32.Parse(subjectId);
                 }
             }
+
+            subject.AssignedStudentsCount += 1;
+
+            await subjectService.UpdateAsync(subject);
 
             await userManager.UpdateAsync(user);
 

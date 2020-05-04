@@ -51,19 +51,24 @@ namespace StudChoice.Controllers
         {
             var user = mapper.Map<UserDTO>((await userManager.GetUserAsync(User)));
 
-            user.FacultyName = (await facultyService.GetAsync(user.FacultyId)).DisplayName;
+            if(user != null)
+            {
+                if (user.FacultyId != 0) user.FacultyName = (await facultyService.GetAsync(user.FacultyId)).DisplayName;
 
-            user.CathedraName = (await cathedraService.GetAsync(user.CathedraId)).DisplayName;
+                if (user.CathedraId != 0) user.CathedraName = (await cathedraService.GetAsync(user.CathedraId)).DisplayName;
 
-            if(user.Dv1Id != null) user.Dv1IName = (await subjectService.GetAsync((long)user.Dv1Id)).Name;
+                if(user.Dv1Id != null) user.Dv1IName = (await subjectService.GetAsync((int)user.Dv1Id)).Name;
 
-            if (user.Dv2Id != null) user.Dv2IName = (await subjectService.GetAsync((long)user.Dv2Id)).Name;
+                if (user.Dv2Id != null) user.Dv2IName = (await subjectService.GetAsync((int)user.Dv2Id)).Name;
 
-            if (user.Dvvs1Id != null) user.Dvvs1Name = (await subjectService.GetAsync((long)user.Dvvs1Id)).Name;
+                if (user.Dvvs1Id != null) user.Dvvs1Name = (await subjectService.GetAsync((int)user.Dvvs1Id)).Name;
 
-            if (user.Dvvs2Id != null) user.Dvvs2Name = (await subjectService.GetAsync((long)user.Dvvs2Id)).Name;
+                if (user.Dvvs2Id != null) user.Dvvs2Name = (await subjectService.GetAsync((int)user.Dvvs2Id)).Name;
 
-            return View("Index", user);
+                return View("Index", user);
+            }
+
+            return View("Index", null);
         }
 
         public IActionResult Privacy()

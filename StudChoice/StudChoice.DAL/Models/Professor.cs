@@ -14,9 +14,9 @@ namespace StudChoice.DAL.Models
 
         public string FullName { get { return LastName + " " + FirstName + " " + MiddleName; } }
 
-        public long FacultyId { get; set; }
+        public int FacultyId { get; set; }
 
-        public long CathedraId { get; set; }
+        public int CathedraId { get; set; }
 
         public List<Subject> Subjects { get; set; }
     }

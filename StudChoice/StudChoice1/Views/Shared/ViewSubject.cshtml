@@ -1,4 +1,5 @@
 ﻿@model StudChoice.BLL.DTOs.SubjectDTO
+@using StudChoice.BLL.DTOs
 
 @{
     ViewData["Title"] = $"{Model.Name}";
@@ -14,8 +15,15 @@
             <p>Студентів: @Model.AssignedStudentsCount / @Model.MaxStudents</p>
             <p>Викладач: @Model.ProfessorFullName</p>
             <p>Опис: @Model.Description</p>
-            <a asp-action="Choose" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", Model.Id.ToString() }, { "term", "1"} })">Вибрати цей предмет предмет (1 семестр)</a>
-            <a asp-action="Choose" asp-all-route-data="@(new Dictionary<string, string> { {"subjectId", Model.Id.ToString() }, { "term", "2"} })">Вибрати цей предмет предмет (2 семестр)</a>
+            @if (Model.AssignedStudentsCount < Model.MaxStudents)
+            {
+                @*<a asp-action="Choose" asp-all-route-data="@(new Dictionary<string, SubjectDTO> {  })"> (1 семестр)</a>*@
+                @Html.ActionLink("Вибрати цей предмет предмет", "Choose", "Subject", new { subjectId = Model.Id });
+            }
+            else
+            {
+                <p>Нажаль всі місця вже зайняті! :(</p>
+            }
         </div>
     </div>
 </div>

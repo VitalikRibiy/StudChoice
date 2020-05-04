@@ -4,47 +4,90 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="bg-primary text-white text-center"><h4>Про себе</h4></div>
 
-<div class="container d-flex flex-row justify-content-around">
+<div class="container">
 
     @if (Model != null)
     {
-        <div class="container d-flex flex-row">
-            <div class="">
-                <p>FirstName</p>
-                <p>LastName</p>
-                <p>MiddleName</p>
-                <p>Email</p>
-                <p>FacultyName</p>
-                <p>CathedraName</p>
-                <p>Course</p>
-                <p>Term</p>
-                <p>Dv 1</p>
-                <p>Dv 2</p>
-                <p>Dvvs 1</p>
-                <p>Dvvs 2</p>
-            </div>
+        <div class="bg-primary text-white text-center"><h4>Про себе</h4></div>
+        <div class="container d-flex flex-row justify-content-around">
+            <div class="container d-flex flex-row">
+                <div class="m-md-auto">
+                    <p>FirstName</p>
+                    <p>LastName</p>
+                    <p>MiddleName</p>
+                    <p>Email</p>
+                    <p>FacultyName</p>
+                    <p>CathedraName</p>
+                    <p>Course</p>
+                    <p>Term</p>
+                    <p>Dv Semester-1</p>
+                    <p>Dv Senester-2</p>
+                    <p>Dvvs Semester-1</p>
+                    <p>Dvvs Semester-2</p>
+                </div>
 
-            <div class="">
-                <p>@Model.FirstName</p>
-                <p>@Model.LastName</p>
-                <p>@Model.MiddleName</p>
-                <p>@Model.Email</p>
-                <p>@Model.FacultyName</p>
-                <p>@Model.CathedraName</p>
-                <p>@Model.Course</p>
-                <p>@Model.Term</p>
-                <p>@Model.Dv1IName</p>
-                <p>@Model.Dv2IName</p>
-                <p>@Model.Dvvs1Name</p>
-                <p>@Model.Dvvs2Name</p>
-            </div>
+                <div class="m-md-auto">
+                    <p>@(Model.FirstName ?? "No information")</p>
+                    <p>@(Model.LastName ?? "No information")</p>
+                    <p>@(Model.MiddleName ?? "No information")</p>
+                    <p>@(Model.Email ?? "No information")</p>
+                    <p>@(Model.FacultyName ?? "No information")</p>
+                    <p>@(Model.CathedraName ?? "No information")</p>
+                    <p>@Model.Course</p>
+                    <p>@Model.Term</p>
 
+                    @if (Model.Dv1IName != null)
+                    {
+                        <p>@Model.Dv1IName</p>
+                    }
+                    else
+                    {
+                        <p>
+                            <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВ" }, {"term","First"} })">Choose a DV</a>
+                        </p>
+                    }
+
+                    @if (Model.Dv2IName != null)
+                    {
+                        <p>@Model.Dv2IName</p>
+                    }
+                    else
+                    {
+                        <p>
+                            <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВ" }, {"term","Second"} })">Choose a DV</a>
+                        </p>
+                    }
+
+                    @if (Model.Dvvs1Name != null)
+                    {
+                        <p>@Model.Dvvs1Name</p>
+                    }
+                    else
+                    {
+                        <p>
+                            <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВВС" }, {"term","First"} })">Choose a DVVS</a>
+                        </p>
+                    }
+
+                    @if (Model.Dvvs2Name != null)
+                    {
+                        <p>@Model.Dvvs2Name</p>
+                    }
+                    else
+                    {
+                        <p>
+                            <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВВС" }, {"term","Second"} })">Choose a DVVS</a>
+                        </p>
+                    }
+
+                </div>
+
+            </div>
         </div>
     }
-<div>
-    <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВ" } })">Choose a DV</a>
-    <a asp-controller="Subject" asp-action="Subjects" asp-all-route-data="@(new Dictionary<string, string> { {"subjectType", "ДВВС" } })">Choose a DVVS</a>
-</div>
+    else
+    {
+        <h1>Some text for unauthorized Users</h1>
+    }
 </div>
