@@ -444,5 +444,56 @@ namespace StudChoice.Controllers
             return professorDTOs;
         }
         #endregion
+
+        #region Distribution
+
+        public async void Distribution()
+        {
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userManager.Users)
+            {
+                var role = (await userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
+
+                var userDto = mapper.Map<UserDTO>(user);
+                userDto.Role = role;
+                if (userDto.Role == "2")
+                    userDTOs.Add(userDto);
+            }
+            var subjects = await subjectService.GetAllAsync();
+            DistributeDvvs(userDTOs,subjects.Where(x=>x.AssignedStudentsCount<x.MaxStudents).ToList());
+        }
+
+        public async void DistributeDvvs(List<UserDTO> userDTOs,List<SubjectDTO> subjectDTOs)
+        {
+            var users = SortDVVS(userDTOs);
+            foreach(var faculty in subjectDTOs.Select(x=>x.FacultyId).Distinct())
+            {
+               while()
+            }
+            foreach(var subject in subjectDTOs.OrderBy(x=>x.MaxStudents-x.AssignedStudentsCount))
+            {
+                while(subject.AssignedStudentsCount != subject.MaxStudents)
+                {
+                    var user = userDTOs.FirstOrDefault(x => x.FacultyId == subject.FacultyId);
+                    if(subject)
+                    user.Dvvs1Id = subject.Id;
+                    subject.AssignedStudentsCount++;
+                }
+            }
+
+
+        }
+
+        public List<UserDTO> SortDVVS(List<UserDTO> userDTOs)
+        {
+            return userDTOs.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ThenBy(x => x.MiddleName).ToList();
+        }
+
+        public IEnumerable<IGrouping<int,UserDTO>> SortDV(List<UserDTO> userDTOs)
+        {
+            return userDTOs.OrderByDescending(x => x.AvaragePoints).ThenBy(x => x.LastName).GroupBy(x => x.FacultyId);
+        }
+
+        #endregion
     }
 }

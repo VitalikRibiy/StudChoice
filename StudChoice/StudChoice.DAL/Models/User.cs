@@ -25,5 +25,7 @@ namespace StudChoice.DAL.Models
         public Course Course { get; set; }
 
         public Term Term { get; set; }
+
+        public double? AvaragePoints { get; set; }
     }
 }
