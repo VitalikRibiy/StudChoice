@@ -43,8 +43,7 @@ namespace StudChoice.Areas.Identity.Data
                     MiddleName = "MiddleName",
                     UserName = "admin",
                     Email = "admin@email.com",
-                    Course = Course.First,
-                    Term = Term.First,
+                    Course = Course.First
                 },
                 "admin", "Admin");
 
@@ -60,7 +59,6 @@ namespace StudChoice.Areas.Identity.Data
                     FacultyId = 1,
                     CathedraId = 1,
                     Course = Course.First,
-                    Term = Term.First,
                     AvaragePoints = 176.0
                 },
                 "user", "User");
@@ -77,7 +75,6 @@ namespace StudChoice.Areas.Identity.Data
                     FacultyId = 1,
                     CathedraId = 1,
                     Course = Course.First,
-                    Term = Term.First,
                     AvaragePoints = 160.0
                 },
                 "user2", "User2");
