@@ -43,8 +43,7 @@ namespace StudChoice.Areas.Identity.Data
                     MiddleName = "MiddleName",
                     UserName = "admin",
                     Email = "admin@email.com",
-                    Course = Course.First,
-                    Term = Term.First
+                    Course = Course.First
                 },
                 "admin", "Admin");
 
@@ -57,8 +56,28 @@ namespace StudChoice.Areas.Identity.Data
                     MiddleName = "MiddleName",
                     UserName = "user",
                     Email = "user@email.com",
+                    FacultyId = 1,
+                    CathedraId = 1,
+                    Course = Course.First,
+                    AvaragePoints = 176.0
                 },
                 "user", "User");
+
+            await SeedUserAsync(
+                userManager,
+                new User()
+                {
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    MiddleName = "MiddleName",
+                    UserName = "user",
+                    Email = "user2@email.com",
+                    FacultyId = 1,
+                    CathedraId = 1,
+                    Course = Course.First,
+                    AvaragePoints = 160.0
+                },
+                "user2", "User2");
             #endregion
         }
 

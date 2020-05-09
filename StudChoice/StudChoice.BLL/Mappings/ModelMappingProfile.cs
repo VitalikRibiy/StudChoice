@@ -17,6 +17,7 @@ namespace StudChoice.BLL.Mappings
                 .ForMember(dto => dto.Dv2IName, prop => prop.Ignore())
                 .ForMember(dto => dto.Dvvs1Name, prop => prop.Ignore())
                 .ForMember(dto => dto.Dvvs2Name, prop => prop.Ignore())
+                .ForMember(dto => dto.AvaragePoints, prop => prop.Ignore())
                 .ReverseMap();
 
             CreateMap<FacultyDTO, Faculty>()

@@ -444,5 +444,213 @@ namespace StudChoice.Controllers
             return professorDTOs;
         }
         #endregion
+
+        #region Distribution
+
+        [HttpGet]
+        public async Task<IActionResult> Distribute()
+        {
+            var userDTOs = new List<UserDTO>();
+            foreach (var user in userManager.Users)
+            {
+                var role = (await userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
+
+                var userDto = mapper.Map<UserDTO>(user);
+                userDto.Role = role;
+                if (userDto.Role == "2")
+                    userDTOs.Add(userDto);
+            }
+            var subjects = await subjectService.GetAllAsync();
+            foreach (Course course in Enum.GetValues(typeof(Course)))
+            {
+                DistributeDvvs(userDTOs.Where(x => x.Course == course && x.Dvvs1Id == null).ToList(), subjects.Where(x => x.Course == course && x.AssignedStudentsCount < x.MinStudents && x.Term == Term.First).ToList(), Term.First);
+                DistributeDvvs(userDTOs.Where(x => x.Course == course && x.Dvvs2Id == null).ToList(), subjects.Where(x => x.Course == course && x.AssignedStudentsCount < x.MinStudents && x.Term == Term.Second).ToList(), Term.Second);
+                DistributeDV(userDTOs, subjects.Where(x => x.Course == course && x.Term == Term.First).ToList(), Term.First);
+                DistributeDV(userDTOs, subjects.Where(x => x.Course == course && x.Term == Term.Second).ToList(), Term.Second);
+            }
+            return RedirectToAction("Subjects");
+        }
+
+        public async void DistributeDvvs(List<UserDTO> userDTOs, List<SubjectDTO> subjectDTOs, Term term)
+        {
+            var users = SortDVVS(userDTOs);
+            var modifiedUsers = new List<UserDTO>();
+            var modifiedSubjects = new List<SubjectDTO>();
+            foreach(var subject in subjectDTOs.OrderBy(x=>x.MinStudents-x.AssignedStudentsCount))
+            {
+                if (users.Count == 0)
+                    break;
+                while (subject.AssignedStudentsCount != subject.MinStudents)
+                {
+                    if (users.Count == 0)
+                        break;
+                    var user = users.FirstOrDefault(x => x.FacultyId == subject.FacultyId);
+                    if (user == null)
+                        user = users.FirstOrDefault();
+                    if(term == Term.First)
+                    {
+                        user.Dvvs1Id = subject.Id;
+                    }
+                    else if(term == Term.Second)
+                    {
+                        user.Dvvs2Id = subject.Id;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    subject.AssignedStudentsCount++;
+                    modifiedUsers.Add(user);
+                    users.Remove(user);
+                }
+                modifiedSubjects.Add(subject);
+            }
+            if(users.Count != 0)
+            {
+                var usersPerSubject = 0;
+                usersPerSubject = users.Count / subjectDTOs.Count;
+                if (usersPerSubject != 0)
+                {
+                    foreach(var subject in subjectDTOs)
+                    {
+                        for(int i=0;i<usersPerSubject;i++)
+                        {
+                            var user = users.First();
+                            if (term == Term.First)
+                            {
+                                user.Dvvs1Id = subject.Id;
+                            }
+                            else if (term == Term.Second)
+                            {
+                                user.Dvvs2Id = subject.Id;
+                            }
+                            subject.AssignedStudentsCount++;
+                            modifiedUsers.Add(user);
+                            users.Remove(user);
+                        }
+                    }
+                }
+                if (users.Count > 0)
+                {
+                    for(int i=0;i<users.Count;i++)
+                    {
+                        var subject = subjectDTOs[i];
+                        var user = users.First();
+                        if (term == Term.First)
+                        {
+                            user.Dvvs1Id = subject.Id;
+                        }
+                        else if (term == Term.Second)
+                        {
+                            user.Dvvs2Id = subject.Id;
+                        }
+                        subject.AssignedStudentsCount++;
+                        modifiedUsers.Add(user);
+                        users.Remove(user);
+                    }
+                }
+            }
+            foreach (var userDTO in modifiedUsers)
+            {
+                await userManager.UpdateAsync(mapper.Map<User>(userDTO));
+            }
+            foreach(var subjectDTO in modifiedSubjects)
+            {
+                await subjectService.UpdateAsync(subjectDTO);
+            }
+        }
+
+        public async void DistributeDV(List<UserDTO> userDTOs, List<SubjectDTO> subjectDTOs, Term term)
+        {
+            var facultiesDTO = await facultyService.GetAllAsync();
+            var faculties = facultiesDTO.Select(x => x.Id).ToList();
+            Dictionary<int, Tuple<List<SubjectDTO>, List<UserDTO>>> facultiesSubjectPairs = new Dictionary<int, Tuple<List<SubjectDTO>, List<UserDTO>>>();
+            foreach (var facultyId in faculties)
+            {
+                var users = userDTOs.Where(x => x.FacultyId == facultyId).ToList();
+                var subjects = subjectDTOs.Where(x => x.FacultyId == facultyId).ToList();
+                var tempUsers = new List<UserDTO>();
+                if (term == Term.First)
+                {
+                    users.Where(x => x.Dv1Id == null).ToList().ForEach(x=> tempUsers.Add(x));
+                }
+                else
+                {
+                    users.Where(x => x.Dv2Id == null).ToList().ForEach(x => tempUsers.Add(x));
+                }
+                foreach (var subject in subjects.Where(x=>x.AssignedStudentsCount > x.MaxStudents))
+                {
+                    if (subject.AssignedStudentsCount > subject.MaxStudents)
+                    {
+                        var usersAtSubject = new List<UserDTO>();
+                        if (term == Term.First)
+                        {
+                            usersAtSubject = users.Where(x => x.Dv1Id == subject.Id).ToList();
+                        }
+                        else
+                        {
+                            usersAtSubject = users.Where(x => x.Dv2Id == subject.Id).ToList();
+                        }
+                        usersAtSubject = usersAtSubject.OrderByDescending(x => x.AvaragePoints).ThenBy(x => x.LastName).ThenBy(x => x.FirstName).ThenBy(x => x.Id).ToList();
+                        var afterRedLine = usersAtSubject.GetRange(subject.MaxStudents, subject.AssignedStudentsCount - subject.MaxStudents);
+                        foreach(var user in afterRedLine)
+                        {
+                            if (term == Term.First)
+                            {
+                                user.Dv1Id = null;
+                            }
+                            else
+                            {
+                                user.Dv2Id = null;
+                            }
+                            subject.AssignedStudentsCount--;
+                            tempUsers.Add(user);
+                        }
+                    }
+                }
+                tempUsers = tempUsers.OrderByDescending(x => x.AvaragePoints).ThenBy(x => x.LastName).ThenBy(x => x.FirstName).ThenBy(x => x.Id).ToList();
+                foreach (var subject in subjects.Where(x => x.AssignedStudentsCount < x.MaxStudents))
+                {
+                    if (tempUsers.Count == 0)
+                        break;
+                    while (subject.AssignedStudentsCount != subject.MinStudents)
+                    {
+                        if (tempUsers.Count == 0)
+                            break;
+                        var user = tempUsers.FirstOrDefault(x => x.CathedraId == subject.CathedraId);
+                        if (user == null)
+                            user = tempUsers.FirstOrDefault();
+                        if (term == Term.First)
+                        {
+                            user.Dv1Id = subject.Id;
+                        }
+                        else if (term == Term.Second)
+                        {
+                            user.Dv2Id = subject.Id;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        subject.AssignedStudentsCount++;
+                        await userManager.UpdateAsync(mapper.Map<User>(user));
+                        tempUsers.Remove(user);
+                    }
+                    await subjectService.UpdateAsync(subject);
+                }
+            }
+        }
+
+        public List<UserDTO> SortDVVS(List<UserDTO> userDTOs)
+        {
+            return userDTOs.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ThenBy(x => x.MiddleName).ToList();
+        }
+
+        public IEnumerable<IGrouping<int,UserDTO>> SortDV(List<UserDTO> userDTOs)
+        {
+            return userDTOs.OrderByDescending(x => x.AvaragePoints).ThenBy(x => x.LastName).GroupBy(x => x.FacultyId);
+        }
+
+        #endregion
     }
 }

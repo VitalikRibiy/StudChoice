@@ -7,7 +7,7 @@ namespace StudChoice.BLL.DTOs
 {
    public class SubjectDTO
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -34,5 +34,7 @@ namespace StudChoice.BLL.DTOs
         public int AssignedStudentsCount { get; set; }
 
         public Course Course { get; set; }
+
+        public Term Term { get; set; }
     }
 }
