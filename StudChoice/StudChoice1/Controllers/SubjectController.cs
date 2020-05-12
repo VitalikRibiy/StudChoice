@@ -54,15 +54,11 @@ namespace StudChoice.Controllers
             return View("ViewSubject", subject);
         }
 
-        public async Task<IActionResult> Test(string subjId)
-        {
-            await subjectService.updateState(Int32.Parse(subjId));
-            return View();
-        }
+      
 
         public async Task<IActionResult> Choose(string subjectId, string term)
         {
-            
+           // await subjectService.updateState(Int32.Parse(subjectId));
             var user = await userManager.GetUserAsync(User);
 
             var subject = await subjectService.GetAsync(Int32.Parse(subjectId));
