@@ -34,7 +34,9 @@ namespace StudChoice.DAL
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddTransient<StudChoiceContext>();
             services.AddDbContext<StudChoiceContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x=>x.MigrationsAssembly("StudChoice.DAL")));
+            
         }
 
         private static void ConfigureIdentity(this IServiceCollection services)

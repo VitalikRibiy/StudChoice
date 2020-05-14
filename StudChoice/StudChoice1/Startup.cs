@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using StudChoice.Areas.Identity.Data;
 using StudChoice.BLL;
 using StudChoice.BLL.Mappings;
+using StudChoice.Hubs;
 
 namespace StudChoice1
 {
@@ -24,6 +25,7 @@ namespace StudChoice1
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSignalR();
 
             var mappingConfig = new MapperConfiguration(options =>
             {
@@ -66,6 +68,7 @@ namespace StudChoice1
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<SignalRHub>("/chatHub");
             });
 
             app.Seed();

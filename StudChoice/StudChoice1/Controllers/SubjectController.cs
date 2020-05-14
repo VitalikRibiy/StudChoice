@@ -54,15 +54,21 @@ namespace StudChoice.Controllers
             return View("ViewSubject", subject);
         }
 
+      
+
         public async Task<IActionResult> Choose(string subjectId, string term)
         {
+           // await subjectService.updateState(Int32.Parse(subjectId));
             var user = await userManager.GetUserAsync(User);
 
             var subject = await subjectService.GetAsync(Int32.Parse(subjectId));
 
             int termNumber = Int32.Parse(term);
+           
+            
+           
 
-            if(termNumber == 1)
+            if (termNumber == 1)
             {
                 if(subject.Type == "ДВ")
                 {
@@ -85,7 +91,7 @@ namespace StudChoice.Controllers
                 }
             }
 
-            await userManager.UpdateAsync(user);
+           await userManager.UpdateAsync(user);
 
             return RedirectToAction("Index", "Home"); ;
         }
